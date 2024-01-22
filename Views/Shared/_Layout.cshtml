@@ -1,9 +1,11 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="cs-cz">
 <head>
     <meta charset="utf-8" />
+    <meta name="author" content="Forman Vladimír" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ZaverecnyProjektForman2</title>
+    <title>PojištěníApp</title>
+    <link rel="shortcut icon" href="~/images/money-bag.ico" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ZaverecnyProjektForman2.styles.css" asp-append-version="true" />
@@ -12,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ZaverecnyProjektForman2</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PojištěníApp</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -20,10 +22,16 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Insureds" asp-action="Index">Pojištěnci</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Pojištění</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Události</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">O aplikaci</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -31,6 +39,25 @@
             </div>
         </nav>
     </header>
+    <div class ="container">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success" role="alert" id="success-alert">
+                @TempData["SuccessMessage"]
+            </div>
+
+            <script type="text/javascript">
+                window.addEventListener('DOMContentLoaded', (event) => {
+                    setTimeout(function () {
+                        var alert = document.getElementById('success-alert');
+                        if (alert != null) {
+                            alert.style.display = 'none';
+                        }
+                    }, 5000); // Zpráva se skryje po 5 sekundách
+                });
+            </script>
+        }
+    </div>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

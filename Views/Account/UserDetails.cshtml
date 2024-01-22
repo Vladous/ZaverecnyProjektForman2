@@ -1,0 +1,17 @@
+﻿@model DetailUserViewModel
+
+<h2>Detaily uživatele</h2>
+
+<div>
+    <h3>@Model.UserName</h3>
+    <p>Email: @Model.Email</p>
+    <p>Práva : @Model.Role</p>
+    <p>Datum registrace : @Model.RegistrationDate</p>
+    <!-- Další informace o uživateli -->
+</div>
+
+<form asp-action="DeleteUser" asp-controller="Account" method="post">
+    <input type="hidden" name="userId" value="@Model.UserId" />
+    <input type="submit" value="Odstranit uživatele" class="btn btn-danger"
+           onclick="return confirm('Opravdu chcete odstranit tento účet?');" />
+</form>
