@@ -18,15 +18,31 @@
         <tr>
             <th>
                 Jméno
+                <span class="sort-arrows">
+                    <a asp-action="Index" asp-route-sortOrder="NameAsc">↑</a>
+                    <a asp-action="Index" asp-route-sortOrder="NameDesc">↓</a>
+                </span>
             </th>
             <th>
                 Příjmení
+                <span class="sort-arrows">
+                    <a asp-action="Index" asp-route-sortOrder="SurnameAsc">↑</a>
+                    <a asp-action="Index" asp-route-sortOrder="SurnameDesc">↓</a>
+                </span>
             </th>
             <th>
                 Datum narození
+                <span class="sort-arrows">
+                    <a asp-action="Index" asp-route-sortOrder="BirthAsc">↑</a>
+                    <a asp-action="Index" asp-route-sortOrder="BirthDesc">↓</a>
+                </span>
             </th>
             <th class="min-width-td max-width-td">
                 Počet pojištění
+                <span class="sort-arrows">
+                    <a asp-action="Index" asp-route-sortOrder="ContractsAsc">↑</a>
+                    <a asp-action="Index" asp-route-sortOrder="ContractsDesc">↓</a>
+                </span>
             </th>
             <th class="mix-width-td">
                 Úpravy

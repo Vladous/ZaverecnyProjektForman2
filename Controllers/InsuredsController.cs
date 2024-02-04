@@ -23,12 +23,44 @@ namespace ZaverecnyProjektForman2.Controllers
         }
 
         // GET: Insureds
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
-            var insuredList = await _context.Insureds
-              .Include(i => i.InsuranceContracts)
-              .ToListAsync();
-            return View(insuredList);
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["SurnameSortParm"] = sortOrder == "Surname" ? "surname_desc" : "Surname";
+            ViewData["BirthSortParm"] = sortOrder == "Birth" ? "birth_desc" : "Birth";
+            ViewData["ContractsSortParm"] = sortOrder == "Contracts" ? "contracts_desc" : "Contracts";
+
+            var insureds = from s in _context.Insureds.Include(i => i.InsuranceContracts)
+                           select s;
+
+            switch (sortOrder)
+            {
+                case "NameDesc":
+                    insureds = insureds.OrderByDescending(s => s.Name);
+                    break;
+                case "SurnameAsc":
+                    insureds = insureds.OrderBy(s => s.Surname);
+                    break;
+                case "SurnameDesc":
+                    insureds = insureds.OrderByDescending(s => s.Surname);
+                    break;
+                case "BirthAsc":
+                    insureds = insureds.OrderBy(s => s.Birth);
+                    break;
+                case "BirthDesc":
+                    insureds = insureds.OrderByDescending(s => s.Birth);
+                    break;
+                case "ContractsAsc":
+                    insureds = insureds.OrderBy(s => s.InsuranceContracts.Count);
+                    break;
+                case "ContractsAscDesc":
+                    insureds = insureds.OrderByDescending(s => s.InsuranceContracts.Count);
+                    break;
+                default:
+                    insureds = insureds.OrderBy(s => s.Name);
+                    break;
+            }
+            return View(await insureds.AsNoTracking().ToListAsync());
         }
 
         // GET: Insureds/Details/5
@@ -109,9 +141,16 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 return NotFound();
             }
-
             if (ModelState.IsValid)
             {
+                // Nastavení aktuálního data
+                insured.LastChange = DateTime.Now;
+                // Získání aktuálně přihlášeného uživatele
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser != null)
+                {
+                    insured.UserLastChanged = currentUser;
+                }
                 try
                 {
                     _context.Update(insured);
@@ -132,7 +171,6 @@ namespace ZaverecnyProjektForman2.Controllers
             }
             return View(insured);
         }
-
         // GET: Insureds/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
