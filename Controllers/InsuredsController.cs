@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,16 +14,21 @@ namespace ZaverecnyProjektForman2.Controllers
     public class InsuredsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public InsuredsController(ApplicationDbContext context)
+        public InsuredsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager; // Přidáno
         }
 
         // GET: Insureds
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Insureds.ToListAsync());
+            var insuredList = await _context.Insureds
+              .Include(i => i.InsuranceContracts)
+              .ToListAsync();
+            return View(insuredList);
         }
 
         // GET: Insureds/Details/5
@@ -58,6 +64,17 @@ namespace ZaverecnyProjektForman2.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Nastavení aktuálního data
+                insured.CreationDate = DateTime.Now;
+                insured.LastChange = DateTime.Now;
+                // Získání aktuálně přihlášeného uživatele
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser != null)
+                {
+                    insured.UserCreated = currentUser;
+                    insured.UserLastChanged = currentUser;
+                }
+
                 _context.Add(insured);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

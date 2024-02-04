@@ -47,10 +47,10 @@ namespace ZaverecnyProjektForman2.Controllers
         }
 
         // GET: InsuranceContracts/Create
-        public IActionResult Create()
+        public IActionResult Create(int insuredId)
         {
             ViewData["InsuranceId"] = new SelectList(_context.Insurances, "Id", "Id");
-            ViewData["InsuredId"] = new SelectList(_context.Insureds, "Id", "Id");
+            //ViewData["InsuredId"] = insuredId; // Předání ID pojistníka do view
             return View();
         }
 

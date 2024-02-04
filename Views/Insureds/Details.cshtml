@@ -4,81 +4,95 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<img src="/images/user.png" class="avatar" alt="pojištěnec">
+<h1>@Html.DisplayFor(model => model.Name) @Html.DisplayFor(model => model.Surname)</h1>
 
-<div>
-    <h4>Insured</h4>
+<div class="container">
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Surname)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Surname)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Birth)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Birth)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Street)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Street)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.HouseNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.HouseNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.City)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PostNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PostNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreationDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreationDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastChange)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastChange)
-        </dd>
+        <div class="col-md-6">
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Street)
+            </dd>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.HouseNumber)
+            </dd>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.City)
+            </dd>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PostNumber)
+            </dd>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Birth)
+            </dd>
+        </div>
+        <div class="col-md-6">
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Phone)
+            </dd>
+            <dd class="col-sm-10 pt-3">
+                Registroval: @Html.DisplayFor(model => model.UserCreated.UserName) @Html.DisplayFor(model => model.CreationDate)
+            </dd>
+            <dd class="col-sm-10">
+                Posl. změna: @Html.DisplayFor(model => model.UserLastChanged.UserName) @Html.DisplayFor(model => model.LastChange)
+            </dd>
+        </div>
     </dl>
 </div>
-<div>
+<div class="cistic"></div>
+
+<h2>Sjednaná pojištění</h2>
+@if (Model.InsuranceContracts != null && Model.InsuranceContracts.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Pojištění</th>
+                <th>Částka</th>
+                <th class="mix-width-td">Úpravy</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var contract in Model.InsuranceContracts)
+            {
+                <tr>
+                    <td>@contract.Id</td>
+                    <td>@contract.Insurance?.Type</td>
+                    <td class="min-width-td d-flex justify-content-around">
+                        <a asp-action="Edit" asp-route-id="@contract.Id">
+                            <img src="~/images/edit.png" alt="Edit" class="img-fluid align-middle" style="max-height: 30px;">
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@contract.Id">
+                            <img src="~/images/delete.png" alt="Delete" class="img-fluid align-middle" style="max-height: 30px;">
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Žádné pojistné smlouvy nejsou přiřazeny.</p>
+}
+<div class="d-flex justify-content-center pt-5">
+    <form asp-action="Create" asp-controller="InsuranceContracts" asp-route-insuredId="@Model.Id" method="get" class="me-2">
+        <button type="submit" class="btn btn-primary">Přidat pojištění</button>
+    </form>
+    <form asp-action="Edit" asp-route-id="@Model?.Id" method="get" class="me-2">
+        <button type="submit" class="btn btn-warning">Editovat pojištěnce</button>
+    </form>
+    <form asp-action="Delete" asp-route-id="@Model?.Id" method="get">
+        <button type="submit" class="btn btn-danger">Smazat pojištěnce</button>
+    </form>
+</div>
+
+
+<div class="pt-5">
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
