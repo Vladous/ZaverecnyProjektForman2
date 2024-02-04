@@ -12,10 +12,7 @@
     <dl class="row">
         <div class="col-md-6">
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Street)
-            </dd>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.HouseNumber)
+                @Html.DisplayFor(model => model.Street) @Html.DisplayFor(model => model.HouseNumber)
             </dd>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.City)
@@ -81,18 +78,17 @@ else
 }
 <div class="d-flex justify-content-center pt-5">
     <form asp-action="Create" asp-controller="InsuranceContracts" asp-route-insuredId="@Model.Id" method="get" class="me-2">
-        <button type="submit" class="btn btn-primary">Přidat pojištění</button>
+        <button type="submit" class="btn btn-primary btn-novy-pojistenec">Přidat pojištění</button>
     </form>
     <form asp-action="Edit" asp-route-id="@Model?.Id" method="get" class="me-2">
-        <button type="submit" class="btn btn-warning">Editovat pojištěnce</button>
+        <button type="submit" class="btn btn-warning btn-novy-pojistenec">Editovat pojištěnce</button>
     </form>
     <form asp-action="Delete" asp-route-id="@Model?.Id" method="get">
-        <button type="submit" class="btn btn-danger">Smazat pojištěnce</button>
+        <button type="submit" class="btn btn-danger btn-novy-pojistenec">Smazat pojištěnce</button>
     </form>
 </div>
 
 
 <div class="pt-5">
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Zpět</a>
 </div>

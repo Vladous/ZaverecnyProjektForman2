@@ -43,3 +43,11 @@ body {
     clear: both;
 }
 
+.btn-novy-pojistenec {
+    width: 160px;
+}
+
+.sort-arrows {
+    float: right;
+}
+
