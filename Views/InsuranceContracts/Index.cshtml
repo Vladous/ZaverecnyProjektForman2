@@ -19,6 +19,18 @@
                 @Html.DisplayNameFor(model => model.Insurance)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.NameSubject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InsuredFrom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InsuredUntil)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.CreationDate)
             </th>
             <th>
@@ -35,6 +47,18 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Insurance.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameSubject)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InsuredFrom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InsuredUntil)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreationDate)

@@ -54,7 +54,7 @@ namespace ZaverecnyProjektForman2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Type,NameSubject,Amount,InsuredFrom,InsuredUntil,CreationDate,LastChange")] Insurance insurance)
+        public async Task<IActionResult> Create([Bind("Id,Type,CreationDate,LastChange")] Insurance insurance)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace ZaverecnyProjektForman2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,NameSubject,Amount,InsuredFrom,InsuredUntil,CreationDate,LastChange")] Insurance insurance)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,CreationDate,LastChange")] Insurance insurance)
         {
             if (id != insurance.Id)
             {

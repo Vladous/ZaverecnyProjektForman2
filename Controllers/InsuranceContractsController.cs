@@ -47,10 +47,10 @@ namespace ZaverecnyProjektForman2.Controllers
         }
 
         // GET: InsuranceContracts/Create
-        public IActionResult Create(int insuredId)
+        public IActionResult Create()
         {
             ViewData["InsuranceId"] = new SelectList(_context.Insurances, "Id", "Id");
-            //ViewData["InsuredId"] = insuredId; // Předání ID pojistníka do view
+            ViewData["InsuredId"] = new SelectList(_context.Insureds, "Id", "Id");
             return View();
         }
 
@@ -59,7 +59,7 @@ namespace ZaverecnyProjektForman2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,InsuredId,InsuranceId,CreationDate,LastChange")] InsuranceContracts insuranceContracts)
+        public async Task<IActionResult> Create([Bind("Id,InsuredId,InsuranceId,NameSubject,Amount,InsuredFrom,InsuredUntil,CreationDate,LastChange")] InsuranceContracts insuranceContracts)
         {
             if (ModelState.IsValid)
             {
@@ -95,7 +95,7 @@ namespace ZaverecnyProjektForman2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,InsuredId,InsuranceId,CreationDate,LastChange")] InsuranceContracts insuranceContracts)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,InsuredId,InsuranceId,NameSubject,Amount,InsuredFrom,InsuredUntil,CreationDate,LastChange")] InsuranceContracts insuranceContracts)
         {
             if (id != insuranceContracts.Id)
             {

@@ -157,7 +157,7 @@ namespace ZaverecnyProjektForman2.Controllers
             var result = await userManager.DeleteAsync(user);
             if (result.Succeeded)
             {
-                if (User.Identity.Name == user.UserName)
+                if (User.Identity?.Name == user.UserName)
                 {
                     await signInManager.SignOutAsync(); // Odhlášení uživatele
                 }

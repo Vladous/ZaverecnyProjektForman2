@@ -42,7 +42,7 @@ namespace ZaverecnyProjektForman2.Data
                 .HasForeignKey(ie => ie.InsuranceId);
 
             // Nastavte přesnost a měřítko pro decimal vlastnosti
-            modelBuilder.Entity<Insurance>()
+            modelBuilder.Entity<InsuranceContracts>()
                 .Property(i => i.Amount)
                 .HasPrecision(18, 2); // Příklad: 18 celkových číslic, 2 desetinná místa
 
