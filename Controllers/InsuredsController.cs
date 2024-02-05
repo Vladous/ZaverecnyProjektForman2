@@ -51,10 +51,10 @@ namespace ZaverecnyProjektForman2.Controllers
                     insureds = insureds.OrderByDescending(s => s.Birth);
                     break;
                 case "ContractsAsc":
-                    insureds = insureds.OrderBy(s => s.InsuranceContracts != null ? s.InsuranceContracts.Count : 0);
+                    insureds = insureds.OrderBy(s => s.InsuranceContracts.Count);
                     break;
                 case "ContractsAscDesc":
-                    insureds = insureds.OrderByDescending(s => s.InsuranceContracts != null ? s.InsuranceContracts.Count : 0);
+                    insureds = insureds.OrderByDescending(s => s.InsuranceContracts.Count);
                     break;
                 default:
                     insureds = insureds.OrderBy(s => s.Name);
