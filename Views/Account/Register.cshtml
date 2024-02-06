@@ -19,33 +19,46 @@
                     }
                 </select>
                 <span asp-validation-for="Role" class="text-danger"></span>
+                <small class="form-text text-muted">Vyberte přístupová práva.</small>
             </div>
             <div class="form-group">
                 <label asp-for="UserName" class="form-label"></label>
                 <input asp-for="UserName" class="form-control" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
+                <small class="form-text text-muted">Zadejte uživatelské jméno.</small>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="form-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
+                <small class="form-text text-muted">Zadejte e-mail.</small>
             </div>
             <div class="form-group">
                 <label asp-for="Password" class="form-label"></label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
+                <small class="form-text text-muted">Zadejte heslo.</small>
             </div>
             <div class="form-group mb-3">
                 <label asp-for="ConfirmPassword" class="form-label"></label>
                 <input asp-for="ConfirmPassword" class="form-control" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                <small class="form-text text-muted">Potvrďte zadané heslo.</small>
             </div>
             <div class="form-group">
-                <button type="submit" class="clanky-tlacitko">Registrovat</button>
+                <button type="submit" class="btn btn-primary clanky-tlacitko">Registrovat</button>
             </div>
         </form>
     </div>
 </div>
+
+<div class="mt-5">
+    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()">
+        Zpět
+    </button>
+</div>
+
+
 
 @section Scripts {
     @{

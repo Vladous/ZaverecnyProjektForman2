@@ -2,16 +2,57 @@
 
 <h2>Detaily uživatele</h2>
 
-<div>
-    <h3>@Model.UserName</h3>
-    <p>Email: @Model.Email</p>
-    <p>Práva : @Model.Role</p>
-    <p>Datum registrace : @Model.RegistrationDate</p>
-    <!-- Další informace o uživateli -->
+<div class="container">
+    <hr />
+    <dl class="row">
+        <div class="col-md-4">
+            <dt class="col-sm-10">
+                @Html.DisplayNameFor(model => Model.UserName)
+            </dt>
+            <dd class="col-sm-10">
+                @Model.UserName
+            </dd>
+        </div>
+        <div class="col-md-4">
+            <dt class="col-sm-10">
+                @Html.DisplayNameFor(model => Model.Email)
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Email
+            </dd>
+        </div>
+        <div class="col-md-4">
+            <dt class="col-sm-10">
+                @Html.DisplayNameFor(model => Model.Role)
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Role
+            </dd>
+        </div>
+        <div class="col-md-4">
+            <dt class="col-sm-10">
+                @Html.DisplayNameFor(model => Model.RegistrationDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Model.RegistrationDate
+            </dd>
+        </div>
+    </dl>
 </div>
 
-<form asp-action="DeleteUser" asp-controller="Account" method="post">
-    <input type="hidden" name="userId" value="@Model.UserId" />
-    <input type="submit" value="Odstranit uživatele" class="btn btn-danger"
-           onclick="return confirm('Opravdu chcete odstranit tento účet?');" />
-</form>
+<div style="display: flex; gap: 10px;">
+    <form asp-action="EditUser" asp-controller="Account" method="post">
+        <input type="submit" value="Upravit uživatele" class="btn btn-warning" />
+    </form>
+    <form asp-action="DeleteUser" asp-controller="Account" method="post">
+        <input type="hidden" name="userId" value="@Model.UserId" />
+        <input type="submit" value="Odstranit uživatele" class="btn btn-danger"
+               onclick="return confirm('Opravdu chcete odstranit tento účet?');" />
+    </form>
+</div>
+
+<div class="mt-5">
+    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()">
+        Zpět
+    </button>
+</div>

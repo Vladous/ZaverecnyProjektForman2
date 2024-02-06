@@ -21,6 +21,10 @@ body {
   margin-bottom: 60px;
 }
 
+.btn-zpet {
+    /*background-image:url("../images/zpet.png");*/
+}
+
 .min-width-td {
     min-width: 120px;
     overflow: hidden;
