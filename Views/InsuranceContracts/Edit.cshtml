@@ -18,11 +18,13 @@
                         <label asp-for="InsuredId" class="control-label">Jméno pojistníka</label>
                         <select asp-for="InsuredId" class="form-control" asp-items="ViewBag.InsuredId" disabled></select>
                         <span asp-validation-for="InsuredId" class="text-danger"></span>
+                        <small class="form-text text-muted">Jméno a říjmení pojistníka.</small>
                     </div>
                     <div class="col-6 form-group p-2">
                         <label asp-for="InsuranceId" class="control-label">Typ pojištění</label>
                         <select asp-for="InsuranceId" class="form-control" asp-items="ViewBag.InsuranceId" disabled></select>
                         <span asp-validation-for="InsuranceId" class="text-danger"></span>
+                        <small class="form-text text-muted">Typ pojištění.</small>
                     </div>
                 </div>
             </div>
@@ -32,11 +34,13 @@
                         <label asp-for="NameSubject" class="control-label">Předmět pojištění</label>
                         <input asp-for="NameSubject" class="form-control" disabled />
                         <span asp-validation-for="NameSubject" class="text-danger"></span>
+                        <small class="form-text text-muted">Předmět pojištění.</small>
                     </div>
                     <div class="col-6 form-group p-2">
                         <label asp-for="Amount" class="control-label">Částka pojištění</label>
                         <input asp-for="Amount" class="form-control" />
                         <span asp-validation-for="Amount" class="text-danger"></span>
+                        <small class="form-text text-muted">Částka pojištění.</small>
                     </div>
                 </div>
             </div>
@@ -46,13 +50,15 @@
                         <label asp-for="InsuredFrom" class="control-label">Pojištěno od</label>
                         <input asp-for="InsuredFrom" class="form-control" />
                         <span asp-validation-for="InsuredFrom" class="text-danger"></span>
+                        <small class="form-text text-muted">Pojištěn od</small>
                     </div>
                     <div class="col-3 form-group p-2">
                         <label asp-for="InsuredUntil" class="control-label">Pojištěno do</label>
                         <input asp-for="InsuredUntil" class="form-control" />
                         <span asp-validation-for="InsuredUntil" class="text-danger"></span>
+                        <small class="form-text text-muted">Pojištěn do</small>
                     </div>
-                    <div class="col-6 form-group mt-4 mb-3 d-flex justify-content-center">
+                    <div class="col-6 form-group mt-5 mb-4 d-flex justify-content-center">
                         <input type="submit" value="Uložit" class="btn btn-primary" />
                     </div>
                 </div>
@@ -61,7 +67,9 @@
     </div>
 </div>
 
-<div class="pt-5">
-    <a asp-action="Index">Zpět</a>
+<div class="mt-5">
+    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()">
+        Zpět
+    </button>
 </div>
 

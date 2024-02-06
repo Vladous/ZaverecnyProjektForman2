@@ -55,3 +55,6 @@ body {
     float: right;
 }
 
+.nav-item {
+    white-space: nowrap;
+}
