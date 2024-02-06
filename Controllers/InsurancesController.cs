@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace ZaverecnyProjektForman2.Controllers
     public class InsurancesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public InsurancesController(ApplicationDbContext context)
+        public InsurancesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager; // Přidáno
         }
 
         // GET: Insurances
@@ -58,6 +61,17 @@ namespace ZaverecnyProjektForman2.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Nastavení aktuálního data
+                insurance.CreationDate = DateTime.Now;
+                insurance.LastChange = DateTime.Now;
+                // Získání aktuálně přihlášeného uživatele
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser != null)
+                {
+                    insurance.UserCreated = currentUser;
+                    insurance.UserLastChanged = currentUser;
+                }
+
                 _context.Add(insurance);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

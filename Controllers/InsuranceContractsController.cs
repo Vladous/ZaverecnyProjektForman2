@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace ZaverecnyProjektForman2.Controllers
     public class InsuranceContractsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public InsuranceContractsController(ApplicationDbContext context)
+        public InsuranceContractsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager; // Přidáno
         }
 
         // GET: InsuranceContracts
@@ -47,10 +50,41 @@ namespace ZaverecnyProjektForman2.Controllers
         }
 
         // GET: InsuranceContracts/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? insuredId)
         {
-            ViewData["InsuranceId"] = new SelectList(_context.Insurances, "Id", "Id");
-            ViewData["InsuredId"] = new SelectList(_context.Insureds, "Id", "Id");
+            var insurances = _context.Insurances.Select(i => new
+            {
+                Id = i.Id,
+                Type = $"{i.Type}"
+            }).ToList();
+
+            ViewBag.InsuranceId = new SelectList(insurances, "Id", "Type");
+
+            if (insuredId.HasValue)
+            {
+                var insured = await _context.Insureds.FindAsync(insuredId.Value);
+                if (insured == null)
+                {
+                    // Pojistník nenalezen
+                    return NotFound();
+                }
+
+                ViewBag.InsuredNameSurname = $"{insured.Name} {insured.Surname}";
+                ViewBag.InsuredId = new SelectList(new[] { insured }.Select(i => new
+                {
+                    Id = i.Id,
+                    NameSurname = $"{i.Name} {i.Surname}"
+                }), "Id", "NameSurname", insured.Id);
+            }
+            else
+            {
+                ViewBag.InsuredId = new SelectList(_context.Insureds.Select(i => new
+                {
+                    Id = i.Id,
+                    NameSurname = $"{i.Name} {i.Surname}"
+                }), "Id", "NameSurname");
+            }
+
             return View();
         }
 
@@ -85,8 +119,22 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 return NotFound();
             }
-            ViewData["InsuranceId"] = new SelectList(_context.Insurances, "Id", "Id", insuranceContracts.InsuranceId);
-            ViewData["InsuredId"] = new SelectList(_context.Insureds, "Id", "Id", insuranceContracts.InsuredId);
+
+            var insureds = _context.Insureds.Select(i => new
+            {
+                Id = i.Id,
+                NameSurname = $"{i.Name} {i.Surname}"
+            }).ToList();
+
+            var insurances = _context.Insurances.Select(i => new
+            {
+                Id = i.Id,
+                InsuranceType = $"{i.Type}" // Předpokládám, že máte vlastnosti Type a NameSubject ve vaší třídě Insurance
+            }).ToList();
+
+            ViewData["InsuranceId"] = new SelectList(insurances, "Id", "InsuranceType", insuranceContracts.InsuranceId);
+            ViewData["InsuredId"] = new SelectList(insureds, "Id", "NameSurname", insuranceContracts.InsuredId);
+
             return View(insuranceContracts);
         }
 

@@ -1,54 +1,80 @@
 ﻿@model ZaverecnyProjektForman2.Models.InsuranceEvents
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detail události";
 }
 
-<h1>Details</h1>
+<h1>@Html.DisplayFor(model => model.Insurance.Type) - @Html.DisplayFor(model => model.EventDetail)</h1>
 
-<div>
-    <h4>InsuranceEvents</h4>
+<div class="container">
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Insured)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Insured.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Insurance)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Insurance.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FulfillmentAmount)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FulfillmentAmount)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FulfillmentDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FulfillmentDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreationDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreationDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastChange)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastChange)
-        </dd>
+        <div class="col-md-3">
+            <dt class="col-sm-10">
+                @Html.DisplayNameFor(model => model.Insured)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Insured.Name) @Html.DisplayFor(model => model.Insured.Surname)
+            </dd>
+        </div>
+        <div class="col-md-3">
+            <dt class="col-sm-10">
+                @Html.DisplayNameFor(model => model.Insurance.Type)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Insurance.Type)
+            </dd>
+        </div>
+        <div class="col-md-3">
+            <dt class="col-sm-10">
+                @Html.DisplayNameFor(model => model.EventDetail)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.EventDetail)
+            </dd>
+        </div>
+        <div class="col-md-3">
+            <dt class="col-sm-10">
+                @Html.DisplayNameFor(model => model.FulfillmentAmount)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FulfillmentAmount)
+            </dd>
+        </div>
+        <div class="col-md-3">
+            <dt class="col-sm-10">
+                @Html.DisplayNameFor(model => model.FulfillmentDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FulfillmentDate)
+            </dd>
+        </div>
+        <div class="col-md-3">
+            <dt class="col-sm-10">
+                @Html.DisplayNameFor(model => model.CreationDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CreationDate)
+            </dd>
+        </div>
+        <div class="col-md-3">
+            <dt class="col-sm-10">
+                @Html.DisplayNameFor(model => model.LastChange)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.LastChange)
+            </dd>
+        </div>        
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="d-flex justify-content-center pt-5">
+    <form asp-action="Edit" asp-route-id="@Model?.Id" method="get" class="me-2">
+        <button type="submit" class="btn btn-warning btn-novy-pojistenec">Upravit událost</button>
+    </form>
+    <form asp-action="Delete" asp-route-id="@Model?.Id" method="get">
+        <button type="submit" class="btn btn-danger btn-novy-pojistenec">Smazat událost</button>
+    </form>
+</div>
+<div class="pt-5">
+    <a asp-action="Index">Zpět</a>
 </div>

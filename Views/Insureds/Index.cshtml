@@ -17,21 +17,21 @@
     <thead>
         <tr>
             <th>
-                Jméno
+                @Html.DisplayNameFor(model => model.Name)
                 <span class="sort-arrows">
                     <a asp-action="Index" asp-route-sortOrder="NameAsc">↑</a>
                     <a asp-action="Index" asp-route-sortOrder="NameDesc">↓</a>
                 </span>
             </th>
             <th>
-                Příjmení
+                @Html.DisplayNameFor(model => model.Surname)
                 <span class="sort-arrows">
                     <a asp-action="Index" asp-route-sortOrder="SurnameAsc">↑</a>
                     <a asp-action="Index" asp-route-sortOrder="SurnameDesc">↓</a>
                 </span>
             </th>
             <th>
-                Datum narození
+                @Html.DisplayNameFor(model => model.Birth)
                 <span class="sort-arrows">
                     <a asp-action="Index" asp-route-sortOrder="BirthAsc">↑</a>
                     <a asp-action="Index" asp-route-sortOrder="BirthDesc">↓</a>
@@ -39,6 +39,13 @@
             </th>
             <th class="min-width-td max-width-td">
                 Počet pojištění
+                <span class="sort-arrows">
+                    <a asp-action="Index" asp-route-sortOrder="ContractsAsc">↑</a>
+                    <a asp-action="Index" asp-route-sortOrder="ContractsDesc">↓</a>
+                </span>
+            </th>
+            <th class="min-width-td max-width-td">
+                Počet poj.událostí
                 <span class="sort-arrows">
                     <a asp-action="Index" asp-route-sortOrder="ContractsAsc">↑</a>
                     <a asp-action="Index" asp-route-sortOrder="ContractsDesc">↓</a>
@@ -64,6 +71,9 @@
                 </td>
                 <td class="min-width-td max-width-td">
                     @item.InsuranceContracts?.Count
+                </td>
+                <td class="min-width-td max-width-td">
+                    @item.InsuranceEvents?.Count
                 </td>
                 <td class="min-width-td d-flex justify-content-around">
                     <a asp-action="Edit" asp-route-id="@item.Id">

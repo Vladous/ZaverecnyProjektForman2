@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace ZaverecnyProjektForman2.Controllers
     public class InsuranceEventsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public InsuranceEventsController(ApplicationDbContext context)
+        public InsuranceEventsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager; // Přidáno
         }
 
         // GET: InsuranceEvents
@@ -47,19 +50,51 @@ namespace ZaverecnyProjektForman2.Controllers
         }
 
         // GET: InsuranceEvents/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? insuredId)
         {
-            ViewData["InsuranceId"] = new SelectList(_context.Insurances, "Id", "Id");
-            ViewData["InsuredId"] = new SelectList(_context.Insureds, "Id", "Id");
+            var insurances = _context.Insurances.Select(i => new
+            {
+                Id = i.Id,
+                Type = $"{i.Type}"
+            }).ToList();
+
+            ViewBag.InsuranceId = new SelectList(insurances, "Id", "Type");
+
+            if (insuredId.HasValue)
+            {
+                var insured = await _context.Insureds.FindAsync(insuredId.Value);
+                if (insured == null)
+                {
+                    // Pojistník nenalezen
+                    return NotFound();
+                }
+
+                ViewBag.InsuredNameSurname = $"{insured.Name} {insured.Surname}";
+                ViewBag.InsuredId = new SelectList(new[] { insured }.Select(i => new
+                {
+                    Id = i.Id,
+                    NameSurname = $"{i.Name} {i.Surname}"
+                }), "Id", "NameSurname", insured.Id);
+            }
+            else
+            {
+                ViewBag.InsuredId = new SelectList(_context.Insureds.Select(i => new
+                {
+                    Id = i.Id,
+                    NameSurname = $"{i.Name} {i.Surname}"
+                }), "Id", "NameSurname");
+            }
+
             return View();
         }
+
 
         // POST: InsuranceEvents/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,InsuredId,InsuranceId,FulfillmentAmount,FulfillmentDate,CreationDate,LastChange")] InsuranceEvents insuranceEvents)
+        public async Task<IActionResult> Create([Bind("Id,InsuredId,InsuranceId,EventDetail,FulfillmentAmount,FulfillmentDate,CreationDate,LastChange,EventsCount")] InsuranceEvents insuranceEvents)
         {
             if (ModelState.IsValid)
             {
@@ -85,8 +120,22 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 return NotFound();
             }
-            ViewData["InsuranceId"] = new SelectList(_context.Insurances, "Id", "Id", insuranceEvents.InsuranceId);
-            ViewData["InsuredId"] = new SelectList(_context.Insureds, "Id", "Id", insuranceEvents.InsuredId);
+
+            var insureds = _context.Insureds.Select(i => new
+            {
+                Id = i.Id,
+                NameSurname = $"{i.Name} {i.Surname}"
+            }).ToList();
+
+            var insurances = _context.InsuranceContracts.Select(i => new
+            {
+                Id = i.Id,
+                InsuranceType = $"{i.Insurance.Type} + {i.NameSubject}" // Předpokládám, že máte vlastnosti Type a NameSubject ve vaší třídě Insurance
+            }).ToList();
+
+
+            ViewData["InsuranceId"] = new SelectList(insurances, "Id", "InsuranceType", insuranceEvents.InsuranceId);
+            ViewData["InsuredId"] = new SelectList(insureds, "Id", "NameSurname", insuranceEvents.InsuredId);
             return View(insuranceEvents);
         }
 
@@ -95,7 +144,7 @@ namespace ZaverecnyProjektForman2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,InsuredId,InsuranceId,FulfillmentAmount,FulfillmentDate,CreationDate,LastChange")] InsuranceEvents insuranceEvents)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,InsuredId,InsuranceId,EventDetail,FulfillmentAmount,FulfillmentDate,CreationDate,LastChange,EventsCount")] InsuranceEvents insuranceEvents)
         {
             if (id != insuranceEvents.Id)
             {

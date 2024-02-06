@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZaverecnyProjektForman2.Data;
 
@@ -11,9 +12,11 @@ using ZaverecnyProjektForman2.Data;
 namespace ZaverecnyProjektForman2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240205191854_NazevMigrace")]
+    partial class NazevMigrace
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -318,9 +321,6 @@ namespace ZaverecnyProjektForman2.Data.Migrations
                     b.Property<DateTime?>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("EventDetail")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("EventsCount")
                         .HasColumnType("int");
 
@@ -332,9 +332,6 @@ namespace ZaverecnyProjektForman2.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("InsuranceContractsId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("InsuranceContractsId1")
                         .HasColumnType("int");
 
                     b.Property<int?>("InsuranceId")
@@ -355,8 +352,6 @@ namespace ZaverecnyProjektForman2.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("InsuranceContractsId");
-
-                    b.HasIndex("InsuranceContractsId1");
 
                     b.HasIndex("InsuranceId");
 
@@ -528,10 +523,6 @@ namespace ZaverecnyProjektForman2.Data.Migrations
                         .WithMany("InsuranceEvents")
                         .HasForeignKey("InsuranceContractsId");
 
-                    b.HasOne("ZaverecnyProjektForman2.Models.InsuranceEvents", "InsuranceContracts")
-                        .WithMany()
-                        .HasForeignKey("InsuranceContractsId1");
-
                     b.HasOne("ZaverecnyProjektForman2.Models.Insurance", "Insurance")
                         .WithMany("InsuranceEvents")
                         .HasForeignKey("InsuranceId");
@@ -549,8 +540,6 @@ namespace ZaverecnyProjektForman2.Data.Migrations
                         .HasForeignKey("UserLastChangedId");
 
                     b.Navigation("Insurance");
-
-                    b.Navigation("InsuranceContracts");
 
                     b.Navigation("Insured");
 

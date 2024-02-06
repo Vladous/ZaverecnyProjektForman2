@@ -30,7 +30,9 @@ namespace ZaverecnyProjektForman2.Controllers
             ViewData["BirthSortParm"] = sortOrder == "Birth" ? "birth_desc" : "Birth";
             ViewData["ContractsSortParm"] = sortOrder == "Contracts" ? "contracts_desc" : "Contracts";
 
-            var insureds = from s in _context.Insureds.Include(i => i.InsuranceContracts)
+            var insureds = from s in _context.Insureds
+                           .Include(i => i.InsuranceContracts)
+                           .Include(i => i.InsuranceEvents)
                            select s;
 
             switch (sortOrder)
@@ -56,6 +58,12 @@ namespace ZaverecnyProjektForman2.Controllers
                 case "ContractsAscDesc":
                     insureds = insureds.OrderByDescending(s => s.InsuranceContracts.Count);
                     break;
+                case "EventsAsc":
+                    insureds = insureds.OrderBy(s => s.InsuranceEvents.Count);
+                    break;
+                case "EventsAscDesc":
+                    insureds = insureds.OrderByDescending(s => s.InsuranceEvents.Count);
+                    break;
                 default:
                     insureds = insureds.OrderBy(s => s.Name);
                     break;
@@ -72,7 +80,13 @@ namespace ZaverecnyProjektForman2.Controllers
             }
 
             var insured = await _context.Insureds
-                .FirstOrDefaultAsync(m => m.Id == id);
+            .Include(i => i.InsuranceContracts)
+            .ThenInclude(ic => ic.Insurance) // Přidáno pro zahrnutí detailů o pojištění
+            .Include(i => i.InsuranceEvents)
+            .ThenInclude(ic => ic.Insurance) // Přidáno pro zahrnutí detailů o pojistných událostech
+            .FirstOrDefaultAsync(m => m.Id == id);
+
+
             if (insured == null)
             {
                 return NotFound();

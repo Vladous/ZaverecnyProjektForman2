@@ -1,7 +1,7 @@
 ﻿@model ZaverecnyProjektForman2.Models.Insured
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detail pojištěnce";
 }
 
 <img src="/images/user.png" class="avatar" alt="pojištěnec">
@@ -42,44 +42,114 @@
 </div>
 <div class="cistic"></div>
 
-<h2>Sjednaná pojištění</h2>
-@if (Model.InsuranceContracts != null && Model.InsuranceContracts.Any())
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Pojištění</th>
-                <th>Částka</th>
-                <th class="mix-width-td">Úpravy</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var contract in Model.InsuranceContracts)
+<div class="container">
+    <h2>Zobrazení pojistných smluv a událostí</h2>
+
+    <!-- Tlačítková skupina pro přepínání -->
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#insuranceContracts" type="button" role="tab" aria-controls="insuranceContracts" aria-selected="true">Sjednaná pojištění</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#insuranceEvents" type="button" role="tab" aria-controls="insuranceEvents" aria-selected="false">Pojistné události</button>
+        </li>
+    </ul>
+
+    <!-- Obsah karet -->
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="insuranceContracts" role="tabpanel" aria-labelledby="pills-home-tab">
+            <!-- Vaše tabulka Sjednaná pojištění zde -->
+            <h2>Sjednaná pojištění</h2>
+            @if (Model.InsuranceContracts != null && Model.InsuranceContracts.Any())
             {
-                <tr>
-                    <td>@contract.Id</td>
-                    <td>@contract.Insurance?.Type</td>
-                    <td class="min-width-td d-flex justify-content-around">
-                        <a asp-action="Edit" asp-route-id="@contract.Id">
-                            <img src="~/images/edit.png" alt="Edit" class="img-fluid align-middle" style="max-height: 30px;">
-                        </a>
-                        <a asp-action="Delete" asp-route-id="@contract.Id">
-                            <img src="~/images/delete.png" alt="Delete" class="img-fluid align-middle" style="max-height: 30px;">
-                        </a>
-                    </td>
-                </tr>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Pojištění</th>
+                            <th>Částka</th>
+                            <th class="mix-width-td">Úpravy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var contract in Model.InsuranceContracts)
+                        {
+                            <tr>
+                                <td>@contract.NameSubject</td>
+                                <td>@contract.Amount</td>
+                                <td class="min-width-td d-flex justify-content-around">
+                                    <a asp-action="Edit" asp-controller="InsuranceContracts" asp-route-id="@contract.Id">
+                                        <img src="~/images/edit.png" alt="Edit" class="img-fluid align-middle" style="max-height: 30px;">
+                                    </a>
+                                    <a asp-action="Delete" asp-controller="InsuranceContracts" asp-route-id="@contract.Id">
+                                        <img src="~/images/delete.png" alt="Delete" class="img-fluid align-middle" style="max-height: 30px;">
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>Žádné pojistné smlouvy nejsou přiřazeny.</p>
-}
+            else
+            {
+                <p>Žádné pojistné smlouvy nejsou přiřazeny.</p>
+            }
+        </div>
+        <div class="tab-pane fade" id="insuranceEvents" role="tabpanel" aria-labelledby="pills-profile-tab">
+            <!-- Vaše tabulka Pojistné události zde -->
+            <h2>Pojistné události</h2>
+            @if (Model.InsuranceEvents != null && Model.InsuranceEvents.Any())
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Typ pojištění</th>
+                            <th>Předmět pojištění</th>
+                            <th>Pojistná událost</th>
+                            <th>Částka</th>
+                            <th class="mix-width-td">Úpravy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var contract in Model.InsuranceEvents)
+                        {
+                            <tr>
+                                <td>@contract.Insurance?.Type</td>
+                                <td>@contract.InsuranceContracts?.EventDetail</td>
+                                <td>@contract.EventDetail</td>
+                                <td>@contract.FulfillmentAmount</td>
+                                <td class="min-width-td d-flex justify-content-around">
+                                    <a asp-action="Edit" asp-controller="InsuranceContracts" asp-route-id="@contract.Id">
+                                        <img src="~/images/edit.png" alt="Edit" class="img-fluid align-middle" style="max-height: 30px;">
+                                    </a>
+                                    <a asp-action="Delete" asp-controller="InsuranceContracts" asp-route-id="@contract.Id">
+                                        <img src="~/images/delete.png" alt="Delete" class="img-fluid align-middle" style="max-height: 30px;">
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>Žádné pojistné události nejsou přiřazeny.</p>
+            }
+        </div>
+    </div>
+</div>
+
 <div class="d-flex justify-content-center pt-5">
-    <form asp-action="Create" asp-controller="InsuranceContracts" asp-route-insuredId="@Model.Id" method="get" class="me-2">
+
+    <form asp-action="Create" asp-controller="InsuranceContracts" method="get" class="me-2">
+        <input type="hidden" name="insuredId" value="@Model.Id" />
         <button type="submit" class="btn btn-primary btn-novy-pojistenec">Přidat pojištění</button>
     </form>
+
+    <form asp-action="Create" asp-controller="InsuranceEvents" method="get" class="me-2">
+        <input type="hidden" name="insuredId" value="@Model.Id" />
+        <button type="submit" class="btn btn-info btn-novy-pojistenec">Přidat poj. událost</button>
+    </form>
+
     <form asp-action="Edit" asp-route-id="@Model?.Id" method="get" class="me-2">
         <button type="submit" class="btn btn-warning btn-novy-pojistenec">Editovat pojištěnce</button>
     </form>
