@@ -84,8 +84,8 @@ namespace ZaverecnyProjektForman2.Controllers
             .ThenInclude(ic => ic.Insurance) // Přidáno pro zahrnutí detailů o pojištění
             .Include(i => i.InsuranceEvents)
             .ThenInclude(ic => ic.Insurance) // Přidáno pro zahrnutí detailů o pojistných událostech
-            .Include(i => i.UserCreated) // Přidáno pro zahrnutí informací o uživateli, který vytvořil záznam
-            .Include(i => i.UserLastChanged) // Přidáno pro zahrnutí informací o uživateli, který naposledy změnil záznam
+            //.Include(i => i.UserCreated) // Přidáno pro zahrnutí informací o uživateli, který vytvořil záznam
+            //.Include(i => i.UserLastChanged) // Přidáno pro zahrnutí informací o uživateli, který naposledy změnil záznam
             .FirstOrDefaultAsync(m => m.Id == id);
 
 
@@ -116,9 +116,17 @@ namespace ZaverecnyProjektForman2.Controllers
                 insured.CreationDate = DateTime.Now;
                 insured.LastChange = DateTime.Now;
                 // Získání aktuálně přihlášeného uživatele
-                var currentUser = await _userManager.GetUserAsync(User);
-                if (currentUser != null)
+                var user = await _userManager.GetUserAsync(User);
+                if (user != null)
                 {
+                    var currentUser = new UserInfo
+                    {
+                        UserName = user.UserName,
+                        Email = user.Email,
+                        PhoneNumber = user.PhoneNumber,
+                        RegistrationDate = user.RegistrationDate
+                    };
+
                     insured.UserCreated = currentUser;
                     insured.UserLastChanged = currentUser;
                 }
@@ -162,9 +170,21 @@ namespace ZaverecnyProjektForman2.Controllers
                 // Nastavení aktuálního data
                 insured.LastChange = DateTime.Now;
                 // Získání aktuálně přihlášeného uživatele
-                var currentUser = await _userManager.GetUserAsync(User);
-                if (currentUser != null)
+                var user = await _userManager.GetUserAsync(User);
+                if (user != null)
                 {
+                    var currentUser = new UserInfo
+                    {
+                        UserName = user.UserName,
+                        Email = user.Email,
+                        PhoneNumber = user.PhoneNumber,
+                        RegistrationDate = user.RegistrationDate
+                    };
+
+
+
+
+
                     insured.UserLastChanged = currentUser;
                 }
                 try

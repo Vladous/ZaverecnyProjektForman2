@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ZaverecnyProjektForman2.Models
@@ -43,13 +44,17 @@ namespace ZaverecnyProjektForman2.Models
         public DateTime? CreationDate { get; set; }
         [Display(Name = "Datum poslední úpravy")]
         public DateTime? LastChange { get; set; }
+        [NotMapped]
         [Display(Name = "Registroval uživatel")]
-        public ApplicationUser? UserCreated { get; set; }
+        public UserInfo? UserCreated { get; set; }
+        [NotMapped]
         [Display(Name = "Poslední změny provedl")]
-        public ApplicationUser? UserLastChanged { get; set; }
+        public UserInfo? UserLastChanged { get; set; }
 
         // Navigační vlastnosti
         public List<InsuranceContracts>? InsuranceContracts { get; set; }
         public List<InsuranceEvents>? InsuranceEvents { get; set; }
     }
+    // V OnModelCreating
+   
 }

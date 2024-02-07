@@ -37,8 +37,6 @@ namespace ZaverecnyProjektForman2.Controllers
             }
 
             var insurance = await _context.Insurances
-                .Include(i => i.UserCreated) // Přidáno pro zahrnutí informací o uživateli, který vytvořil záznam
-                .Include(i => i.UserLastChanged) // Přidáno pro zahrnutí informací o uživateli, který naposledy změnil záznam
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (insurance == null)
             {
@@ -59,7 +57,7 @@ namespace ZaverecnyProjektForman2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Type,CreationDate,LastChange")] Insurance insurance)
+        public async Task<IActionResult> Create([Bind("Id,Type")] Insurance insurance)
         {
             if (ModelState.IsValid)
             {
@@ -67,9 +65,21 @@ namespace ZaverecnyProjektForman2.Controllers
                 insurance.CreationDate = DateTime.Now;
                 insurance.LastChange = DateTime.Now;
                 // Získání aktuálně přihlášeného uživatele
-                var currentUser = await _userManager.GetUserAsync(User);
-                if (currentUser != null)
+                var user = await _userManager.GetUserAsync(User);
+                if (user != null)
                 {
+                    var currentUser = new UserInfo
+                    {
+                        UserName = user.UserName,
+                        Email = user.Email,
+                        PhoneNumber = user.PhoneNumber,
+                        RegistrationDate = user.RegistrationDate
+                    };
+
+
+
+
+
                     insurance.UserCreated = currentUser;
                     insurance.UserLastChanged = currentUser;
                 }

@@ -26,9 +26,9 @@ namespace ZaverecnyProjektForman2.Models
         [Display(Name = "Datum poslední změny")]
         public DateTime? LastChange { get; set; }
         [Display(Name = "Vytvořil uživatel")]
-        public ApplicationUser? UserCreated { get; set; }
+        public UserInfo? UserCreated { get; set; }
         [Display(Name = "Poslední změny vytvořil")]
-        public ApplicationUser? UserLastChanged { get; set; }
+        public UserInfo? UserLastChanged { get; set; }
 
         // Nová vlastnost pro počet smluv
         public int EventsCount { get; set; }

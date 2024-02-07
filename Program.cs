@@ -75,6 +75,7 @@ namespace ZaverecnyProjektForman2
         }
         private static async Task CreateRoles(IServiceProvider serviceProvider)
         {
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
             string[] roleNames = { UserRoles.Admin, UserRoles.Manager, UserRoles.Viewer };
@@ -84,6 +85,25 @@ namespace ZaverecnyProjektForman2
                 if (!roleExist)
                 {
                     await roleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+
+            // Zkontrolovat, zda existuje uživatel s rolí "Admin"
+            var adminUsers = await userManager.GetUsersInRoleAsync(UserRoles.Admin);
+            if (adminUsers.Count == 0)
+            {
+                // Pokud žádný admin neexistuje, vytvoøit nového admina
+                var adminUser = new ApplicationUser
+                {
+                    UserName = "admin",
+                    Email = "admin@admin.cz",
+                    RegistrationDate = DateTime.Now
+                };
+
+                var createAdminResult = await userManager.CreateAsync(adminUser, "adminPassword123"); // Zmìòte na bezpeènìjší heslo
+                if (createAdminResult.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(adminUser, UserRoles.Admin);
                 }
             }
         }

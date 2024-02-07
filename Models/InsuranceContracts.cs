@@ -30,9 +30,9 @@ namespace ZaverecnyProjektForman2.Models
         [Display(Name = "Datum poslední změny")]
         public DateTime? LastChange { get; set; }
         [Display(Name = "Vytvořil uživatel")]
-        public ApplicationUser? UserCreated { get; set; }
+        public UserInfo? UserCreated { get; set; }
         [Display(Name = "Naposledy změnil")]
-        public ApplicationUser? UserLastChanged { get; set; }
+        public UserInfo? UserLastChanged { get; set; }
 
         // Navigační vlastnosti
         //public List<Insurance>? Insurance { get; set; }

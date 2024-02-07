@@ -11,13 +11,13 @@ namespace ZaverecnyProjektForman2.Models
         [Display(Name = "Typ pojištění")]
         public string Type { get; set; }
         [Display(Name = "Datum vytvoření")]
-        public DateTime CreationDate { get; set; }
+        public DateTime? CreationDate { get; set; }
         [Display(Name = "Poslední změna")]
-        public DateTime LastChange { get; set; }
+        public DateTime? LastChange { get; set; }
         [Display(Name = "Vytvořil uživatel")]
-        public ApplicationUser UserCreated { get; set; }
+        public UserInfo? UserCreated { get; set; }
         [Display(Name = "Naposled upravil")]
-        public ApplicationUser UserLastChanged { get; set; }
+        public UserInfo? UserLastChanged { get; set; }
 
         // Navigační vlastnosti
         public List<InsuranceContracts>? InsuranceContracts { get; set; }
