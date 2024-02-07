@@ -12,8 +12,11 @@ namespace ZaverecnyProjektForman2.Models
         public int InsuranceId { get; set; }
         [Display(Name = "Typ pojištění")]
         public Insurance? Insurance { get; set; }
+        [Required(ErrorMessage = "Předmět pojištění je povinný.")]
+        [StringLength(100, ErrorMessage = "Maximální délka předmětu pojištění je 100 znaků.")]
         [Display(Name = "Předmět pojištění")]
         public string? NameSubject { get; set; }
+        [Range(0, double.MaxValue, ErrorMessage = "Částka pojištění musí být kladné číslo.")]
         [Display(Name = "Částka pojištění")]
         public decimal? Amount { get; set; }
         [Display(Name = "Pojištěno od")]

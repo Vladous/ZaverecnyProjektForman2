@@ -37,6 +37,8 @@ namespace ZaverecnyProjektForman2.Controllers
             }
 
             var insurance = await _context.Insurances
+                .Include(i => i.UserCreated) // Přidáno pro zahrnutí informací o uživateli, který vytvořil záznam
+                .Include(i => i.UserLastChanged) // Přidáno pro zahrnutí informací o uživateli, který naposledy změnil záznam
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (insurance == null)
             {

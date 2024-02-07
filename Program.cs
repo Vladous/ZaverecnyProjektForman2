@@ -34,7 +34,10 @@ namespace ZaverecnyProjektForman2
                 var services = scope.ServiceProvider;
                 try
                 {
+                    // Vytvoøení rolí
                     CreateRoles(services).GetAwaiter().GetResult();
+                    // Inicializace administrátorského úètu
+                    ApplicationDbInitializer.EnsureAdminUser(services).GetAwaiter().GetResult();
                 }
                 catch (Exception ex)
                 {

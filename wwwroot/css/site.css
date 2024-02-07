@@ -1,24 +1,40 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #e2effc;
+}
+
+ul li {
+    transition: all 0.2s ease; /* Plynulý pøechod pro všechny zmìny */
+}
+
+    ul li:hover {
+        background-color: #949ca5;
+        filter: brightness(120%) contrast(120%); /* Zvýší jas a kontrast pøi najetí myší */
+        /*backdrop-filter: invert(25%);*/
+        cursor: pointer;
+    }
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #757c83;
 }
 
 .btn-zpet {
@@ -57,4 +73,8 @@ body {
 
 .nav-item {
     white-space: nowrap;
+}
+
+.small-text {
+    font-size: 0.62em; /* Nastavuje velikost písma na 75% velikosti písma rodièovského elementu */
 }

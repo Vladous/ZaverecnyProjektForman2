@@ -58,13 +58,13 @@
                 </td>
                 <td class="min-width-td d-flex justify-content-around">
                     <a asp-action="Edit" asp-route-id="@item.Id">
-                        <img src="~/images/edit.png" alt="Edit" class="img-fluid align-middle" style="max-height: 30px;">
+                        <img src="~/images/edit.png" alt="Edit" class="img-fluid align-middle" style="max-height: 30px;" data-bs-toggle="tooltip" title="Editace události">
                     </a>
                     <a asp-action="Details" asp-route-id="@item.Id">
-                        <img src="~/images/detail.png" alt="Details" class="img-fluid align-middle" style="max-height: 30px;">
+                        <img src="~/images/detail.png" alt="Details" class="img-fluid align-middle" style="max-height: 30px;" data-bs-toggle="tooltip" title="Detail události">
                     </a>
                     <a asp-action="Delete" asp-route-id="@item.Id">
-                        <img src="~/images/delete.png" alt="Delete" class="img-fluid align-middle" style="max-height: 30px;">
+                        <img src="~/images/delete.png" alt="Delete" class="img-fluid align-middle" style="max-height: 30px;" data-bs-toggle="tooltip" title="Smazat událost">
                     </a>
                 </td>
             </tr>

@@ -6,18 +6,19 @@ namespace ZaverecnyProjektForman2.Models
     public class InsuranceEvents
     {
         public int Id { get; set; }
-        public int? InsuredId { get; set; }
+        public int InsuredId { get; set; }
         [Display(Name = "Pojistník")]
         public Insured? Insured { get; set; }
-        public int? InsuranceId { get; set; }
+        public int InsuranceId { get; set; }
         [Display(Name = "Typ pojištění")]
         public Insurance? Insurance { get; set; }
         [Display(Name = "Pojistná smlouva")]
-        public InsuranceEvents? InsuranceContracts { get; set; }
+        public InsuranceEvents? InsuranceContracts { get; set; }        
         [Display(Name = "Detail události")]
         public string? EventDetail { get; set; }
+        [Range(0, double.MaxValue, ErrorMessage = "Částka plnění musí být kladné číslo.")]
         [Display(Name = "Částka plnění")]
-        public decimal? FulfillmentAmount { get; set; }
+        public decimal FulfillmentAmount { get; set; }
         [Display(Name = "Datum události")]
         public DateTime? FulfillmentDate { get; set; }
         [Display(Name = "Datum vytvoření")]

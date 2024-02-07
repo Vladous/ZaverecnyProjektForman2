@@ -42,6 +42,7 @@
 </div>
 <div class="cistic"></div>
 
+
 <div class="container">
     <h2>Zobrazení pojistných smluv a událostí</h2>
 
@@ -65,7 +66,8 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Pojištění</th>
+                            <th>Typ pojištění</th>
+                            <th>Předmět pojištění</th>
                             <th>Částka</th>
                             <th class="mix-width-td">Úpravy</th>
                         </tr>
@@ -74,6 +76,7 @@
                         @foreach (var contract in Model.InsuranceContracts)
                         {
                             <tr>
+                                <td>@contract.Insurance.Type</td>
                                 <td>@contract.NameSubject</td>
                                 <td>@contract.Amount</td>
                                 <td class="min-width-td d-flex justify-content-around">
@@ -158,7 +161,8 @@
     </form>
 </div>
 
-
-<div class="pt-5">
-    <a asp-action="Index">Zpět</a>
+<div class="mt-5">
+    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()">
+        Zpět
+    </button>
 </div>

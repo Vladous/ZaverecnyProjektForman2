@@ -41,7 +41,9 @@
 </div>
 
 <div style="display: flex; gap: 10px;">
-    <form asp-action="EditUser" asp-controller="Account" method="post">
+    
+    <form asp-action="UserEdit" asp-controller="Account" method="get">
+        <input type="hidden" name="userId" value="@Model.UserId" />
         <input type="submit" value="Upravit uživatele" class="btn btn-warning" />
     </form>
     <form asp-action="DeleteUser" asp-controller="Account" method="post">

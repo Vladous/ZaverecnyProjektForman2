@@ -79,9 +79,12 @@
 
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Vymazat" class="btn btn-danger" />
+        <input type="submit" value="Vymazat" class="btn btn-danger"
+               onclick="return confirm('Opravdu chcete odstranit pojištěnce?');" />
     </form>
 </div>
-<div class="pt-5">
-    <a asp-action="Index">Zpět</a>
+<div class="mt-5">
+    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()">
+        Zpět
+    </button>
 </div>

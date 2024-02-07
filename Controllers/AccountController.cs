@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 using ZaverecnyProjektForman2.Models;
 
@@ -193,5 +195,99 @@ namespace ZaverecnyProjektForman2.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> UserEdit(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                return View("Error");
+            }
+
+            var user = await userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return View("Error");
+            }
+            var allRoles = roleManager.Roles.ToList();
+            ViewBag.Roles = new SelectList(allRoles, "Name", "Name");
+            var userRoles = await userManager.GetRolesAsync(user);
+            var currentUserRole = userRoles.FirstOrDefault(); // Předpokládáme, že uživatel má jednu roli
+
+            var model = new EditUserViewModel
+            {
+                UserId = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                // Nezobrazujeme heslo, pouze pole pro jeho změnu
+                Role = currentUserRole
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UserEdit(EditUserViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var allRoles = await roleManager.Roles.ToListAsync();
+                ViewBag.Roles = new SelectList(allRoles, "Name", "Name");
+                return View(model);
+            }
+
+            var user = await userManager.FindByIdAsync(model.UserId);
+            if (user == null)
+            {
+                return View("Error");
+            }
+
+            // Aktualizace emailu nebo jiných informací
+            user.Email = model.Email;
+            // Další úpravy user objektu...
+
+            var updateResult = await userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                foreach (var error in updateResult.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View(model);
+            }
+
+            // Změna hesla, pokud bylo zadáno nové a aktuální heslo je správně zadáno
+            if (!string.IsNullOrEmpty(model.NewPassword) && !string.IsNullOrEmpty(model.Password))
+            {
+                // Ověření aktuálního hesla
+                var passwordCheck = await userManager.CheckPasswordAsync(user, model.Password);
+                if (passwordCheck)
+                {
+                    var passwordChangeResult = await userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
+                    if (!passwordChangeResult.Succeeded)
+                    {
+                        foreach (var error in passwordChangeResult.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                        return View(model);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Aktuální heslo je nesprávné.");
+                    return View(model);
+                }
+            }
+
+            // Nezapomeňte znovu nastavit ViewBag.Roles i v případě, že vše proběhne úspěšně a před přesměrováním
+            var roles = await roleManager.Roles.ToListAsync();
+            ViewBag.Roles = new SelectList(roles, "Name", "Name");
+
+            // Úspěšná aktualizace
+            return RedirectToAction("Index", "Home"); // nebo jiný vhodný redirect
+        }
+
     }
 }

@@ -84,6 +84,8 @@ namespace ZaverecnyProjektForman2.Controllers
             .ThenInclude(ic => ic.Insurance) // Přidáno pro zahrnutí detailů o pojištění
             .Include(i => i.InsuranceEvents)
             .ThenInclude(ic => ic.Insurance) // Přidáno pro zahrnutí detailů o pojistných událostech
+            .Include(i => i.UserCreated) // Přidáno pro zahrnutí informací o uživateli, který vytvořil záznam
+            .Include(i => i.UserLastChanged) // Přidáno pro zahrnutí informací o uživateli, který naposledy změnil záznam
             .FirstOrDefaultAsync(m => m.Id == id);
 
 
