@@ -10,40 +10,38 @@
             <div asp-validation-summary="All" class="text-danger"></div>           
             
             <div class="form-group">
-                <label asp-for="Role" class="form-label"></label>
-                <select asp-for="Role" class="form-control">
+                <label asp-for="Role" class="control-label"></label>
+                <select asp-for="Role" class="form-control" asp-items="ViewBag.Roles">
                     <option value="">Vyberte roli...</option>
-                    @foreach (var role in ViewBag.Roles as List<string>)
-                    {
-                        <option value="@role">@role</option>
-                    }
                 </select>
                 <span asp-validation-for="Role" class="text-danger"></span>
-                <small class="form-text text-muted">Vyberte přístupová práva.</small>
+                <small class="form-text text-muted small-text">Přístupová práva.</small>
+                <span asp-validation-for="Role" class="text-danger"></span>
+                <small class="form-text text-muted small-text">Vyberte přístupová práva.</small>
             </div>
             <div class="form-group">
                 <label asp-for="UserName" class="form-label"></label>
-                <input asp-for="UserName" class="form-control" />
+                <input asp-for="UserName" class="form-control" autocomplete="new-username" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
-                <small class="form-text text-muted">Zadejte uživatelské jméno.</small>
+                <small class="form-text text-muted small-text">Zadejte uživatelské jméno.</small>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="form-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
-                <small class="form-text text-muted">Zadejte e-mail.</small>
+                <small class="form-text text-muted small-text">Zadejte e-mail.</small>
             </div>
             <div class="form-group">
                 <label asp-for="Password" class="form-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <input asp-for="Password" class="form-control" autocomplete="new-password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
-                <small class="form-text text-muted">Zadejte heslo.</small>
+                <small class="form-text text-muted small-text">Zadejte heslo.</small>
             </div>
             <div class="form-group mb-3">
                 <label asp-for="ConfirmPassword" class="form-label"></label>
                 <input asp-for="ConfirmPassword" class="form-control" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                <small class="form-text text-muted">Potvrďte zadané heslo.</small>
+                <small class="form-text text-muted small-text">Potvrďte zadané heslo.</small>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary clanky-tlacitko">Registrovat</button>

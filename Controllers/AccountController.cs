@@ -62,37 +62,14 @@ namespace ZaverecnyProjektForman2.Controllers
         //
         // Registrace uživatele
         //
+        [HttpGet]
         public async Task<ActionResult> Register(string? returnUrl = null)
         {
-            // Získání seznamu rolí - příklad
-            var user = await userManager.GetUserAsync(User);
-            var roles = new Dictionary<string, int> { { "admin", 3 }, { "manager", 2 }, { "viewer", 1 } };
+            // Získání seznamu všech rolí
+            var allRoles = roleManager.Roles.ToList();
 
-            if (user != null)
-            {
-                var userRoles = await userManager.GetRolesAsync(user);
-                var currentUserRole = userRoles.FirstOrDefault(); // Předpokládáme, že uživatel má jednu roli
-
-                if (!string.IsNullOrEmpty(currentUserRole) && roles.ContainsKey(currentUserRole))
-                {
-                    var availableRoles = roles
-                        .Where(r => r.Value <= roles[currentUserRole])
-                        .Select(r => r.Key)
-                        .ToList();
-
-                    ViewBag.Roles = availableRoles;
-                }
-                else
-                {
-                    // Uživatel nemá roli nebo roli, která není v seznamu
-                    ViewBag.Roles = new List<string>();
-                }
-            }
-            else
-            {
-                // Uživatel není přihlášen, zobrazit všechny role nebo žádné
-                ViewBag.Roles = roles.Keys.ToList(); // nebo new List<string>() pro žádné role
-            }
+            // Předání seznamu rolí do ViewBag (nebo ViewData) pro použití ve view
+            ViewBag.Roles = new SelectList(allRoles, "Name", "Name");
 
             ViewData["ReturnUrl"] = returnUrl;
             return View();
@@ -105,14 +82,12 @@ namespace ZaverecnyProjektForman2.Controllers
 
             if (ModelState.IsValid)
             {
-                //IdentityUser user = new IdentityUser { UserName = model.Email, Email = model.Email };
-                ApplicationUser user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                 // Přidání aktuálního data registrace
                 user.RegistrationDate = DateTime.UtcNow;
-                IdentityResult result = await userManager.CreateAsync(user, model.Password);
+                var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    // Přidělení role
                     var roleAssignResult = await userManager.AddToRoleAsync(user, model.Role);
                     if (roleAssignResult.Succeeded)
                     {
@@ -121,11 +96,15 @@ namespace ZaverecnyProjektForman2.Controllers
                     }
                 }
 
-                foreach (IdentityError error in result.Errors)
+                foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError(error.Code, error.Description);
+                    ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
+
+            // Znovu načtení seznamu rolí pro ViewBag, pokud je ModelState neplatný nebo pokud registrace selhala
+            var roles = await roleManager.Roles.ToListAsync();
+            ViewBag.Roles = new SelectList(roles, "Name", "Name", model.Role); // Umožňuje zachovat vybranou roli při chybě
 
             return View(model);
         }
@@ -190,7 +169,8 @@ namespace ZaverecnyProjektForman2.Controllers
                 UserId = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
-                Role = currentUserRole
+                Role = currentUserRole,
+                RegistrationDate = user.RegistrationDate
             };
 
             return View(model);

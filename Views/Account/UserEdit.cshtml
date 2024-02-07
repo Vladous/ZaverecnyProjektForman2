@@ -13,30 +13,35 @@
         <label asp-for="UserName" class="control-label"></label>
         <input asp-for="UserName" class="form-control" readonly/>
         <span asp-validation-for="UserName" class="text-danger"></span>
+        <small class="form-text text-muted small-text">Zadejte uživatelské jméno.</small>
     </div>
 
     <div class="form-group">
         <label asp-for="Email" class="control-label"></label>
         <input asp-for="Email" class="form-control" />
         <span asp-validation-for="Email" class="text-danger"></span>
+        <small class="form-text text-muted small-text">Zadejte e-mail.</small>
     </div>
 
     <div class="form-group">
         <label asp-for="Password" class="control-label">Aktuální heslo (pro potvrzení změn)</label>
         <input asp-for="Password" class="form-control" type="password" />
         <span asp-validation-for="Password" class="text-danger"></span>
+        <small class="form-text text-muted small-text">Zadejte heslo.</small>
     </div>
 
     <div class="form-group">
         <label asp-for="NewPassword" class="control-label"></label>
         <input asp-for="NewPassword" class="form-control" type="password" data-val="false" />
         <span asp-validation-for="NewPassword" class="text-danger"></span>
+        <small class="form-text text-muted small-text">Zadejte nové heslo.</small>
     </div>
 
     <div class="form-group">
         <label asp-for="ConfirmNewPassword" class="control-label"></label>
         <input asp-for="ConfirmNewPassword" class="form-control" type="password" data-val="false" />
         <span asp-validation-for="ConfirmNewPassword" class="text-danger"></span>
+        <small class="form-text text-muted small-text">Zadejte nové heslo znovu.</small>
     </div>
 
     <div class="form-group">
@@ -45,6 +50,7 @@
             <option value="">Vyberte roli...</option>
         </select>
         <span asp-validation-for="Role" class="text-danger"></span>
+        <small class="form-text text-muted small-text">Přístupová práva.</small>
         <input asp-for="Role" type="hidden" />
     </div>
 

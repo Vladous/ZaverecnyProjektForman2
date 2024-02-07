@@ -18,13 +18,13 @@
                         <label asp-for="InsuredId" class="control-label">Jméno a příjmení pojistníka</label>
                         <select asp-for="InsuredId" class="form-control" asp-items="ViewBag.InsuredId" disabled></select>
                         <span asp-validation-for="InsuredId" class="text-danger"></span>
-                        <small class="form-text text-muted">Jméno a příjmení</small>
+                        <small class="form-text text-muted small-text">Jméno a příjmení</small>
                     </div>
                     <div class="col-6 form-group p-2">
                         <label asp-for="InsuranceId" class="control-label">Typ pojištění</label>
                         <select asp-for="InsuranceId" class="form-control" asp-items="ViewBag.InsuranceId" disabled></select>
                         <span asp-validation-for="InsuranceId" class="text-danger"></span>
-                        <small class="form-text text-muted">Typ pojištění</small>
+                        <small class="form-text text-muted small-text">Typ pojištění</small>
                     </div>
                 </div>
             </div>
@@ -34,13 +34,13 @@
                         <label asp-for="EventDetail" class="control-label"></label>
                         <input asp-for="EventDetail" class="form-control" />
                         <span asp-validation-for="EventDetail" class="text-danger"></span>
-                        <small class="form-text text-muted">Detail pojištění</small>
+                        <small class="form-text text-muted small-text">Detail pojištění</small>
                     </div>
                     <div class="col-6 form-group p-2">
                         <label asp-for="FulfillmentAmount" class="control-label"></label>
                         <input asp-for="FulfillmentAmount" class="form-control" />
                         <span asp-validation-for="FulfillmentAmount" class="text-danger"></span>
-                        <small class="form-text text-muted">Částka pojištění.</small>
+                        <small class="form-text text-muted small-text">Částka pojištění.</small>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                         <label asp-for="FulfillmentDate" class="control-label"></label>
                         <input asp-for="FulfillmentDate" class="form-control" />
                         <span asp-validation-for="FulfillmentDate" class="text-danger"></span>
-                        <small class="form-text text-muted">Datum události</small>
+                        <small class="form-text text-muted small-text">Datum události</small>
                     </div>
                     <div class="col-6 form-group mt-5 mb-4 d-flex justify-content-center">
                         <input type="submit" value="Uložit" class="btn btn-primary" />
