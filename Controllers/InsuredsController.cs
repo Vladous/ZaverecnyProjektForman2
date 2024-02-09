@@ -23,7 +23,7 @@ namespace ZaverecnyProjektForman2.Controllers
         }
 
         // GET: Insureds
-        public async Task<IActionResult> Index(string sortOrder, string nameFilter, string surnameFilter)
+        public async Task<IActionResult> Index(string sortOrder, string nameFilter, string surnameFilter, int page = 1, int pageSize = 10)
         {
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["SurnameSortParm"] = sortOrder == "Surname" ? "surname_desc" : "Surname";
@@ -79,8 +79,34 @@ namespace ZaverecnyProjektForman2.Controllers
                 insureds = insureds.Where(s => s.Surname.Contains(surnameFilter));
             }
 
+            // Počítání celkového počtu záznamů po aplikaci filtrů
+            var count = await insureds.CountAsync();
 
-            return View(await insureds.AsNoTracking().ToListAsync());
+            // Výpočet celkového počtu stránek
+            var totalPages = (int)Math.Ceiling(count / (double)pageSize);
+
+            // Získání stránkových dat
+            var items = await insureds
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .AsNoTracking()
+                .ToListAsync();
+
+            // Předání dat do view
+            var viewModel = new InsuredsIndexViewModel
+            {
+                Items = items,
+                SortOrder = sortOrder,
+                NameFilter = nameFilter,
+                SurnameFilter = surnameFilter,
+                CurrentPage = page,
+                TotalPages = totalPages,
+                PageSize = pageSize
+            };
+
+
+
+            return View(viewModel);
         }
 
         // GET: Insureds/Details/5

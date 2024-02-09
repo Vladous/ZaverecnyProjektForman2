@@ -25,7 +25,7 @@ namespace ZaverecnyProjektForman2.Controllers
         }
 
         // GET: InsuranceEvents
-        public async Task<IActionResult> Index(string sortOrder, string surnameFilter, string typFilter, string detailFilter)
+        public async Task<IActionResult> Index(string sortOrder, string surnameFilter, string typFilter, string detailFilter, int page = 1, int pageSize = 10)
         {
             ViewData["IdSortParm"] = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
             ViewData["SurnameSortParm"] = sortOrder == "Surname" ? "surname_desc" : "Surname";
@@ -93,7 +93,34 @@ namespace ZaverecnyProjektForman2.Controllers
                 events = events.Where(s => s.EventDetail.Contains(detailFilter));
             }
 
-            return View(await events.AsNoTracking().ToListAsync());
+            var eventsQuery = _context.InsuranceEvents
+                                          .Include(i => i.InsuranceContracts)
+                                          .Include(i => i.Insurance)
+                                          .Include(i => i.Insured)
+                                          .AsQueryable();
+
+            // Vaše stávající logika pro řazení a filtry
+
+            // Počet záznamů pro stránkování
+            var totalRecords = await eventsQuery.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
+
+            // Data pro aktuální stránku
+            
+
+            var viewModel = new InsuranceEventsIndexViewModel
+            {
+                Events = events,
+                CurrentPage = page,
+                TotalPages = totalPages,
+                PageSize = pageSize,
+                SortOrder = sortOrder,
+                SurnameFilter = surnameFilter,
+                TypFilter = typFilter,
+                DetailFilter = detailFilter
+            };
+
+            return View(viewModel);
         }
 
         // GET: InsuranceEvents/Details/5

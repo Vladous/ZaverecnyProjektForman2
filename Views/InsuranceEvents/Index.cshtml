@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ZaverecnyProjektForman2.Models.InsuranceEvents>
+﻿@model InsuranceEventsIndexViewModel
 
 @{
     ViewData["Title"] = "Pojistné události";
@@ -22,7 +22,7 @@
     <thead>
         <tr class="align-middle">
             <th>
-                @Html.DisplayNameFor(model => model.Insured)
+                @Html.DisplayNameFor(model => model.Events.First().Insured)
                 <span class="sort-arrows d-inline-flex align-items-center">
                     <form asp-action="Index" method="get" id="filterForm">
                         @{
@@ -37,7 +37,7 @@
                 </span>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Insurance)
+                @Html.DisplayNameFor(model => model.Events.First().Insurance)
                 <span class="sort-arrows d-inline-flex align-items-center">
                     <form asp-action="Index" method="get" id="filterForm">
                         @{
@@ -52,7 +52,7 @@
                 </span>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EventDetail)
+                @Html.DisplayNameFor(model => model.Events.First().EventDetail)
                 <span class="sort-arrows d-inline-flex align-items-center">
                     <form asp-action="Index" method="get" id="filterForm">
                         @{
@@ -67,14 +67,14 @@
                 </span>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FulfillmentAmount)
+                @Html.DisplayNameFor(model => model.Events.First().FulfillmentAmount)
                 <span class="sort-arrows d-inline-flex align-items-center">
                     <a asp-action="Index" asp-route-sortOrder="AmountAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od nejmenšího">↑</a>
                     <a asp-action="Index" asp-route-sortOrder="AmountDesc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od největšího">↓</a>
                 </span>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FulfillmentDate)
+                @Html.DisplayNameFor(model => model.Events.First().FulfillmentDate)
                 <span class="sort-arrows d-inline-flex align-items-center">
                     <a asp-action="Index" asp-route-sortOrder="DateAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od nejmenšího">↑</a>
                     <a asp-action="Index" asp-route-sortOrder="DateDesc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od největšího">↓</a>
@@ -86,7 +86,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Events)
         {
             <tr>
                 <td>
@@ -123,3 +123,27 @@
         }
     </tbody>
 </table>
+<nav class="d-flex justify-content-center" aria-label="Stránkování">
+    <ul class="pagination">
+        <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+            <a class="page-link" href="@Url.Action("Index", new { sortOrder = Model.SortOrder, surnameFilter = Model.SurnameFilter, typFilter = Model.TypFilter, detailFilter = Model.DetailFilter, page = Model.CurrentPage - 1 })">
+                &laquo;
+            </a>
+        </li>
+
+        @for (var i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { sortOrder = Model.SortOrder, surnameFilter = Model.SurnameFilter, typFilter = Model.TypFilter, detailFilter = Model.DetailFilter, page = i })">
+                    @i
+                </a>
+            </li>
+        }
+
+        <li class="page-item @(Model.CurrentPage >= Model.TotalPages ? "disabled" : "")">
+            <a class="page-link" href="@Url.Action("Index", new { sortOrder = Model.SortOrder, surnameFilter = Model.SurnameFilter, typFilter = Model.TypFilter, detailFilter = Model.DetailFilter, page = Model.CurrentPage + 1 })">
+                &raquo;
+            </a>
+        </li>
+    </ul>
+</nav>

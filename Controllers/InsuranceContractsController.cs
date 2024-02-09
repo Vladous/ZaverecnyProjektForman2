@@ -25,7 +25,7 @@ namespace ZaverecnyProjektForman2.Controllers
         }
 
         // GET: InsuranceContracts
-        public async Task<IActionResult> Index(string sortOrder, string surnameFilter, string typFilter, string subjectFilter)
+        public async Task<IActionResult> Index(string sortOrder, string surnameFilter, string typFilter, string subjectFilter, int page = 1, int pageSize = 10)
         {
             ViewData["SurnameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "surnname_desc" : "";
             ViewData["InsurenceSortParm"] = sortOrder == "Insurence" ? "insurence_desc" : "Insurence";
@@ -98,6 +98,30 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 contracts = contracts.Where(s => s.NameSubject.Contains(subjectFilter));
             }
+
+            // Počet záznamů pro stránkování
+            var totalRecords = await contracts.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
+
+            // Data pro aktuální stránku
+            var pagedContracts = await contracts.Skip((page - 1) * pageSize)
+                                                     .Take(pageSize)
+                                                     .AsNoTracking()
+                                                     .ToListAsync();
+
+            var viewModel = new InsuranceContractsIndexViewModel
+            {
+                Contracts = pagedContracts,
+                CurrentPage = page,
+                TotalPages = totalPages,
+                PageSize = pageSize,
+                SortOrder = sortOrder,
+                SurnameFilter = surnameFilter,
+                TypFilter = typFilter,
+                SubjectFilter = subjectFilter
+            };
+
+            return View(viewModel);
 
             return View(await contracts.AsNoTracking().ToListAsync());
         }
