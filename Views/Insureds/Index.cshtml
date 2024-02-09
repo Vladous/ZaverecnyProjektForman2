@@ -7,11 +7,15 @@
 <h1>Pojištěnci</h1>
 
 <p>
+    @if (User.IsInRoleOrHigher(UserRoles.Manager))
+    {
+        <!-- Obsah jen pro managery a výš -->
     <div class="d-flex justify-content-center">
         <form asp-action="Create" method="get">
             <button type="submit" class="btn btn-primary">Nový pojištěnec</button>
         </form>
     </div>
+    }
 </p>
 <table class="table table-striped table-bordered">
     <thead>
@@ -92,15 +96,21 @@
                     @item.InsuranceEvents?.Count
                 </td>
                 <td class="min-width-td justify-content-around align-items-center">
-                    <a asp-action="Edit" asp-route-id="@item.Id">
-                        <img src="~/images/edit.png" alt="Edit" class="img-fluid align-middle" style="max-height: 30px;" data-bs-toggle="tooltip" title="Editace pojištěnce">
-                    </a>
                     <a asp-action="Details" asp-route-id="@item.Id">
                         <img src="~/images/detail.png" alt="Details" class="img-fluid align-middle" style="max-height: 30px;" data-bs-toggle="tooltip" title="Detail pojištěnce">
+                    </a>
+
+                    @if (User.IsInRoleOrHigher(UserRoles.Manager))
+                    {
+                        <!-- Obsah jen pro managery a výš -->
+                    <a asp-action="Edit" asp-route-id="@item.Id">
+                        <img src="~/images/edit.png" alt="Edit" class="img-fluid align-middle" style="max-height: 30px;" data-bs-toggle="tooltip" title="Editace pojištěnce">
                     </a>
                     <a asp-action="Delete" asp-route-id="@item.Id">
                         <img src="~/images/delete.png" alt="Delete" class="img-fluid align-middle" style="max-height: 30px;" data-bs-toggle="tooltip" title="Smazat pojištěnce">
                     </a>
+                    }
+                    
                 </td>
             </tr>
         }

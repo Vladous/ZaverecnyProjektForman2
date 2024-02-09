@@ -66,10 +66,25 @@ namespace ZaverecnyProjektForman2.Controllers
         public async Task<ActionResult> Register(string? returnUrl = null)
         {
             // Získání seznamu všech rolí
+            //var userRole = User.Identity.;
+            var user = await userManager.GetUserAsync(User);
+            var userRoles = await userManager.GetRolesAsync(user);
+
+            var userHighestRoleLevel = userRoles
+                .Select(role => RoleExtensions.RoleHierarchy.ContainsKey(role) ? RoleExtensions.RoleHierarchy[role] : 0)
+                .DefaultIfEmpty(0)
+                .Max();
+
+            var availableRoles = RoleExtensions.RoleHierarchy
+                .Where(kvp => kvp.Value <= userHighestRoleLevel) // Filtrace rolí na stejné nebo nižší úrovni
+                .Select(kvp => kvp.Key) // Výběr názvů rolí
+                .ToList(); // Konverze výsledku na seznam
+
+
             var allRoles = roleManager.Roles.ToList();
 
             // Předání seznamu rolí do ViewBag (nebo ViewData) pro použití ve view
-            ViewBag.Roles = new SelectList(allRoles, "Name", "Name");
+            ViewBag.Roles = new SelectList(availableRoles);
 
             ViewData["ReturnUrl"] = returnUrl;
             return View();

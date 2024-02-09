@@ -79,13 +79,18 @@
                                 <td>@contract.Insurance.Type</td>
                                 <td>@contract.NameSubject</td>
                                 <td>@contract.Amount</td>
-                                <td class="min-width-td d-flex justify-content-around">
-                                    <a asp-action="Edit" asp-controller="InsuranceContracts" asp-route-id="@contract.Id">
-                                        <img src="~/images/edit.png" alt="Edit" class="img-fluid align-middle" style="max-height: 30px;">
-                                    </a>
-                                    <a asp-action="Delete" asp-controller="InsuranceContracts" asp-route-id="@contract.Id">
-                                        <img src="~/images/delete.png" alt="Delete" class="img-fluid align-middle" style="max-height: 30px;">
-                                    </a>
+                                <td class="min-width-td justify-content-around">
+                                    @if (User.IsInRoleOrHigher(UserRoles.Manager))
+                                    {
+                                        <!-- Obsah jen pro managery a výš -->
+                                        <a asp-action="Edit" asp-controller="InsuranceContracts" asp-route-id="@contract.Id">
+                                            <img src="~/images/edit.png" alt="Edit" class="img-fluid align-middle" style="max-height: 30px;">
+                                        </a>
+                                        <a asp-action="Delete" asp-controller="InsuranceContracts" asp-route-id="@contract.Id">
+                                            <img src="~/images/delete.png" alt="Delete" class="img-fluid align-middle" style="max-height: 30px;">
+                                        </a>
+                                    }
+
                                 </td>
                             </tr>
                         }
@@ -120,13 +125,17 @@
                                 <td>@contract.InsuranceContracts?.EventDetail</td>
                                 <td>@contract.EventDetail</td>
                                 <td>@contract.FulfillmentAmount</td>
-                                <td class="min-width-td d-flex justify-content-around">
-                                    <a asp-action="Edit" asp-controller="InsuranceContracts" asp-route-id="@contract.Id">
-                                        <img src="~/images/edit.png" alt="Edit" class="img-fluid align-middle" style="max-height: 30px;">
-                                    </a>
-                                    <a asp-action="Delete" asp-controller="InsuranceContracts" asp-route-id="@contract.Id">
-                                        <img src="~/images/delete.png" alt="Delete" class="img-fluid align-middle" style="max-height: 30px;">
-                                    </a>
+                                <td class="min-width-td justify-content-around">
+                                    @if (User.IsInRoleOrHigher(UserRoles.Manager))
+                                    {
+                                        <!-- Obsah jen pro managery a výš -->
+                                        <a asp-action="Edit" asp-controller="InsuranceContracts" asp-route-id="@contract.Id">
+                                            <img src="~/images/edit.png" alt="Edit" class="img-fluid align-middle" style="max-height: 30px;">
+                                        </a>
+                                        <a asp-action="Delete" asp-controller="InsuranceContracts" asp-route-id="@contract.Id">
+                                            <img src="~/images/delete.png" alt="Delete" class="img-fluid align-middle" style="max-height: 30px;">
+                                        </a>
+                                    }
                                 </td>
                             </tr>
                         }
@@ -143,22 +152,27 @@
 
 <div class="d-flex justify-content-center pt-5">
 
-    <form asp-action="Create" asp-controller="InsuranceContracts" method="get" class="me-2">
-        <input type="hidden" name="insuredId" value="@Model.Id" />
-        <button type="submit" class="btn btn-primary btn-novy-pojistenec">Přidat pojištění</button>
-    </form>
+    @if (User.IsInRoleOrHigher(UserRoles.Manager))
+    {
+        <!-- Obsah jen pro managery a výš -->
+        <form asp-action="Create" asp-controller="InsuranceContracts" method="get" class="me-2">
+            <input type="hidden" name="insuredId" value="@Model.Id" />
+            <button type="submit" class="btn btn-primary btn-novy-pojistenec">Přidat pojištění</button>
+        </form>
 
-    <form asp-action="Create" asp-controller="InsuranceEvents" method="get" class="me-2">
-        <input type="hidden" name="insuredId" value="@Model.Id" />
-        <button type="submit" class="btn btn-info btn-novy-pojistenec">Přidat poj. událost</button>
-    </form>
+        <form asp-action="Create" asp-controller="InsuranceEvents" method="get" class="me-2">
+            <input type="hidden" name="insuredId" value="@Model.Id" />
+            <button type="submit" class="btn btn-info btn-novy-pojistenec">Přidat poj. událost</button>
+        </form>
 
-    <form asp-action="Edit" asp-route-id="@Model?.Id" method="get" class="me-2">
-        <button type="submit" class="btn btn-warning btn-novy-pojistenec">Editovat pojištěnce</button>
-    </form>
-    <form asp-action="Delete" asp-route-id="@Model?.Id" method="get">
-        <button type="submit" class="btn btn-danger btn-novy-pojistenec">Smazat pojištěnce</button>
-    </form>
+        <form asp-action="Edit" asp-route-id="@Model?.Id" method="get" class="me-2">
+            <button type="submit" class="btn btn-warning btn-novy-pojistenec">Editovat pojištěnce</button>
+        </form>
+        <form asp-action="Delete" asp-route-id="@Model?.Id" method="get">
+            <button type="submit" class="btn btn-danger btn-novy-pojistenec">Smazat pojištěnce</button>
+        </form>
+    }
+
 </div>
 
 <div class="mt-5">

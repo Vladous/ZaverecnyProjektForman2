@@ -7,16 +7,20 @@
 <h1>Pojistné události</h1>
 
 <p>
-    <div class="d-flex justify-content-center">
-        <form asp-action="Create" method="get">
-            <button type="submit" class="btn btn-primary">Přidat novou událost</button>
-        </form>
-    </div>
+    @if (User.IsInRoleOrHigher(UserRoles.Manager))
+    {
+        <!-- Obsah jen pro managery a výš -->
+        <div class="d-flex justify-content-center">
+            <form asp-action="Create" method="get">
+                <button type="submit" class="btn btn-primary">Přidat novou událost</button>
+            </form>
+        </div>
+    }
 </p>
 
 <table class="table table-striped table-bordered">
     <thead>
-        <tr class ="align-middle">
+        <tr class="align-middle">
             <th>
                 @Html.DisplayNameFor(model => model.Insured)
                 <span class="sort-arrows d-inline-flex align-items-center">
@@ -101,15 +105,19 @@
                     @Html.DisplayFor(modelItem => item.FulfillmentDate)
                 </td>
                 <td class="min-width-td justify-content-around align-items-center">
-                    <a asp-action="Edit" asp-route-id="@item.Id">
-                        <img src="~/images/edit.png" alt="Edit" class="img-fluid align-middle" style="max-height: 30px;" data-bs-toggle="tooltip" title="Editace události">
-                    </a>
                     <a asp-action="Details" asp-route-id="@item.Id">
                         <img src="~/images/detail.png" alt="Details" class="img-fluid align-middle" style="max-height: 30px;" data-bs-toggle="tooltip" title="Detail události">
                     </a>
-                    <a asp-action="Delete" asp-route-id="@item.Id">
-                        <img src="~/images/delete.png" alt="Delete" class="img-fluid align-middle" style="max-height: 30px;" data-bs-toggle="tooltip" title="Smazat událost">
-                    </a>
+                    @if (User.IsInRoleOrHigher(UserRoles.Manager))
+                    {
+                        <!-- Obsah jen pro managery a výš -->
+                        <a asp-action="Edit" asp-route-id="@item.Id">
+                            <img src="~/images/edit.png" alt="Edit" class="img-fluid align-middle" style="max-height: 30px;" data-bs-toggle="tooltip" title="Editace události">
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">
+                            <img src="~/images/delete.png" alt="Delete" class="img-fluid align-middle" style="max-height: 30px;" data-bs-toggle="tooltip" title="Smazat událost">
+                        </a>
+                    }
                 </td>
             </tr>
         }

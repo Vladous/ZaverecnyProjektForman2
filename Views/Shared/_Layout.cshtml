@@ -23,18 +23,23 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Insureds" asp-action="Index">Pojištěnci</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="InsuranceContracts" asp-action="Index">Smlouvy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="InsuranceEvents" asp-action="Index">Události</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Insurances" asp-action="Index">Pojištění</a>
-                        </li>
+                        @if (User.IsInRoleOrHigher(UserRoles.Viewer))
+                        {
+                            <!-- Obsah jen pro managery a výš -->
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Insureds" asp-action="Index">Pojištěnci</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="InsuranceContracts" asp-action="Index">Smlouvy</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="InsuranceEvents" asp-action="Index">Události</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Insurances" asp-action="Index">Pojištění</a>
+                            </li>
+                        }
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">O aplikaci</a>
                         </li>
@@ -44,7 +49,7 @@
             </div>
         </nav>
     </header>
-    <div class ="container">
+    <div class="container">
         @if (TempData["SuccessMessage"] != null)
         {
             <div class="alert alert-success" role="alert" id="success-alert">

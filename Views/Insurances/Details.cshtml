@@ -36,6 +36,10 @@
     </dl>
 </div>
 
+
+@if (User.IsInRoleOrHigher(UserRoles.Admin))
+{
+    <!-- Obsah jen pro administrátory -->
 <div class="d-flex justify-content-center pt-5">
     <form asp-action="Edit" asp-route-id="@Model?.Id" method="get" class="me-2">
         <button type="submit" class="btn btn-warning btn-novy-pojistenec">Upravit událost</button>
@@ -44,6 +48,8 @@
         <button type="submit" class="btn btn-danger btn-novy-pojistenec">Smazat událost</button>
     </form>
 </div>
+}
+
 <div class="mt-5">
     <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()">
         Zpět
