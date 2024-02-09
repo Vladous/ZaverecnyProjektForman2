@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using ZaverecnyProjektForman2.Data;
 using ZaverecnyProjektForman2.Models;
 
@@ -23,9 +25,34 @@ namespace ZaverecnyProjektForman2.Controllers
         }
 
         // GET: Insurances
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string typFilter)
         {
-            return View(await _context.Insurances.ToListAsync());
+            ViewData["IdSortParm"] = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            ViewData["SurnameSortParm"] = sortOrder == "Surname" ? "surname_desc" : "Surname";
+            ViewData["TypFilterApplied"] = !string.IsNullOrEmpty(typFilter);
+
+            var insurances = from s in _context.Insurances
+                         select s;
+
+            switch (sortOrder)
+            {
+                case "SurnameAsc":
+                    insurances = insurances.OrderBy(s => s.Type);
+                    break;
+                case "SurnameDesc":
+                    insurances = insurances.OrderByDescending(s => s.Type);
+                    break;
+                default:
+                    insurances = insurances.OrderBy(s => s.Id);
+                    break;
+            }
+
+            if (!String.IsNullOrEmpty(typFilter))
+            {
+                insurances = insurances.Where(s => s.Type.Contains(typFilter));
+            }
+
+            return View(await insurances.AsNoTracking().ToListAsync());
         }
 
         // GET: Insurances/Details/5

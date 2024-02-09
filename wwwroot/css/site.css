@@ -70,6 +70,9 @@ ul li {
 .sort-arrows {
     float: right;
 }
+    .sort-arrows a {
+        text-decoration: none;
+    }
 
 .nav-item {
     white-space: nowrap;
@@ -78,3 +81,35 @@ ul li {
 .small-text {
     font-size: 0.62em; /* Nastavuje velikost písma na 75% velikosti písma rodièovského elementu */
 }
+
+.btn-loop {
+    font-size: 0.62em;
+}
+.filter-icon {
+    cursor: pointer;
+    font-size: 0.62em;
+}
+
+.filter-input {
+    margin-left: 5px;
+}
+
+.active-filter {
+    color: red; /* nebo jiná barva pro zvýraznìní aktivního filtru */
+}
+.bubble-input {
+    position: absolute; /* Pozicuje input mimo normální tok dokumentu */
+    z-index: 100; /* Zajistí, že input bude nad ostatními prvkami */
+    width: auto; /* Nebo pevná šíøka dle potøeby */
+    padding: 5px 10px; /* Pøidává padding pro bubble efekt */
+    border-radius: 20px; /* Kulaté rohy pro bubble efekt */
+    border: 1px solid #ccc; /* Tenký rámeèek kolem inputu */
+    background-color: #fff; /* Bílé pozadí */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Jemný stín pro trochu hloubky */
+}
+
+    /* Skrytí inputu bez narušení layoutu */
+    .bubble-input.hidden {
+        display: none;
+    }
+

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using ZaverecnyProjektForman2.Data;
 using ZaverecnyProjektForman2.Models;
@@ -23,10 +25,81 @@ namespace ZaverecnyProjektForman2.Controllers
         }
 
         // GET: InsuranceContracts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string surnameFilter, string typFilter, string subjectFilter)
         {
-            var applicationDbContext = _context.InsuranceContracts.Include(i => i.Insurance).Include(i => i.Insured);
-            return View(await applicationDbContext.ToListAsync());
+            ViewData["SurnameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "surnname_desc" : "";
+            ViewData["InsurenceSortParm"] = sortOrder == "Insurence" ? "insurence_desc" : "Insurence";
+            ViewData["SubjectSortParm"] = sortOrder == "Subject" ? "subject_desc" : "Subject";
+            ViewData["AmountSortParm"] = sortOrder == "Amount" ? "amount_desc" : "Amount";
+            ViewData["FromSortParm"] = sortOrder == "From" ? "from_desc" : "From";
+            ViewData["UntilSortParm"] = sortOrder == "Until" ? "until_desc" : "Until";
+            ViewData["SurnameFilterApplied"] = !string.IsNullOrEmpty(surnameFilter);
+            ViewData["TypFilterApplied"] = !string.IsNullOrEmpty(typFilter);
+            ViewData["SubjectFilterApplied"] = !string.IsNullOrEmpty(subjectFilter);
+
+            var contracts = from s in _context.InsuranceContracts
+                           .Include(i => i.Insured)
+                           .Include(i => i.Insurance)
+                           .Include(i => i.InsuranceEvents)
+                           select s;
+
+            switch (sortOrder)
+            {
+                case "SurnameAsc":
+                    contracts = contracts.OrderBy(s => s.Insured.Surname);
+                    break;
+                case "SurnameDesc":
+                    contracts = contracts.OrderByDescending(s => s.Insured.Surname);
+                    break;
+                case "InsurenceAsc":
+                    contracts = contracts.OrderBy(s => s.Insurance.Type);
+                    break;
+                case "InsurenceDesc":
+                    contracts = contracts.OrderByDescending(s => s.Insurance.Type);
+                    break;
+                case "SubjectAsc":
+                    contracts = contracts.OrderBy(s => s.NameSubject);
+                    break;
+                case "SubjectDesc":
+                    contracts = contracts.OrderByDescending(s => s.NameSubject);
+                    break;
+                case "AmountAsc":
+                    contracts = contracts.OrderBy(s => s.Amount);
+                    break;
+                case "AmountDesc":
+                    contracts = contracts.OrderByDescending(s => s.Amount);
+                    break;
+                case "FromAsc":
+                    contracts = contracts.OrderBy(s => s.InsuredFrom);
+                    break;
+                case "FromDesc":
+                    contracts = contracts.OrderByDescending(s => s.InsuredFrom);
+                    break;
+                case "UntilAsc":
+                    contracts = contracts.OrderBy(s => s.InsuredUntil);
+                    break;
+                case "UntilDesc":
+                    contracts = contracts.OrderByDescending(s => s.InsuredUntil);
+                    break;
+                default:
+                    contracts = contracts.OrderBy(s => s.Id);
+                    break;
+            }
+
+            if (!String.IsNullOrEmpty(surnameFilter))
+            {
+                contracts = contracts.Where(s => s.Insured.Surname.Contains(surnameFilter));
+            }
+            if (!String.IsNullOrEmpty(typFilter))
+            {
+                contracts = contracts.Where(s => s.Insurance.Type.Contains(typFilter));
+            }
+            if (!String.IsNullOrEmpty(subjectFilter))
+            {
+                contracts = contracts.Where(s => s.NameSubject.Contains(subjectFilter));
+            }
+
+            return View(await contracts.AsNoTracking().ToListAsync());
         }
 
         // GET: InsuranceContracts/Details/5

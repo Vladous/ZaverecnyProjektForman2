@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using ZaverecnyProjektForman2.Data;
 using ZaverecnyProjektForman2.Models;
@@ -23,10 +25,75 @@ namespace ZaverecnyProjektForman2.Controllers
         }
 
         // GET: InsuranceEvents
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string surnameFilter, string typFilter, string detailFilter)
         {
-            var applicationDbContext = _context.InsuranceEvents.Include(i => i.Insurance).Include(i => i.Insured);
-            return View(await applicationDbContext.ToListAsync());
+            ViewData["IdSortParm"] = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            ViewData["SurnameSortParm"] = sortOrder == "Surname" ? "surname_desc" : "Surname";
+            ViewData["InsuranceSortParm"] = sortOrder == "Insurance" ? "insurance_desc" : "Insurance";
+            ViewData["DetailSortParm"] = sortOrder == "Detail" ? "detail_desc" : "Detail";
+            ViewData["AmountSortParm"] = sortOrder == "Amount" ? "amount_desc" : "Amount";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["SurnameFilterApplied"] = !string.IsNullOrEmpty(surnameFilter);
+            ViewData["TypFilterApplied"] = !string.IsNullOrEmpty(typFilter);
+            ViewData["DetailFilterApplied"] = !string.IsNullOrEmpty(detailFilter);
+
+            var events = from s in _context.InsuranceEvents
+                           .Include(i => i.InsuranceContracts)
+                           .Include(i => i.Insurance)
+                           .Include(i => i.Insured)
+            select s;
+
+            switch (sortOrder)
+            {
+                case "SurnameAsc":
+                    events = events.OrderBy(s => s.Insured.Surname);
+                    break;
+                case "SurnameDesc":
+                    events = events.OrderByDescending(s => s.Insured.Surname);
+                    break;
+                case "InsuranceAsc":
+                    events = events.OrderBy(s => s.Insurance.Type);
+                    break;
+                case "InsuranceDesc":
+                    events = events.OrderByDescending(s => s.Insurance.Type);
+                    break;
+                case "DetailAsc":
+                    events = events.OrderBy(s => s.EventDetail);
+                    break;
+                case "DetailDesc":
+                    events = events.OrderByDescending(s => s.EventDetail);
+                    break;
+                case "AmountAsc":
+                    events = events.OrderBy(s => s.FulfillmentAmount);
+                    break;
+                case "AmountDesc":
+                    events = events.OrderByDescending(s => s.FulfillmentAmount);
+                    break;
+                case "DateAsc":
+                    events = events.OrderBy(s => s.FulfillmentDate);
+                    break;
+                case "DateDesc":
+                    events = events.OrderByDescending(s => s.FulfillmentDate);
+                    break;
+                default:
+                    events = events.OrderBy(s => s.Id);
+                    break;
+            }
+
+            if (!String.IsNullOrEmpty(surnameFilter))
+            {
+                events = events.Where(s => s.Insured.Surname.Contains(surnameFilter));
+            }
+            if (!String.IsNullOrEmpty(typFilter))
+            {
+                events = events.Where(s => s.Insurance.Type.Contains(typFilter));
+            }
+            if (!String.IsNullOrEmpty(detailFilter))
+            {
+                events = events.Where(s => s.EventDetail.Contains(detailFilter));
+            }
+
+            return View(await events.AsNoTracking().ToListAsync());
         }
 
         // GET: InsuranceEvents/Details/5

@@ -15,43 +15,59 @@
 </p>
 <table class="table table-striped table-bordered">
     <thead>
-        <tr>
+        <tr class="align-middle">
             <th>
                 @Html.DisplayNameFor(model => model.Name)
-                <span class="sort-arrows">
-                    <a asp-action="Index" asp-route-sortOrder="NameAsc">↑</a>
-                    <a asp-action="Index" asp-route-sortOrder="NameDesc">↓</a>
+                <span class="sort-arrows d-inline-flex align-items-center">
+                    <form asp-action="Index" method="get" id="filterForm">
+                        @{
+                            bool nameFilterApplied = ViewData["NameFilterApplied"] as bool? ?? false;
+                        }
+                        <span class="filter-icon @(nameFilterApplied ? "active-filter" : "")" onclick="toggleFilterInput('filterInput1', 'filterValue1')" data-bs-toggle="tooltip" title="Filtr Name"><i class="fas fa-filter"></i></span>
+                        <input type="text" id="filterInput1" class="bubble-input filter-input" onblur="applyFilter(this, 'filterValue1')" style="display:none;" placeholder="Filtr Name..." />
+                        <input type="hidden" name="nameFilter" id="filterValue1" />
+                    </form>
+                    <a asp-action="Index" asp-route-sortOrder="NameAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od nejmenšího">↑</a>
+                    <a asp-action="Index" asp-route-sortOrder="NameDesc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od největšího">↓</a>
                 </span>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Surname)
-                <span class="sort-arrows">
-                    <a asp-action="Index" asp-route-sortOrder="SurnameAsc">↑</a>
-                    <a asp-action="Index" asp-route-sortOrder="SurnameDesc">↓</a>
+                <span class="sort-arrows d-inline-flex align-items-center">
+                    <form asp-action="Index" method="get" id="filterForm">
+                    @{
+                        bool surnameFilterApplied = ViewData["surnameFilterApplied"] as bool? ?? false;
+                    }
+                    <span class="filter-icon @(surnameFilterApplied ? "active-filter" : "")" onclick="toggleFilterInput('filterInput2', 'filterValue2')" data-bs-toggle="tooltip" title="Filtr Surname"><i class="fas fa-filter"></i></span>
+                    <input type="text" id="filterInput2" class="bubble-input filter-input" onblur="applyFilter(this, 'filterValue2')" style="display:none;" placeholder="Filtr Surname..." />
+                    <input type="hidden" name="surnameFilter" id="filterValue2" />
+                    </form>
+                    <a asp-action="Index" asp-route-sortOrder="SurnameAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od nejmenšího">↑</a>
+                    <a asp-action="Index" asp-route-sortOrder="SurnameDesc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od největšího">↓</a>
                 </span>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Birth)
-                <span class="sort-arrows">
-                    <a asp-action="Index" asp-route-sortOrder="BirthAsc">↑</a>
-                    <a asp-action="Index" asp-route-sortOrder="BirthDesc">↓</a>
+                <span class="sort-arrows">                  
+                    <a asp-action="Index" asp-route-sortOrder="BirthAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od nejmenšího">↑</a>
+                    <a asp-action="Index" asp-route-sortOrder="BirthDesc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od největšího">↓</a>
                 </span>
             </th>
             <th class="min-width-td max-width-td">
                 Počet pojištění
                 <span class="sort-arrows">
-                    <a asp-action="Index" asp-route-sortOrder="ContractsAsc">↑</a>
-                    <a asp-action="Index" asp-route-sortOrder="ContractsDesc">↓</a>
+                    <a asp-action="Index" asp-route-sortOrder="ContractsAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od nejmenšího">↑</a>
+                    <a asp-action="Index" asp-route-sortOrder="ContractsDesc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od největšího">↓</a>
                 </span>
             </th>
             <th class="min-width-td max-width-td">
                 Počet poj.událostí
                 <span class="sort-arrows">
-                    <a asp-action="Index" asp-route-sortOrder="ContractsAsc">↑</a>
-                    <a asp-action="Index" asp-route-sortOrder="ContractsDesc">↓</a>
+                    <a asp-action="Index" asp-route-sortOrder="ContractsAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od nejmenšího">↑</a>
+                    <a asp-action="Index" asp-route-sortOrder="ContractsDesc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od největšího">↓</a>
                 </span>
             </th>
-            <th class="mix-width-td">
+            <th class="min-width-td max-width-td">
                 Úpravy
             </th>
         </tr>
@@ -75,7 +91,7 @@
                 <td class="min-width-td max-width-td">
                     @item.InsuranceEvents?.Count
                 </td>
-                <td class="min-width-td d-flex justify-content-around align-items-center">
+                <td class="min-width-td justify-content-around align-items-center">
                     <a asp-action="Edit" asp-route-id="@item.Id">
                         <img src="~/images/edit.png" alt="Edit" class="img-fluid align-middle" style="max-height: 30px;" data-bs-toggle="tooltip" title="Editace pojištěnce">
                     </a>

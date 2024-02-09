@@ -23,13 +23,14 @@ namespace ZaverecnyProjektForman2.Controllers
         }
 
         // GET: Insureds
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index(string sortOrder, string nameFilter, string surnameFilter)
         {
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["SurnameSortParm"] = sortOrder == "Surname" ? "surname_desc" : "Surname";
             ViewData["BirthSortParm"] = sortOrder == "Birth" ? "birth_desc" : "Birth";
             ViewData["ContractsSortParm"] = sortOrder == "Contracts" ? "contracts_desc" : "Contracts";
-
+            ViewData["NameFilterApplied"] = !string.IsNullOrEmpty(nameFilter);
+            ViewData["SurnameFilterApplied"] = !string.IsNullOrEmpty(surnameFilter);
             var insureds = from s in _context.Insureds
                            .Include(i => i.InsuranceContracts)
                            .Include(i => i.InsuranceEvents)
@@ -68,6 +69,17 @@ namespace ZaverecnyProjektForman2.Controllers
                     insureds = insureds.OrderBy(s => s.Name);
                     break;
             }
+
+            if (!String.IsNullOrEmpty(nameFilter))
+            {
+                insureds = insureds.Where(s => s.Name.Contains(nameFilter));
+            }
+            if (!String.IsNullOrEmpty(surnameFilter))
+            {
+                insureds = insureds.Where(s => s.Surname.Contains(surnameFilter));
+            }
+
+
             return View(await insureds.AsNoTracking().ToListAsync());
         }
 
