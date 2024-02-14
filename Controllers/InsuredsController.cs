@@ -11,17 +11,32 @@ using ZaverecnyProjektForman2.Models;
 
 namespace ZaverecnyProjektForman2.Controllers
 {
+    /// <summary>
+    /// Kontroler pro správu pojištěnců.
+    /// </summary>
     public class InsuredsController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-
+        /// <summary>
+        /// Inicializace nové instance <see cref="InsuredsController"/> třídy.
+        /// </summary>
+        /// <param name="context">Kontext databáze.</param>
+        /// <param name="userManager">Správa uživatelů.</param>
         public InsuredsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager; // Přidáno
         }
-
+        /// <summary>
+        /// Zobrazí seznam pojištěnců.
+        /// </summary>
+        /// <param name="sortOrder">Parametr řazení.</param>
+        /// <param name="nameFilter">Filtr jména.</param>
+        /// <param name="surnameFilter">Filtr příjmení.</param>
+        /// <param name="page">Číslo aktuální stránky.</param>
+        /// <param name="pageSize">Velikost stránky.</param>
+        /// <returns>Asynchronní operace, která vrací <see cref="IActionResult"/>.</returns>
         // GET: Insureds
         public async Task<IActionResult> Index(string sortOrder, string nameFilter, string surnameFilter, int page = 1, int pageSize = 10)
         {
@@ -108,7 +123,11 @@ namespace ZaverecnyProjektForman2.Controllers
 
             return View(viewModel);
         }
-
+        /// <summary>
+        /// Zobrazí detaily konkrétního pojištěnce.
+        /// </summary>
+        /// <param name="id">Identifikátor pojištěnce.</param>
+        /// <returns>Asynchronní operace, která vrací <see cref="IActionResult"/>.</returns>
         // GET: Insureds/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -134,13 +153,20 @@ namespace ZaverecnyProjektForman2.Controllers
 
             return View(insured);
         }
-
+        /// <summary>
+        /// Zobrazí formulář pro vytvoření nového pojištěnce.
+        /// </summary>
+        /// <returns>Akce vrací <see cref="IActionResult"/>.</returns>
         // GET: Insureds/Create
         public IActionResult Create()
         {
             return View();
         }
-
+        /// <summary>
+        /// Zpracuje data formuláře pro vytvoření nového pojištěnce.
+        /// </summary>
+        /// <param name="insured">Data pojištěnce.</param>
+        /// <returns>Asynchronní operace, která vrací <see cref="IActionResult"/>.</returns>
         // POST: Insureds/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -175,7 +201,11 @@ namespace ZaverecnyProjektForman2.Controllers
             }
             return View(insured);
         }
-
+        /// <summary>
+        /// Zobrazí formulář pro úpravu pojištěnce.
+        /// </summary>
+        /// <param name="id">Identifikátor pojištěnce.</param>
+        /// <returns>Asynchronní operace, která vrací <see cref="IActionResult"/>.</returns>
         // GET: Insureds/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -191,7 +221,12 @@ namespace ZaverecnyProjektForman2.Controllers
             }
             return View(insured);
         }
-
+        /// <summary>
+        /// Zpracuje data formuláře pro úpravu pojištěnce.
+        /// </summary>
+        /// <param name="id">Identifikátor pojištěnce.</param>
+        /// <param name="insured">Aktualizovaná data pojištěnce.</param>
+        /// <returns>Asynchronní operace, která vrací <see cref="IActionResult"/>.</returns>
         // POST: Insureds/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -245,6 +280,11 @@ namespace ZaverecnyProjektForman2.Controllers
             }
             return View(insured);
         }
+        /// <summary>
+        /// Zobrazí potvrzení pro smazání pojištěnce.
+        /// </summary>
+        /// <param name="id">Identifikátor pojištěnce.</param>
+        /// <returns>Asynchronní operace, která vrací <see cref="IActionResult"/>.</returns>
         // GET: Insureds/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -262,7 +302,11 @@ namespace ZaverecnyProjektForman2.Controllers
 
             return View(insured);
         }
-
+        /// <summary>
+        /// Zpracuje smazání pojištěnce.
+        /// </summary>
+        /// <param name="id">Identifikátor pojištěnce.</param>
+        /// <returns>Asynchronní operace, která vrací <see cref="IActionResult"/>.</returns>
         // POST: Insureds/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -277,7 +321,11 @@ namespace ZaverecnyProjektForman2.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
+        /// <summary>
+        /// Kontroluje, zda pojištěnec existuje.
+        /// </summary>
+        /// <param name="id">Identifikátor pojištěnce.</param>
+        /// <returns>Pravda, pokud pojištěnec existuje; jinak nepravda.</returns>
         private bool InsuredExists(int id)
         {
             return _context.Insureds.Any(e => e.Id == id);

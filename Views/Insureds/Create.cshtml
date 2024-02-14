@@ -5,22 +5,23 @@
 }
 
 <h1>Nový pojištěnec</h1>
-
 <div class="row mt-2">
     <div class="container">
         <form class="row" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row">
                 <div class="col-12 d-flex flex-column flex-sm-row">
+                    <!-- Jméno -->
                     <div class="col-6 form-group p-2">
                         <label asp-for="Name" class="control-label">Jméno</label>
-                        <input asp-for="Name" class="form-control" placeholder="Zadejte jméno..." />
+                        <input asp-for="Name" class="form-control" placeholder="Zadejte jméno..." title="Zadejte jméno nového pojistníka." />
                         <span asp-validation-for="Name" class="text-danger"></span>
                         <small class="form-text text-muted small-text">Jméno nového pojistníka.</small>
                     </div>
+                    <!-- Příjmení -->
                     <div class="col-6 form-group p-2">
                         <label asp-for="Surname" class="control-label">Příjmení</label>
-                        <input asp-for="Surname" class="form-control" placeholder="Zadejte příjmení..." />
+                        <input asp-for="Surname" class="form-control" placeholder="Zadejte příjmení..." title="Zadejte příjmení nového pojistníka." />
                         <span asp-validation-for="Surname" class="text-danger"></span>
                         <small class="form-text text-muted small-text">Příjmení nového pojistníka.</small>
                     </div>
@@ -28,15 +29,17 @@
             </div>
             <div class="row">
                 <div class="col-12 d-flex flex-column flex-sm-row">
+                    <!-- Datum narození -->
                     <div class="col-6 form-group p-2">
                         <label asp-for="Birth" class="control-label">Datum narození</label>
-                        <input asp-for="Birth" class="form-control" />
+                        <input asp-for="Birth" class="form-control" title="Zadejte datum narození nového pojistníka." />
                         <span asp-validation-for="Birth" class="text-danger"></span>
                         <small class="form-text text-muted small-text">Datum narození nového pojistníka.</small>
                     </div>
+                    <!-- E-mail -->
                     <div class="col-6 form-group p-2">
                         <label asp-for="Email" class="control-label"></label>
-                        <input asp-for="Email" class="form-control" placeholder="Zadejte e-mail..." />
+                        <input asp-for="Email" class="form-control" placeholder="Zadejte e-mail..." title="Zadejte e-mail nového pojistníka." />
                         <span asp-validation-for="Email" class="text-danger"></span>
                         <small class="form-text text-muted small-text">E-mail nového pojistníka.</small>
                     </div>
@@ -44,15 +47,17 @@
             </div>
             <div class="row">
                 <div class="col-12 d-flex flex-column flex-sm-row">
+                    <!-- Ulice -->
                     <div class="col-6 form-group p-2">
                         <label asp-for="Street" class="control-label">Název ulice</label>
-                        <input asp-for="Street" class="form-control" placeholder="Název ulice..." />
+                        <input asp-for="Street" class="form-control" placeholder="Název ulice..." title="Zadejte ulici bydliště nového pojistníka." />
                         <span asp-validation-for="Street" class="text-danger"></span>
                         <small class="form-text text-muted small-text">Ulice bydliště nového pojistníka.</small>
                     </div>
+                    <!-- Číslo domu -->
                     <div class="col-6 form-group p-2">
                         <label asp-for="HouseNumber" class="control-label">Číslo popisné</label>
-                        <input asp-for="HouseNumber" class="form-control" placeholder="Číslo popisné..." />
+                        <input asp-for="HouseNumber" class="form-control" placeholder="Číslo popisné..." title="Zadejte číslo popisné bydliště nového pojistníka." />
                         <span asp-validation-for="HouseNumber" class="text-danger"></span>
                         <small class="form-text text-muted small-text">Číslo popisné domu.</small>
                     </div>
@@ -60,15 +65,17 @@
             </div>
             <div class="row">
                 <div class="col-12 d-flex flex-column flex-sm-row">
+                    <!-- Město -->
                     <div class="col-6 form-group p-2">
                         <label asp-for="City" class="control-label">Město</label>
-                        <input asp-for="City" class="form-control" placeholder="Město..." />
+                        <input asp-for="City" class="form-control" placeholder="Město..." title="Zadejte město bydliště nového pojistníka." />
                         <span asp-validation-for="City" class="text-danger"></span>
                         <small class="form-text text-muted small-text">Město bydliště.</small>
                     </div>
+                    <!-- Poštovní směrovací číslo -->
                     <div class="col-6 form-group p-2">
                         <label asp-for="PostNumber" class="control-label">PSČ</label>
-                        <input asp-for="PostNumber" class="form-control" placeholder="PSČ..." />
+                        <input asp-for="PostNumber" class="form-control" placeholder="PSČ..." title="Zadejte PSČ bydliště nového pojistníka." />
                         <span asp-validation-for="PostNumber" class="text-danger"></span>
                         <small class="form-text text-muted small-text">Poštovní směrovací číslo.</small>
                     </div>
@@ -76,23 +83,23 @@
             </div>
             <div class="row">
                 <div class="col-12 d-flex flex-column flex-sm-row">
+                    <!-- Telefonní číslo -->
                     <div class="col-6 form-group p-2">
                         <label asp-for="Phone" class="control-label">Telefonní číslo</label>
-                        <input asp-for="Phone" class="form-control" placeholder="+42X XXX XXX" />
+                        <input asp-for="Phone" class="form-control" placeholder="+42X XXX XXX" title="Zadejte telefonní číslo nového pojistníka." />
                         <span asp-validation-for="Phone" class="text-danger"></span>
                         <small class="form-text text-muted small-text">Telefonní číslo s předvolbou.</small>
                     </div>
                     <div class="col-6 form-group p-2 d-flex justify-content-center">
-                        <input type="submit" value="Uložit" class="btn btn-primary align-self-end" />
+                        <input type="submit" value="Uložit" class="btn btn-primary align-self-end" title="Uložit nového pojistníka." />
                     </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
-
 <div class="mt-5">
-    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()">
+    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()" title="Zpět na předchozí stránku bez uložení.">
         Zpět
     </button>
 </div>

@@ -5,19 +5,19 @@
 }
 
 <h1>Nová pojistná událost</h1>
-
-
 <div class="row mt-2">
     <div class="container">
         <form class="row" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row">
                 <div class="col-12 d-flex flex-column flex-sm-row">
+                    <!-- Výběr pojistníka -->
                     <div class="col-6 form-group p-2">
                         <label asp-for="InsuredId" class="control-label"></label>
-                        <select asp-for="InsuredId" class="form-control" asp-items="ViewBag.InsuredId"></select>
-                        <small class="form-text small-text text-muted small-text">Jméno pojistníka.</small>
+                        <select asp-for="InsuredId" class="form-control" asp-items="ViewBag.InsuredId" title="Vyberte pojistníka"></select>
+                        <small class="form-text small-text text-muted small-text">Vyberte jméno pojistníka, na kterého se událost vztahuje.</small>
                     </div>
+                    <!-- Výběr typu pojištění -->
                     <div class="col-6 form-group p-2">
                         <label asp-for="InsuranceId" class="control-label">Typ pojištění</label>
                         <select asp-for="InsuranceId" class="form-control" asp-items="ViewBag.InsuranceId"></select>
@@ -27,39 +27,41 @@
             </div>
             <div class="row">
                 <div class="col-12 d-flex flex-column flex-sm-row">
+                    <!-- Detail události -->
                     <div class="col-6 form-group p-2">
                         <label asp-for="EventDetail" class="control-label"></label>
-                        <input asp-for="EventDetail" class="form-control" />
+                        <input asp-for="EventDetail" class="form-control" placeholder="Popište událost..." title="Detail události" />
                         <span asp-validation-for="EventDetail" class="text-danger"></span>
-                        <small class="form-text small-text text-muted small-text">Detail události.</small>
+                        <small class="form-text small-text text-muted small-text">Podrobný popis události.</small>
                     </div>
+                    <!-- Částka plnění -->
                     <div class="col-6 form-group p-2">
                         <label asp-for="FulfillmentAmount" class="control-label"></label>
-                        <input asp-for="FulfillmentAmount" class="form-control" />
+                        <input asp-for="FulfillmentAmount" class="form-control" placeholder="Zadejte částku plnění..." title="Částka plnění" />
                         <span asp-validation-for="FulfillmentAmount" class="text-danger"></span>
-                        <small class="form-text small-text text-muted small-text">Částka plnění.</small>
+                        <small class="form-text small-text text-muted small-text">Částka, která má být vyplacena.</small>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 d-flex flex-column flex-sm-row">
+                    <!-- Datum události -->
                     <div class="col-6 form-group p-2">
                         <label asp-for="FulfillmentDate" class="control-label"></label>
-                        <input asp-for="FulfillmentDate" class="form-control" />
+                        <input asp-for="FulfillmentDate" class="form-control" type="date" title="Datum události" />
                         <span asp-validation-for="FulfillmentDate" class="text-danger"></span>
                         <small class="form-text small-text text-muted small-text">Datum události.</small>
                     </div>
-                    <div class="col-6 form-group mt-4 mb-3 d-flex justify-content-center">
-                        <input type="submit" value="Uložit" class="btn btn-primary" />
+                    <div class="col-6 form-group mt-5 mb-4 d-flex justify-content-center">
+                        <input type="submit" value="Uložit" class="btn btn-primary" title="Uložit novou pojistnou událost" />
                     </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
-
 <div class="mt-5">
-    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()">
+    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()" title="Vrátí vás zpět na předchozí stránku.">
         Zpět
     </button>
 </div>

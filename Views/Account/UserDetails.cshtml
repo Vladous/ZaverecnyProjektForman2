@@ -1,36 +1,39 @@
 ﻿@model DetailUserViewModel
 
 <h2>Detaily uživatele</h2>
-
 <div class="container">
     <hr />
     <dl class="row">
+        <!-- Uživatelské jméno -->
         <div class="col-md-4">
-            <dt class="col-sm-10">
+            <dt class="col-sm-10" title="Uživatelské jméno uživatele">
                 @Html.DisplayNameFor(model => Model.UserName)
             </dt>
             <dd class="col-sm-10">
                 @Model.UserName
             </dd>
         </div>
+        <!-- E-mail -->
         <div class="col-md-4">
-            <dt class="col-sm-10">
+            <dt class="col-sm-10" title="E-mailová adresa uživatele">
                 @Html.DisplayNameFor(model => Model.Email)
             </dt>
             <dd class="col-sm-10">
                 @Model.Email
             </dd>
         </div>
+        <!-- Role -->
         <div class="col-md-4">
-            <dt class="col-sm-10">
+            <dt class="col-sm-10" title="Role uživatele v systému">
                 @Html.DisplayNameFor(model => Model.Role)
             </dt>
             <dd class="col-sm-10">
                 @Model.Role
             </dd>
         </div>
+        <!-- Datum registrace -->
         <div class="col-md-4">
-            <dt class="col-sm-10">
+            <dt class="col-sm-10" title="Datum a čas registrace uživatele">
                 @Html.DisplayNameFor(model => Model.RegistrationDate)
             </dt>
             <dd class="col-sm-10">
@@ -39,22 +42,20 @@
         </div>
     </dl>
 </div>
-
-<div style="display: flex; gap: 10px;">
-    
+<!-- Tlačítka pro úpravu a odstranění uživatele -->
+<div class="d-flex justify-content-center pt-5">
     <form asp-action="UserEdit" asp-controller="Account" method="get">
         <input type="hidden" name="userId" value="@Model.UserId" />
-        <input type="submit" value="Upravit uživatele" class="btn btn-warning" />
+        <input type="submit" value="Upravit uživatele" class="btn btn-warning me-2" title="Upravit informace tohoto uživatele" />
     </form>
     <form asp-action="DeleteUser" asp-controller="Account" method="post">
         <input type="hidden" name="userId" value="@Model.UserId" />
-        <input type="submit" value="Odstranit uživatele" class="btn btn-danger"
-               onclick="return confirm('Opravdu chcete odstranit tento účet?');" />
+        <input type="submit" value="Odstranit uživatele" class="btn btn-danger me-2"
+               onclick="return confirm('Opravdu chcete odstranit tento účet?');" title="Permanentně odstranit tohoto uživatele z databáze" />
     </form>
 </div>
-
 <div class="mt-5">
-    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()">
+    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()" title="Vrátit se na předchozí stránku">
         Zpět
     </button>
 </div>

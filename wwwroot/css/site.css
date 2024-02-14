@@ -25,6 +25,7 @@ header, footer {
 body {
     margin-bottom: 60px;
     background-color: #e2effc;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
 h1, h2, h3 {
@@ -32,6 +33,7 @@ h1, h2, h3 {
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
+/* Pøechod a vizuální efekty pro položky seznamu */
 ul li {
     transition: all 0.2s ease; /* Plynulý pøechod pro všechny zmìny */
 }
@@ -43,6 +45,7 @@ ul li {
         cursor: pointer;
     }
 
+/* Pøizpùsobení vzhledu primárních tlaèítek */
 .btn-primary {
     background-color: #0056b3; /* Pøíjemná modrá barva */
     border-color: #004085;
@@ -66,6 +69,10 @@ ul li {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+    .min-width-td a {
+        text-decoration: none;
+    }
 
 .max-width-td {
     max-width: 150px;

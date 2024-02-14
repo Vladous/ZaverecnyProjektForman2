@@ -5,33 +5,34 @@
 }
 
 <h1>Vytvoření pojistné smlouvy</h1>
-
-
 <div class="row mt-2">
     <div class="container">
         <form class="row" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row">
+                <!-- Výběr pojistníka -->
                 <div class="col-12 d-flex flex-column flex-sm-row">
                     <div class="col-9 form-group m-2">
                         <label asp-for="InsuredId" class="control-label">Pojistník</label>
-                        <select asp-for="InsuredId" class="form-control" asp-items="ViewBag.InsuredId"></select>
+                        <select asp-for="InsuredId" class="form-control" asp-items="ViewBag.InsuredId" title="Vyberte pojistníka z nabízeného seznamu."></select>
                         <small class="form-text text-muted small-text">Jméno a příjmení pojistníka.</small>
                     </div>
                 </div>
+                <!-- Výběr typu pojištění -->
                 <div class="col-12 d-flex flex-column flex-sm-row">
                     <div class="col-9 form-group m-2">
                         <label asp-for="InsuranceId" class="control-label">Typ pojištění</label>
-                        <select asp-for="InsuranceId" class="form-control" asp-items="ViewBag.InsuranceId"></select>
+                        <select asp-for="InsuranceId" class="form-control" asp-items="ViewBag.InsuranceId" title="Vyberte typ pojištění."></select>
                         <small class="form-text text-muted small-text">Typ zvoleného pojištění.</small>
                     </div>
                 </div>
             </div>
+            <!-- Předmět pojištění -->
             <div class="row">
                 <div class="col-12 d-flex flex-column flex-sm-row">
                     <div class="col-9 form-group m-2">
                         <label asp-for="NameSubject" class="control-label">Předmět pojištění</label>
-                        <input asp-for="NameSubject" class="form-control" />
+                        <input asp-for="NameSubject" class="form-control" title="Zadejte předmět sjednání pojištění." />
                         <span asp-validation-for="NameSubject" class="text-danger"></span>
                         <small class="form-text text-muted small-text">Předmět sjednání pojištění.</small>
                     </div>
@@ -39,21 +40,24 @@
             </div>
             <div class="row">
                 <div class="col-12 d-flex flex-column flex-sm-row">
+                    <!-- Částka pojištění -->
                     <div class="col-3 form-group m-1">
                         <label asp-for="Amount" class="control-label">Částka pojištění</label>
-                        <input asp-for="Amount" class="form-control" />
+                        <input asp-for="Amount" class="form-control" title="Zadejte pojistnou částku." />
                         <span asp-validation-for="Amount" class="text-danger"></span>
                         <small class="form-text text-muted small-text">Pojistná částka.</small>
                     </div>
+                    <!-- Platnost pojištění od -->
                     <div class="col-3 form-group m-1">
                         <label asp-for="InsuredFrom" class="control-label">Pojištěno od</label>
-                        <input asp-for="InsuredFrom" class="form-control" />
+                        <input asp-for="InsuredFrom" class="form-control" title="Zadejte datum počátku platnosti pojištění." />
                         <span asp-validation-for="InsuredFrom" class="text-danger"></span>
                         <small class="form-text text-muted small-text">Platnost pojištění od.</small>
                     </div>
+                    <!-- Platnost pojištění do -->
                     <div class="col-3 form-group m-1">
                         <label asp-for="InsuredUntil" class="control-label">Pojištěno do</label>
-                        <input asp-for="InsuredUntil" class="form-control" />
+                        <input asp-for="InsuredUntil" class="form-control" title="Zadejte datum konce platnosti pojištění." />
                         <span asp-validation-for="InsuredUntil" class="text-danger"></span>
                         <small class="form-text text-muted small-text">Platnost pojištění do.</small>
                     </div>
@@ -62,16 +66,15 @@
             <div class="row">
                 <div class="col-12 d-flex flex-column flex-sm-row">
                     <div class="form-group mt-5">
-                        <input type="submit" value="Uložit" class="btn btn-primary" />
+                        <input type="submit" value="Uložit" class="btn btn-primary" title="Klikněte pro uložení pojistné smlouvy." />
                     </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
-
 <div class="mt-5">
-    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()">
+    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()" title="Vrátit se zpět na předchozí stránku.">
         Zpět
     </button>
 </div>

@@ -15,7 +15,7 @@
                 <div class="col-12 d-flex flex-column flex-sm-row">
                     <div class="col-6 form-group p-2">
                         <label asp-for="Type" class="control-label"></label>
-                        <input asp-for="Type" class="form-control" />
+                        <input asp-for="Type" class="form-control" placeholder="Zadejte typ pojištění..." title="Zadejte typ pojištění..." />
                         <span asp-validation-for="Type" class="text-danger"></span>
                         <small class="form-text text-muted small-text">Typ pojištění</small>
                     </div>
@@ -25,11 +25,11 @@
     </div>
 </div>
 <div class="form-group mt-4">
-    <input type="submit" value="Uložit" class="btn btn-primary" />
+    <input type="submit" value="Uložit" class="btn btn-primary" title="Uložit typ pojištění." />
 </div>
 
 <div class="mt-5">
-    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()">
+    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()" title="Zpět na předchozí stránku bez uložení.">
         Zpět
     </button>
 </div>

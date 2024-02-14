@@ -7,24 +7,23 @@
 <h1>Pojistné smlouvy</h1>
 
 <p>
+    <!-- Obsah jen pro managery a výš -->
     @if (User.IsInRoleOrHigher(UserRoles.Manager))
     {
-        <!-- Obsah jen pro managery a výš -->
         <div class="d-flex justify-content-center">
             <form asp-action="Create" method="get">
-                <button type="submit" class="btn btn-primary">Nová pojistná smlouva</button>
+                <button type="submit" class="btn btn-primary" title="Přidat novou pojistnou smlouvu">Nová pojistná smlouva</button>
             </form>
         </div>
     }
-
 </p>
-
 <table class="table table-striped table-bordered">
     <thead>
         <tr class="align-middle">
             <th>
                 @Html.DisplayNameFor(mode => mode.Contracts.First().Insured.Name) a @Html.DisplayNameFor(mode => mode.Contracts.First().Insured.Surname)
                 <span class="sort-arrows d-inline-flex align-items-center">
+                    <!-- Formulář pro filtraci a řazení podle příjmení -->
                     <form asp-action="Index" method="get" id="filterForm">
                         @{
                             bool surnameFilterApplied = ViewData["surnameFilterApplied"] as bool? ?? false;
@@ -33,13 +32,15 @@
                         <input type="text" id="filterInput1" class="bubble-input filter-input" onblur="applyFilter(this, 'filterValue1')" style="display:none;" placeholder="Filtr Surname..." />
                         <input type="hidden" name="surnameFilter" id="filterValue1" />
                     </form>
-
+                    <!-- Odkazy pro řazení -->
                     <a asp-action="Index" asp-route-sortOrder="SurnameAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od nejmenšího">↑</a>
                     <a asp-action="Index" asp-route-sortOrder="SurnameDesc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od největšího">↓</a>
+                </span>
             </th>
             <th>
                 @Html.DisplayNameFor(mode => mode.Contracts.First().Insurance.Type)
                 <span class="sort-arrows d-inline-flex align-items-center">
+                    <!-- Formulář pro filtraci a řazení podle typu pojištění -->
                     <form asp-action="Index" method="get" id="filterForm">
                         @{
                             bool typFilterApplied = ViewData["TypFilterApplied"] as bool? ?? false;
@@ -48,6 +49,7 @@
                         <input type="text" id="filterInput2" class="bubble-input filter-input" onblur="applyFilter(this, 'filterValue2')" style="display:none;" placeholder="Filtr Surname..." />
                         <input type="hidden" name="typFilter" id="filterValue2" />
                     </form>
+                    <!-- Odkazy pro řazení -->
                     <a asp-action="Index" asp-route-sortOrder="InsurenceAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od nejmenšího">↑</a>
                     <a asp-action="Index" asp-route-sortOrder="InsurenceDesc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od největšího">↓</a>
                 </span>
@@ -55,6 +57,7 @@
             <th>
                 @Html.DisplayNameFor(mode => mode.Contracts.First().NameSubject)
                 <<span class="sort-arrows d-inline-flex align-items-center">
+                    <!-- Formulář pro filtraci a řazení podle předmětu pojištění -->
                     <form asp-action="Index" method="get" id="filterForm">
                         @{
                             bool subjectFilter = ViewData["SubjectFilterApplied"] as bool? ?? false;
@@ -63,6 +66,7 @@
                         <input type="text" id="filterInput3" class="bubble-input filter-input" onblur="applyFilter(this, 'filterValue3')" style="display:none;" placeholder="Filtr předmět..." />
                         <input type="hidden" name="subjectFilter" id="filterValue3" />
                     </form>
+                    <!-- Odkazy pro řazení -->
                     <a asp-action="Index" asp-route-sortOrder="SubjectAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od nejmenšího">↑</a>
                     <a asp-action="Index" asp-route-sortOrder="SubjectDesc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od největšího">↓</a>
                 </span>
@@ -70,6 +74,7 @@
             <th>
                 @Html.DisplayNameFor(mode => mode.Contracts.First().Amount)
                 <span class="sort-arrows d-inline-flex align-items-center">
+                    <!-- Odkazy pro řazení -->
                     <a asp-action="Index" asp-route-sortOrder="AmountAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od nejmenšího">↑</a>
                     <a asp-action="Index" asp-route-sortOrder="AmountDesc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od největšího">↓</a>
                 </span>
@@ -77,6 +82,7 @@
             <th>
                 @Html.DisplayNameFor(mode => mode.Contracts.First().InsuredFrom)
                 <span class="sort-arrows d-inline-flex align-items-center">
+                    <!-- Odkazy pro řazení -->
                     <a asp-action="Index" asp-route-sortOrder="FromAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od nejmenšího">↑</a>
                     <a asp-action="Index" asp-route-sortOrder="FromDesc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od největšího">↓</a>
                 </span>
@@ -84,6 +90,7 @@
             <th>
                 @Html.DisplayNameFor(mode => mode.Contracts.First().InsuredUntil)
                 <span class="sort-arrows d-inline-flex align-items-center">
+                    <!-- Odkazy pro řazení -->
                     <a asp-action="Index" asp-route-sortOrder="UntilAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od nejmenšího">↑</a>
                     <a asp-action="Index" asp-route-sortOrder="UntilDesc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od největšího">↓</a>
             </th>

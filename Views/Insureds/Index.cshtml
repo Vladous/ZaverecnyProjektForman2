@@ -5,46 +5,50 @@
 }
 
 <h1>Pojištěnci</h1>
-
 <p>
+    <!-- Tlačítko pro vytvoření nového pojištěnce, zobrazené pouze pro manažery a vyšší role -->
     @if (User.IsInRoleOrHigher(UserRoles.Manager))
     {
-        <!-- Obsah jen pro managery a výš -->
-    <div class="d-flex justify-content-center">
-        <form asp-action="Create" method="get">
-            <button type="submit" class="btn btn-primary">Nový pojištěnec</button>
-        </form>
-    </div>
+        <div class="d-flex justify-content-center">
+            <form asp-action="Create" method="get">
+                <button type="submit" class="btn btn-primary" title="Přidat nového pojištěnce">Nový pojištěnec</button>
+            </form>
+        </div>
     }
 </p>
+<!-- Tabulka zobrazující seznam pojištěnců s možností filtrování a řazení -->
 <table class="table table-striped table-bordered">
     <thead>
         <tr class="align-middle">
+            <!-- Sloupec pro jméno s filtrem a řazením -->
             <th>
                 @Html.DisplayNameFor(model => model.Items.First().Name)
                 <span class="sort-arrows d-inline-flex align-items-center">
+                    <!-- Formulář pro filtr jména -->
                     <form asp-action="Index" method="get" id="filterForm">
                         @{
                             bool nameFilterApplied = ViewData["NameFilterApplied"] as bool? ?? false;
                         }
+                        <!-- Ikona filtru s tooltipem -->
                         <span class="filter-icon @(nameFilterApplied ? "active-filter" : "")" onclick="toggleFilterInput('filterInput1', 'filterValue1')" data-bs-toggle="tooltip" title="Filtr Name"><i class="fas fa-filter"></i></span>
-                        <input type="text" id="filterInput1" class="bubble-input filter-input" onblur="applyFilter(this, 'filterValue1')" style="display:none;" placeholder="Filtr Name..." />
+                        <!-- Skryté pole pro hodnotu filtru jména -->
+                        <input type="text" id="filterInput1" class="bubble-input filter-input" onblur="applyFilter(this, 'filterValue1')" style="display:none;" placeholder="Zadej text..." />
                         <input type="hidden" name="nameFilter" id="filterValue1" />
                     </form>
-                    <a asp-action="Index" asp-route-sortOrder="NameAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od nejmenšího">↑</a>
-                    <a asp-action="Index" asp-route-sortOrder="NameDesc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od největšího">↓</a>
+                    <a asp-action="Index" asp-route-sortOrder="NameAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od A do Z">↑</a>
+                    <a asp-action="Index" asp-route-sortOrder="NameDesc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od Z do A">↓</a>
                 </span>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Items.First().Surname)
                 <span class="sort-arrows d-inline-flex align-items-center">
                     <form asp-action="Index" method="get" id="filterForm">
-                    @{
-                        bool surnameFilterApplied = ViewData["surnameFilterApplied"] as bool? ?? false;
-                    }
-                    <span class="filter-icon @(surnameFilterApplied ? "active-filter" : "")" onclick="toggleFilterInput('filterInput2', 'filterValue2')" data-bs-toggle="tooltip" title="Filtr Surname"><i class="fas fa-filter"></i></span>
-                    <input type="text" id="filterInput2" class="bubble-input filter-input" onblur="applyFilter(this, 'filterValue2')" style="display:none;" placeholder="Filtr Surname..." />
-                    <input type="hidden" name="surnameFilter" id="filterValue2" />
+                        @{
+                            bool surnameFilterApplied = ViewData["surnameFilterApplied"] as bool? ?? false;
+                        }
+                        <span class="filter-icon @(surnameFilterApplied ? "active-filter" : "")" onclick="toggleFilterInput('filterInput2', 'filterValue2')" data-bs-toggle="tooltip" title="Filtr Surname"><i class="fas fa-filter"></i></span>
+                        <input type="text" id="filterInput2" class="bubble-input filter-input" onblur="applyFilter(this, 'filterValue2')" style="display:none;" placeholder="Filtr Surname..." />
+                        <input type="hidden" name="surnameFilter" id="filterValue2" />
                     </form>
                     <a asp-action="Index" asp-route-sortOrder="SurnameAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od nejmenšího">↑</a>
                     <a asp-action="Index" asp-route-sortOrder="SurnameDesc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od největšího">↓</a>
@@ -52,7 +56,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Items.First().Birth)
-                <span class="sort-arrows">                  
+                <span class="sort-arrows">
                     <a asp-action="Index" asp-route-sortOrder="BirthAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od nejmenšího">↑</a>
                     <a asp-action="Index" asp-route-sortOrder="BirthDesc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od největšího">↓</a>
                 </span>
@@ -80,43 +84,31 @@
         @foreach (var item in Model.Items)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Surname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Birth)
-                </td>
-                <td class="min-width-td max-width-td">
-                    @item.InsuranceContracts?.Count
-                </td>
-                <td class="min-width-td max-width-td">
-                    @item.InsuranceEvents?.Count
-                </td>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Surname)</td>
+                <td>@Html.DisplayFor(modelItem => item.Birth)</td>
+                <td class="min-width-td max-width-td">@item.InsuranceContracts?.Count</td>
+                <td class="min-width-td max-width-td">@item.InsuranceEvents?.Count</td>
                 <td class="min-width-td justify-content-around align-items-center">
                     <a asp-action="Details" asp-route-id="@item.Id">
                         <img src="~/images/detail.png" alt="Details" class="img-fluid align-middle" style="max-height: 30px;" data-bs-toggle="tooltip" title="Detail pojištěnce">
                     </a>
-
                     @if (User.IsInRoleOrHigher(UserRoles.Manager))
                     {
                         <!-- Obsah jen pro managery a výš -->
-                    <a asp-action="Edit" asp-route-id="@item.Id">
-                        <img src="~/images/edit.png" alt="Edit" class="img-fluid align-middle" style="max-height: 30px;" data-bs-toggle="tooltip" title="Editace pojištěnce">
-                    </a>
-                    <a asp-action="Delete" asp-route-id="@item.Id">
-                        <img src="~/images/delete.png" alt="Delete" class="img-fluid align-middle" style="max-height: 30px;" data-bs-toggle="tooltip" title="Smazat pojištěnce">
-                    </a>
+                        <a asp-action="Edit" asp-route-id="@item.Id">
+                            <img src="~/images/edit.png" alt="Edit" class="img-fluid align-middle" style="max-height: 30px;" data-bs-toggle="tooltip" title="Editace pojištěnce">
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">
+                            <img src="~/images/delete.png" alt="Delete" class="img-fluid align-middle" style="max-height: 30px;" data-bs-toggle="tooltip" title="Smazat pojištěnce">
+                        </a>
                     }
-                    
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<nav class="d-flex justify-content-center"  aria-label="Stránkování">
+<nav class="d-flex justify-content-center" aria-label="Stránkování">
     <ul class="pagination">
         <!-- Předchozí stránka -->
         <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
@@ -124,7 +116,6 @@
                 &laquo;
             </a>
         </li>
-
         <!-- Čísla stránek -->
         @for (var i = 1; i <= Model.TotalPages; i++)
         {
@@ -134,7 +125,6 @@
                 </a>
             </li>
         }
-
         <!-- Další stránka -->
         <li class="page-item @(Model.CurrentPage >= Model.TotalPages ? "disabled" : "")">
             <a class="page-link" href="@Url.Action("Index", new { sortOrder = Model.SortOrder, nameFilter = Model.NameFilter, surnameFilter = Model.SurnameFilter, page = Model.CurrentPage + 1 })">

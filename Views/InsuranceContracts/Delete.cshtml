@@ -9,7 +9,9 @@
 <h3>Opravdu chcete odstranit pojistnou smlouvu ?</h3>
 <div class="container">
     <hr />
+    <!-- Detaily pojistné smlouvy pro potvrzení odstranění -->
     <dl class="row">
+        <!-- Jméno a příjmení pojistníka -->
         <div class="col-12 d-flex flex-column flex-sm-row">
             <dt class="col-3 form-group p-2">
                 @Html.DisplayNameFor(model => model.Insured.Name) a @Html.DisplayNameFor(model => model.Insured.Surname)
@@ -17,6 +19,7 @@
             <dd class="col-3 form-group p-2">
                 @Html.DisplayFor(model => model.Insured.Name) @Html.DisplayFor(model => model.Insured.Surname)
             </dd>
+            <!-- Typ pojištění -->
         </div>
         <div class="col-12 d-flex flex-column flex-sm-row">
             <dt class="col-3 form-group p-2">
@@ -26,6 +29,7 @@
                 @Html.DisplayFor(model => model.Insurance.Type)
             </dd>
         </div>
+        <!-- Předmět pojištění -->
         <div class="col-12 d-flex flex-column flex-sm-row">
             <dt class="col-3 form-group p-2">
                 @Html.DisplayNameFor(model => model.NameSubject)
@@ -34,6 +38,7 @@
                 @Html.DisplayFor(model => model.NameSubject)
             </dd>
         </div>
+        <!-- Částka pojištění -->
         <div class="col-12 d-flex flex-column flex-sm-row">
             <dt class="col-3 form-group p-2">
                 @Html.DisplayNameFor(model => model.Amount)
@@ -42,6 +47,7 @@
                 @Html.DisplayFor(model => model.Amount)
             </dd>
         </div>
+        <!-- Pojištěno od -->
         <div class="col-12 d-flex flex-column flex-sm-row">
             <dt class="col-3 form-group p-2">
                 @Html.DisplayNameFor(model => model.InsuredFrom)
@@ -50,6 +56,7 @@
                 @Html.DisplayFor(model => model.InsuredFrom)
             </dd>
         </div>
+        <!-- Pojištěno do -->
         <div class="col-12 d-flex flex-column flex-sm-row">
             <dt class="col-3 form-group p-2">
                 @Html.DisplayNameFor(model => model.InsuredUntil)
@@ -62,12 +69,12 @@
 
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Vymazat" class="btn btn-danger"
+        <input type="submit" value="Vymazat" class="btn btn-danger" title="Kliknutím potvrdíte odstranění smlouvy."
                onclick="return confirm('Opravdu chcete odstranit tuto smlouvu?');" />
     </form>
 </div>
 <div class="mt-5">
-    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()">
+    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()" title="Vrátit se zpět na předchozí stránku">
         Zpět
     </button>
 </div>

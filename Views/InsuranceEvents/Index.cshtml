@@ -5,25 +5,26 @@
 }
 
 <h1>Pojistné události</h1>
-
 <p>
+    <!-- Obsah jen pro managery a výš -->
     @if (User.IsInRoleOrHigher(UserRoles.Manager))
     {
-        <!-- Obsah jen pro managery a výš -->
+        <!-- Tlačítko pro přidání nové pojistné události-->
         <div class="d-flex justify-content-center">
             <form asp-action="Create" method="get">
-                <button type="submit" class="btn btn-primary">Přidat novou událost</button>
+                <button type="submit" class="btn btn-primary" title="Přidat novou pojistnou událost">Přidat novou událost</button>
             </form>
         </div>
     }
 </p>
-
 <table class="table table-striped table-bordered">
     <thead>
         <tr class="align-middle">
+            <!-- Sloupce tabulky s možností filtrování a řazení -->
             <th>
                 @Html.DisplayNameFor(model => model.Events.First().Insured)
                 <span class="sort-arrows d-inline-flex align-items-center">
+                    <!-- Formulář pro filtraci podle příjmení pojištěné osoby -->
                     <form asp-action="Index" method="get" id="filterForm">
                         @{
                             bool surnameFilterApplied = ViewData["surnameFilterApplied"] as bool? ?? false;
@@ -32,6 +33,7 @@
                         <input type="text" id="filterInput1" class="bubble-input filter-input" onblur="applyFilter(this, 'filterValue1')" style="display:none;" placeholder="Filtr Surname..." />
                         <input type="hidden" name="surnameFilter" id="filterValue1" />
                     </form>
+                    <!-- Tlačítka pro řazení podle příjmení pojištěné osoby -->
                     <a asp-action="Index" asp-route-sortOrder="SurnameAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od nejmenšího">↑</a>
                     <a asp-action="Index" asp-route-sortOrder="SurnameDesc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od největšího">↓</a>
                 </span>
@@ -123,6 +125,7 @@
         }
     </tbody>
 </table>
+<!-- Paginace -->
 <nav class="d-flex justify-content-center" aria-label="Stránkování">
     <ul class="pagination">
         <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
@@ -130,7 +133,6 @@
                 &laquo;
             </a>
         </li>
-
         @for (var i = 1; i <= Model.TotalPages; i++)
         {
             <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
@@ -139,7 +141,6 @@
                 </a>
             </li>
         }
-
         <li class="page-item @(Model.CurrentPage >= Model.TotalPages ? "disabled" : "")">
             <a class="page-link" href="@Url.Action("Index", new { sortOrder = Model.SortOrder, surnameFilter = Model.SurnameFilter, typFilter = Model.TypFilter, detailFilter = Model.DetailFilter, page = Model.CurrentPage + 1 })">
                 &raquo;

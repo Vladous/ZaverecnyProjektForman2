@@ -13,17 +13,33 @@ using ZaverecnyProjektForman2.Models;
 
 namespace ZaverecnyProjektForman2.Controllers
 {
+    /// <summary>
+    /// Kontroler pro správu pojistných událostí.
+    /// </summary>
     public class InsuranceEventsController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-
+        /// <summary>
+        /// Inicializuje novou instanci <see cref="InsuranceEventsController"/> třídy.
+        /// </summary>
+        /// <param name="context">Kontext databáze.</param>
+        /// <param name="userManager">Správa uživatelů.</param>
         public InsuranceEventsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager; // Přidáno
         }
-
+        /// <summary>
+        /// Zobrazuje seznam pojistných událostí.
+        /// </summary>
+        /// <param name="sortOrder">Parametr pro řazení.</param>
+        /// <param name="surnameFilter">Filtr pro příjmení pojistníka.</param>
+        /// <param name="typFilter">Filtr pro typ pojištění.</param>
+        /// <param name="detailFilter">Filtr pro detail události.</param>
+        /// <param name="page">Číslo aktuální stránky.</param>
+        /// <param name="pageSize">Velikost stránky.</param>
+        /// <returns>Asynchronní operace, která vrací <see cref="IActionResult"/>.</returns>
         // GET: InsuranceEvents
         public async Task<IActionResult> Index(string sortOrder, string surnameFilter, string typFilter, string detailFilter, int page = 1, int pageSize = 10)
         {
@@ -36,13 +52,11 @@ namespace ZaverecnyProjektForman2.Controllers
             ViewData["SurnameFilterApplied"] = !string.IsNullOrEmpty(surnameFilter);
             ViewData["TypFilterApplied"] = !string.IsNullOrEmpty(typFilter);
             ViewData["DetailFilterApplied"] = !string.IsNullOrEmpty(detailFilter);
-
             var events = from s in _context.InsuranceEvents
                            .Include(i => i.InsuranceContracts)
                            .Include(i => i.Insurance)
                            .Include(i => i.Insured)
             select s;
-
             switch (sortOrder)
             {
                 case "SurnameAsc":
@@ -79,7 +93,6 @@ namespace ZaverecnyProjektForman2.Controllers
                     events = events.OrderBy(s => s.Id);
                     break;
             }
-
             if (!String.IsNullOrEmpty(surnameFilter))
             {
                 events = events.Where(s => s.Insured.Surname.Contains(surnameFilter));
@@ -92,22 +105,15 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 events = events.Where(s => s.EventDetail.Contains(detailFilter));
             }
-
             var eventsQuery = _context.InsuranceEvents
                                           .Include(i => i.InsuranceContracts)
                                           .Include(i => i.Insurance)
                                           .Include(i => i.Insured)
                                           .AsQueryable();
-
-            // Vaše stávající logika pro řazení a filtry
-
             // Počet záznamů pro stránkování
             var totalRecords = await eventsQuery.CountAsync();
             var totalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
-
-            // Data pro aktuální stránku
-            
-
+            // Data pro aktuální stránku            
             var viewModel = new InsuranceEventsIndexViewModel
             {
                 Events = events,
@@ -119,10 +125,13 @@ namespace ZaverecnyProjektForman2.Controllers
                 TypFilter = typFilter,
                 DetailFilter = detailFilter
             };
-
             return View(viewModel);
         }
-
+        /// <summary>
+        /// Zobrazuje detaily konkrétní pojistné události.
+        /// </summary>
+        /// <param name="id">Identifikátor pojistné události.</param>
+        /// <returns>Asynchronní operace, která vrací <see cref="IActionResult"/>.</returns>
         // GET: InsuranceEvents/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -130,7 +139,6 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 return NotFound();
             }
-
             var insuranceEvents = await _context.InsuranceEvents
                 .Include(i => i.Insurance)
                 .Include(i => i.Insured)
@@ -139,10 +147,13 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 return NotFound();
             }
-
             return View(insuranceEvents);
         }
-
+        /// <summary>
+        /// Zobrazuje formulář pro vytvoření nové pojistné události.
+        /// </summary>
+        /// <param name="insuredId">Volitelný identifikátor pojistníka pro předvyplnění.</param>
+        /// <returns>Akce vrací <see cref="IActionResult"/>.</returns>
         // GET: InsuranceEvents/Create
         public async Task<IActionResult> Create(int? insuredId)
         {
@@ -151,9 +162,7 @@ namespace ZaverecnyProjektForman2.Controllers
                 Id = i.Id,
                 Type = $"{i.Type}"
             }).ToList();
-
             ViewBag.InsuranceId = new SelectList(insurances, "Id", "Type");
-
             if (insuredId.HasValue)
             {
                 var insured = await _context.Insureds.FindAsync(insuredId.Value);
@@ -162,7 +171,6 @@ namespace ZaverecnyProjektForman2.Controllers
                     // Pojistník nenalezen
                     return NotFound();
                 }
-
                 ViewBag.InsuredNameSurname = $"{insured.Name} {insured.Surname}";
                 ViewBag.InsuredId = new SelectList(new[] { insured }.Select(i => new
                 {
@@ -178,11 +186,13 @@ namespace ZaverecnyProjektForman2.Controllers
                     NameSurname = $"{i.Name} {i.Surname}"
                 }), "Id", "NameSurname");
             }
-
             return View();
         }
-
-
+        /// <summary>
+        /// Zpracuje data formuláře pro vytvoření nové pojistné události.
+        /// </summary>
+        /// <param name="insuranceEvents">Data pojistné události.</param>
+        /// <returns>Asynchronní operace, která vrací <see cref="IActionResult"/>.</returns>
         // POST: InsuranceEvents/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -200,7 +210,11 @@ namespace ZaverecnyProjektForman2.Controllers
             ViewData["InsuredId"] = new SelectList(_context.Insureds, "Id", "Id", insuranceEvents.InsuredId);
             return View(insuranceEvents);
         }
-
+        /// <summary>
+        /// Zobrazuje formulář pro úpravu pojistné události.
+        /// </summary>
+        /// <param name="id">Identifikátor pojistné události.</param>
+        /// <returns>Asynchronní operace, která vrací <see cref="IActionResult"/>.</returns>
         // GET: InsuranceEvents/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -208,31 +222,31 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 return NotFound();
             }
-
             var insuranceEvents = await _context.InsuranceEvents.FindAsync(id);
             if (insuranceEvents == null)
             {
                 return NotFound();
             }
-
             var insureds = _context.Insureds.Select(i => new
             {
                 Id = i.Id,
                 NameSurname = $"{i.Name} {i.Surname}"
             }).ToList();
-
             var insurances = _context.InsuranceContracts.Select(i => new
             {
                 Id = i.Id,
-                InsuranceType = $"{i.Insurance.Type} + {i.NameSubject}" // Předpokládám, že máte vlastnosti Type a NameSubject ve vaší třídě Insurance
+                InsuranceType = $"{i.Insurance.Type} - {i.NameSubject}" // Předpokládám, že máte vlastnosti Type a NameSubject ve vaší třídě Insurance
             }).ToList();
-
-
             ViewData["InsuranceId"] = new SelectList(insurances, "Id", "InsuranceType", insuranceEvents.InsuranceId);
             ViewData["InsuredId"] = new SelectList(insureds, "Id", "NameSurname", insuranceEvents.InsuredId);
             return View(insuranceEvents);
         }
-
+        /// <summary>
+        /// Zpracuje data formuláře pro úpravu pojistné události.
+        /// </summary>
+        /// <param name="id">Identifikátor pojistné události.</param>
+        /// <param name="insuranceEvents">Aktualizovaná data pojistné události.</param>
+        /// <returns>Asynchronní operace, která vrací <see cref="IActionResult"/>.</returns>
         // POST: InsuranceEvents/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -244,7 +258,6 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 return NotFound();
             }
-
             if (ModelState.IsValid)
             {
                 try
@@ -269,7 +282,11 @@ namespace ZaverecnyProjektForman2.Controllers
             ViewData["InsuredId"] = new SelectList(_context.Insureds, "Id", "Id", insuranceEvents.InsuredId);
             return View(insuranceEvents);
         }
-
+        /// <summary>
+        /// Zobrazuje potvrzení smazání pojistné události.
+        /// </summary>
+        /// <param name="id">Identifikátor pojistné události.</param>
+        /// <returns>Asynchronní operace, která vrací <see cref="IActionResult"/>.</returns>
         // GET: InsuranceEvents/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -277,7 +294,6 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 return NotFound();
             }
-
             var insuranceEvents = await _context.InsuranceEvents
                 .Include(i => i.Insurance)
                 .Include(i => i.Insured)
@@ -286,10 +302,13 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 return NotFound();
             }
-
             return View(insuranceEvents);
         }
-
+        /// <summary>
+        /// Zpracuje smazání pojistné události.
+        /// </summary>
+        /// <param name="id">Identifikátor pojistné události.</param>
+        /// <returns>Asynchronní operace, která vrací <see cref="IActionResult"/>.</returns>
         // POST: InsuranceEvents/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -300,11 +319,14 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 _context.InsuranceEvents.Remove(insuranceEvents);
             }
-
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
+        /// <summary>
+        /// Kontroluje, zda pojistná událost existuje.
+        /// </summary>
+        /// <param name="id">Identifikátor pojistné události.</param>
+        /// <returns>Pravda, pokud pojistná událost existuje; jinak nepravda.</returns>
         private bool InsuranceEventsExists(int id)
         {
             return _context.InsuranceEvents.Any(e => e.Id == id);

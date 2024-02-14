@@ -5,7 +5,6 @@
 }
 
 <h1>Vyvtořit typ pojištění</h1>
-
 <div class="row mt-2">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -17,14 +16,14 @@
                 <small class="form-text text-muted small-text">Název nového typu pojištění.</small>
             </div>
             <div class="form-group mt-4">
-                <input type="submit" value="Uložit" class="btn btn-primary" />
+                <input type="submit" value="Uložit" class="btn btn-primary" title="Uložit nový typ pojištění" />
             </div>
         </form>
     </div>
 </div>
 
 <div class="mt-5">
-    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()">
+    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()" title="Vrátit se zpět na předchozí stránku bez uložení">
         Zpět
     </button>
 </div>

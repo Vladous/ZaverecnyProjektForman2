@@ -3,19 +3,25 @@
 @inject UserManager<ApplicationUser> UserManager
 
 <ul class="navbar-nav">
+    @* Zkontroluje, zda je uživatel přihlášen *@
     @if (SignInManager.IsSignedIn(User))
     {
+        @* Dropdown menu pro přihlášeného uživatele *@
         <li class="nav-item dropdown me-5">
             <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                @* Zobrazí jméno přihlášeného uživatele *@
                 @User.Identity?.Name
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" asp-controller="Account" asp-action="UserDetails">Detaily uživatele</a></li>
-                <li><a class="dropdown-item" asp-controller="Account" asp-action="Register" method="post">Registerace</a></li>
+                @* Odkaz na detaily uživatele *@
+                <li><a class="dropdown-item" asp-controller="Account" asp-action="UserDetails" title="Zobrazit detaily uživatele">Detaily uživatele</a></li>
+                @* Odkaz na registraci nového uživatele - zobrazen pouze pro adminy nebo role s oprávněním *@
+                <li><a class="dropdown-item" asp-controller="Account" asp-action="Register" method="post" title="Registrovat nového uživatele">Registerace</a></li>
                 <li><hr class="dropdown-divider"></li>
+                @* Tlačítko pro odhlášení *@
                 <li>
                     <form asp-controller="Account" asp-action="Logout" method="post">
-                        <button type="submit" class="dropdown-item">Odhlášení</button>
+                        <button type="submit" class="dropdown-item" title="Odhlásit se z aplikace">Odhlášení</button>
                     </form>
                 </li>
             </ul>
@@ -23,10 +29,14 @@
     }
     else
     {
+        @* Odkaz na registraci je zakomentován, možno odkomentovat pokud je povolena registrace nových uživatelů *@
         @* <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Account" asp-action="Register" method="post">Registerace</a>
-        </li> *@
+    <a class="nav-link text-dark" asp-controller="Account" asp-action="Register" method="post" title="Registrovat nového uživatele">Registerace</a>
+    </li> *@
+
+        @* Odkaz na přihlášení uživatele *@
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Account" asp-action="Login" method="post">Přihlášení</a>
+            <a class="nav-link text-dark" asp-controller="Account" asp-action="Login" method="post" title="Přihlásit se do aplikace">Přihlášení</a>
         </li>
     }
+</ul>

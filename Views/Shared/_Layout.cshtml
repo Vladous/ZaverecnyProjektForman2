@@ -9,39 +9,43 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/ZaverecnyProjektForman2.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @* Styly pro dark-mode, potřeba doladit barevné schéma *@
+    @* <link rel="stylesheet" href="~/css/site-dark.css" asp-append-version="true" /> *@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
 
 </head>
 <body>
     <header>
+        <!-- Navigační lišta s responsivním designem -->
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PojištěníApp</a>
+                <!-- Značka aplikace a odkaz na domovskou stránku -->
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" title="Domovská stránka PojištěníApp">PojištěníApp</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+                        <!-- Obsah jen pro viewer a výš -->
                         @if (User.IsInRoleOrHigher(UserRoles.Viewer))
                         {
-                            <!-- Obsah jen pro managery a výš -->
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Insureds" asp-action="Index">Pojištěnci</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Insureds" asp-action="Index" title="Seznam pojištěnců">Pojištěnci</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="InsuranceContracts" asp-action="Index">Smlouvy</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="InsuranceContracts" asp-action="Index" title="Seznam pojistných smlouv">Smlouvy</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="InsuranceEvents" asp-action="Index">Události</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="InsuranceEvents" asp-action="Index" title="Seznam pojistných událostí">Události</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Insurances" asp-action="Index">Pojištění</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Insurances" asp-action="Index" title="Seznam typů pojištění">Pojištění</a>
                             </li>
                         }
-
+                        <!-- O aplikaci - Všeobecný odkaz dostupný všem uživatelům -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">O aplikaci</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About" title="O aplikaci Pojištění">O aplikaci</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -50,22 +54,12 @@
         </nav>
     </header>
     <div class="container">
+        <!-- Zpráva o úspěchu z TempData, pokud existuje -->
         @if (TempData["SuccessMessage"] != null)
         {
             <div class="alert alert-success" role="alert" id="success-alert">
                 @TempData["SuccessMessage"]
             </div>
-
-            <script type="text/javascript">
-                window.addEventListener('DOMContentLoaded', (event) => {
-                    setTimeout(function () {
-                        var alert = document.getElementById('success-alert');
-                        if (alert != null) {
-                            alert.style.display = 'none';
-                        }
-                    }, 5000); // Zpráva se skryje po 5 sekundách
-                });
-            </script>
         }
     </div>
     <div class="container">
@@ -73,12 +67,13 @@
             @RenderBody()
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - PojištěníApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Zásady ochrany osobních údajů</a>
+            <!-- Informace o autorských právech a odkaz na zásady ochrany osobních údajů -->
+            &copy; 2024 - PojištěníApp - <a asp-area="" asp-controller="Home" asp-action="Privacy" title="Zobrazit zásady ochrany osobních údajů">Zásady ochrany osobních údajů</a>
         </div>
     </footer>
+    <!-- Skripty pro funkcionalitu Bootstrap a vlastní skripty -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

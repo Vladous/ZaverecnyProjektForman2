@@ -5,7 +5,6 @@
 }
 
 <h1>@Html.DisplayFor(model => model.Insurance.Type) - @Html.DisplayFor(model => model.NameSubject)</h1>
-
 <div class="container">
     <hr />
     <dl class="row">
@@ -75,23 +74,20 @@
         </div>
     </dl>
 </div>
-
+<!-- Obsah jen pro managery a výš -->
 @if (User.IsInRoleOrHigher(UserRoles.Manager))
 {
-    <!-- Obsah jen pro managery a výš -->
     <div class="d-flex justify-content-center pt-5">
         <form asp-action="Edit" asp-route-id="@Model?.Id" method="get" class="me-2">
-            <button type="submit" class="btn btn-warning btn-novy-pojistenec">Upravit pojištění</button>
+            <button type="submit" class="btn btn-warning btn-novy-pojistenec" title="Upravit detaily pojištění">Upravit pojištění</button>
         </form>
-        <form asp-action="Delete" asp-route-id="@Model?.Id" method="get">
+        <form asp-action="Delete" asp-route-id="@Model?.Id" method="get" title="Smazat toto pojištění">
             <button type="submit" class="btn btn-danger btn-novy-pojistenec">Smazat pojištění</button>
         </form>
     </div>
 }
-
-
 <div class="mt-5">
-    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()">
+    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()" title="Vrátit se zpět na předchozí stránku">
         Zpět
     </button>
 </div>

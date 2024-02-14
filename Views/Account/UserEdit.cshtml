@@ -5,65 +5,62 @@
 }
 
 <h2>@ViewData["Title"]</h2>
-
 <form asp-action="UserEdit" method="post">
     <input type="hidden" asp-for="UserId" />
-
+    <!-- Uživatelské jméno -->
     <div class="form-group">
         <label asp-for="UserName" class="control-label"></label>
-        <input asp-for="UserName" class="form-control" readonly/>
+        <input asp-for="UserName" class="form-control" readonly title="Uživatelské jméno je neměnné." />
         <span asp-validation-for="UserName" class="text-danger"></span>
         <small class="form-text text-muted small-text">Zadejte uživatelské jméno.</small>
     </div>
-
+    <!-- E-mail -->
     <div class="form-group">
         <label asp-for="Email" class="control-label"></label>
-        <input asp-for="Email" class="form-control" />
+        <input asp-for="Email" class="form-control" placeholder="Zadejte e-mail" title="Zadejte platnou e-mailovou adresu." />
         <span asp-validation-for="Email" class="text-danger"></span>
         <small class="form-text text-muted small-text">Zadejte e-mail.</small>
     </div>
-
+    <!-- Aktuální heslo -->
     <div class="form-group">
         <label asp-for="Password" class="control-label">Aktuální heslo (pro potvrzení změn)</label>
-        <input asp-for="Password" class="form-control" type="password" />
+        <input asp-for="Password" class="form-control" type="password" placeholder="Zadejte aktuální heslo" title="Zadejte aktuální heslo pro ověření identity." />
         <span asp-validation-for="Password" class="text-danger"></span>
-        <small class="form-text text-muted small-text">Zadejte heslo.</small>
+        <small class="form-text text-muted small-text">Zadejte aktuální heslo.</small>
     </div>
-
+    <!-- Nové heslo -->
     <div class="form-group">
         <label asp-for="NewPassword" class="control-label"></label>
-        <input asp-for="NewPassword" class="form-control" type="password" data-val="false" />
+        <input asp-for="NewPassword" class="form-control" type="password" data-val="false" type="password" placeholder="Zadejte nové heslo" title="Zadejte nové heslo." />
         <span asp-validation-for="NewPassword" class="text-danger"></span>
         <small class="form-text text-muted small-text">Zadejte nové heslo.</small>
     </div>
-
+    <!-- Potvrzení nového hesla -->
     <div class="form-group">
         <label asp-for="ConfirmNewPassword" class="control-label"></label>
-        <input asp-for="ConfirmNewPassword" class="form-control" type="password" data-val="false" />
+        <input asp-for="ConfirmNewPassword" class="form-control" type="password" data-val="false" placeholder="Zadejte nové heslo znovu" title="Zadejte nové heslo znovu pro jeho potvrzení." />
         <span asp-validation-for="ConfirmNewPassword" class="text-danger"></span>
-        <small class="form-text text-muted small-text">Zadejte nové heslo znovu.</small>
+        <small class="form-text text-muted small-text">Zadejte znovu nové heslo pro ověření.</small>
     </div>
-
+    <!-- Roli nelze změnit přímo, zobrazí se aktuální -->
     <div class="form-group">
         <label asp-for="Role" class="control-label"></label>
-        <select asp-for="Role" class="form-control" asp-items="@(new SelectList(ViewBag.Roles, "Value", "Text", Model.Role))" disabled>
+        <select asp-for="Role" class="form-control" asp-items="@(new SelectList(ViewBag.Roles, "Value", "Text", Model.Role))" disabled title="Role uživatele nelze v tomto formuláři měnit.">
             <option value="">Vyberte roli...</option>
         </select>
         <span asp-validation-for="Role" class="text-danger"></span>
         <small class="form-text text-muted small-text">Přístupová práva.</small>
         <input asp-for="Role" type="hidden" />
     </div>
-
     <div class="form-group mt-4">
-        <input type="submit" value="Uložit změny" class="btn btn-primary" />
+        <input type="submit" value="Uložit změny" class="btn btn-primary" title="Uložte provedené změny." />
     </div>
 </form>
 <div class="mt-5">
-    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()">
+    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()" title="Vrátit se zpět předchozí stránku.">
         Zpět
     </button>
 </div>
-
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

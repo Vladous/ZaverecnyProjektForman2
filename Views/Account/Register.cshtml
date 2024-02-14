@@ -7,57 +7,58 @@
 <div class="row">
     <div class="col-4">
         <form class="d-flex flex-column gap-2" asp-route-returnUrl="@ViewData["ReturnUrl"]">
-            <div asp-validation-summary="All" class="text-danger"></div>           
-            
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <!-- Výběr role uživatele -->
             <div class="form-group">
                 <label asp-for="Role" class="control-label"></label>
-                <select asp-for="Role" class="form-control" asp-items="ViewBag.Roles">
+                <select asp-for="Role" class="form-control" asp-items="ViewBag.Roles" title="Vyberte roli uživatele.">
                     <option value="">Vyberte roli...</option>
                 </select>
                 <span asp-validation-for="Role" class="text-danger"></span>
                 <small class="form-text text-muted small-text">Přístupová práva.</small>
                 <span asp-validation-for="Role" class="text-danger"></span>
-                <small class="form-text text-muted small-text">Vyberte přístupová práva.</small>
+                <small class="form-text text-muted small-text">Vyberte přístupová práva pro uživatele.</small>
             </div>
+            <!-- Pole pro zadání uživatelského jména -->
             <div class="form-group">
                 <label asp-for="UserName" class="form-label"></label>
-                <input asp-for="UserName" class="form-control" autocomplete="new-username" />
+                <input asp-for="UserName" class="form-control" placeholder="Zadejte uživatelské jméno..." autocomplete="new-username" title="Zadejte unikátní uživatelské jméno." />
                 <span asp-validation-for="UserName" class="text-danger"></span>
                 <small class="form-text text-muted small-text">Zadejte uživatelské jméno.</small>
             </div>
+            <!-- Pole pro e-mail -->
             <div class="form-group">
                 <label asp-for="Email" class="form-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control" placeholder="Zadejte e-mail..." title="Zadejte platný e-mail." />
                 <span asp-validation-for="Email" class="text-danger"></span>
                 <small class="form-text text-muted small-text">Zadejte e-mail.</small>
             </div>
+            <!-- Pole pro heslo -->
             <div class="form-group">
                 <label asp-for="Password" class="form-label"></label>
-                <input asp-for="Password" class="form-control" autocomplete="new-password" />
+                <input asp-for="Password" class="form-control" placeholder="Zadejte heslo..." autocomplete="new-password" title="Zadejte heslo." />
                 <span asp-validation-for="Password" class="text-danger"></span>
                 <small class="form-text text-muted small-text">Zadejte heslo.</small>
             </div>
+            <!-- Pole pro potvrzení hesla -->
             <div class="form-group mb-3">
                 <label asp-for="ConfirmPassword" class="form-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
+                <input asp-for="ConfirmPassword" class="form-control" placeholder="Potvrďte heslo..." title="Potvrďte zadané heslo." />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 <small class="form-text text-muted small-text">Potvrďte zadané heslo.</small>
             </div>
+            <!-- Tlačítko pro registraci -->
             <div class="form-group">
-                <button type="submit" class="btn btn-primary clanky-tlacitko">Registrovat</button>
+                <button type="submit" class="btn btn-primary clanky-tlacitko" title="Dokončete registraci.">Registrovat</button>
             </div>
         </form>
     </div>
 </div>
-
 <div class="mt-5">
-    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()">
+    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()" title="Vrátit se zpět na předchozí stránku.">
         Zpět
     </button>
 </div>
-
-
-
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

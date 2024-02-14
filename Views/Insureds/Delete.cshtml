@@ -9,9 +9,10 @@
 <h3>Opravdu chcete odstranit pojištěnce?</h3>
 <div class="container">
     <hr />
+    <!-- Zobrazení detailů pojištěnce před jeho smazáním -->
     <dl class="row">
         <div class="col-12 d-flex flex-column flex-sm-row">
-            <dt class="col-2 form-group p-2">
+            <dt class="col-2 form-group p-2" title="Jméno pojištěnce">
                 Jméno
             </dt>
             <dd class="col-2 form-group p-2">
@@ -19,7 +20,7 @@
             </dd>
         </div>
         <div class="col-12 d-flex flex-column flex-sm-row">
-            <dt class="col-2 form-group p-2">
+            <dt class="col-2 form-group p-2" title="Příjmení pojištěnce">
                 Příjmení
             </dt>
             <dd class="col-2 form-group p-2">
@@ -27,7 +28,7 @@
             </dd>
         </div>
         <div class="col-12 d-flex flex-column flex-sm-row">
-            <dt class="col-2 form-group p-2">
+            <dt class="col-2 form-group p-2" title="Datum narození pojištěnce">
                 Datum narození
             </dt>
             <dd class="col-2 form-group p-2">
@@ -35,7 +36,7 @@
             </dd>
         </div>
         <div class="col-12 d-flex flex-column flex-sm-row">
-            <dt class="col-2 form-group p-2">
+            <dt class="col-2 form-group p-2" title="Email pojištěnce">
                 E-mail
             </dt>
             <dd class="col-2 form-group p-2">
@@ -43,7 +44,7 @@
             </dd>
         </div>
         <div class="col-12 d-flex flex-column flex-sm-row">
-            <dt class="col-2 form-group p-2">
+            <dt class="col-2 form-group p-2" title="Ulice a číslo domu bydliště pojištěnce">
                 Ulice
             </dt>
             <dd class="col-2 form-group p-2">
@@ -51,7 +52,7 @@
             </dd>
         </div>
         <div class="col-12 d-flex flex-column flex-sm-row">
-            <dt class="col-2 form-group p-2">
+            <dt class="col-2 form-group p-2" title="Město bydliště pojištěnce">
                 Město
             </dt>
             <dd class="col-2 form-group p-2">
@@ -59,7 +60,7 @@
             </dd>
         </div>
         <div class="col-12 d-flex flex-column flex-sm-row">
-            <dt class="col-2 form-group p-2">
+            <dt class="col-2 form-group p-2" title="PSČ bydliště pojištěnce">
                 PSČ
             </dt>
             <dd class="col-2 form-group p-2">
@@ -67,7 +68,7 @@
             </dd>
         </div>
         <div class="col-12 d-flex flex-column flex-sm-row">
-            <dt class="col-2 form-group p-2">
+            <dt class="col-2 form-group p-2" title="Telefonnní číslo pojištěnce">
                 Telefon
             </dt>
             <dd class="col-2 form-group p-2">
@@ -80,11 +81,11 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Vymazat" class="btn btn-danger"
-               onclick="return confirm('Opravdu chcete odstranit pojištěnce?');" />
+               onclick="return confirm('Opravdu chcete odstranit pojištěnce?');" title="Kliknutím potvrdíte odstranění pojištěnce." />
     </form>
 </div>
 <div class="mt-5">
-    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()">
+    <button class="btn btn-outline-secondary btn-zpet" onclick="history.back()" title="Návrat zpět bez uložení.">
         Zpět
     </button>
 </div>
