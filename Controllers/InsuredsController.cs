@@ -50,7 +50,6 @@ namespace ZaverecnyProjektForman2.Controllers
                            .Include(i => i.InsuranceContracts)
                            .Include(i => i.InsuranceEvents)
                            select s;
-
             switch (sortOrder)
             {
                 case "NameDesc":
@@ -84,7 +83,6 @@ namespace ZaverecnyProjektForman2.Controllers
                     insureds = insureds.OrderBy(s => s.Name);
                     break;
             }
-
             if (!String.IsNullOrEmpty(nameFilter))
             {
                 insureds = insureds.Where(s => s.Name.Contains(nameFilter));
@@ -93,20 +91,16 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 insureds = insureds.Where(s => s.Surname.Contains(surnameFilter));
             }
-
             // Počítání celkového počtu záznamů po aplikaci filtrů
             var count = await insureds.CountAsync();
-
             // Výpočet celkového počtu stránek
             var totalPages = (int)Math.Ceiling(count / (double)pageSize);
-
             // Získání stránkových dat
             var items = await insureds
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .AsNoTracking()
                 .ToListAsync();
-
             // Předání dat do view
             var viewModel = new InsuredsIndexViewModel
             {
@@ -118,9 +112,6 @@ namespace ZaverecnyProjektForman2.Controllers
                 TotalPages = totalPages,
                 PageSize = pageSize
             };
-
-
-
             return View(viewModel);
         }
         /// <summary>
@@ -135,22 +126,16 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 return NotFound();
             }
-
             var insured = await _context.Insureds
             .Include(i => i.InsuranceContracts)
             .ThenInclude(ic => ic.Insurance) // Přidáno pro zahrnutí detailů o pojištění
             .Include(i => i.InsuranceEvents)
             .ThenInclude(ic => ic.Insurance) // Přidáno pro zahrnutí detailů o pojistných událostech
-            //.Include(i => i.UserCreated) // Přidáno pro zahrnutí informací o uživateli, který vytvořil záznam
-            //.Include(i => i.UserLastChanged) // Přidáno pro zahrnutí informací o uživateli, který naposledy změnil záznam
             .FirstOrDefaultAsync(m => m.Id == id);
-
-
             if (insured == null)
             {
                 return NotFound();
             }
-
             return View(insured);
         }
         /// <summary>
@@ -197,6 +182,7 @@ namespace ZaverecnyProjektForman2.Controllers
 
                 _context.Add(insured);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Pojištěnec úspěšně přidán"; // Uložení zprávy o úspěchu
                 return RedirectToAction(nameof(Index));
             }
             return View(insured);
@@ -213,7 +199,6 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 return NotFound();
             }
-
             var insured = await _context.Insureds.FindAsync(id);
             if (insured == null)
             {
@@ -253,11 +238,6 @@ namespace ZaverecnyProjektForman2.Controllers
                         PhoneNumber = user.PhoneNumber,
                         RegistrationDate = user.RegistrationDate
                     };
-
-
-
-
-
                     insured.UserLastChanged = currentUser;
                 }
                 try
@@ -276,6 +256,7 @@ namespace ZaverecnyProjektForman2.Controllers
                         throw;
                     }
                 }
+                TempData["SuccessMessage"] = "Pojištěnec úspěšně upraven"; // Uložení zprávy o úspěchu
                 return RedirectToAction(nameof(Index));
             }
             return View(insured);
@@ -319,6 +300,7 @@ namespace ZaverecnyProjektForman2.Controllers
             }
 
             await _context.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Pojištěnec úspěšně odstraněn"; // Uložení zprávy o úspěchu
             return RedirectToAction(nameof(Index));
         }
         /// <summary>

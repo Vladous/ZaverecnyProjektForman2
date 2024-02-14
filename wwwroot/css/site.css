@@ -139,4 +139,13 @@ ul li {
     .bubble-input.hidden {
         display: none;
     }
+/* Úprava výšky oznámení o úspìchu */
+
+#success-alert {
+    padding: 2px;
+    align-items: center;
+    text-align: center;
+    height: 30px; /* Nastavte požadovanou výšku */
+    overflow: auto; /* Pøidáno pro pøípad, že obsah pøesáhne nastavenou výšku */
+}
 

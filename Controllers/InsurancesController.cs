@@ -149,6 +149,7 @@ namespace ZaverecnyProjektForman2.Controllers
                 }
                 _context.Add(insurance);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Typ pojištění úspěšně přidán"; // Uložení zprávy o úspěchu
                 return RedirectToAction(nameof(Index));
             }
             return View(insurance);
@@ -207,6 +208,7 @@ namespace ZaverecnyProjektForman2.Controllers
                         throw;
                     }
                 }
+                TempData["SuccessMessage"] = "Typ pojištění úspěšně upraven"; // Uložení zprávy o úspěchu
                 return RedirectToAction(nameof(Index));
             }
             return View(insurance);
@@ -247,6 +249,7 @@ namespace ZaverecnyProjektForman2.Controllers
                 _context.Insurances.Remove(insurance);
             }
             await _context.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Typ pojištění úspěšně odstraněn"; // Uložení zprávy o úspěchu
             return RedirectToAction(nameof(Index));
         }
         /// <summary>

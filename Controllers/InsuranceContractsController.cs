@@ -209,6 +209,7 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 _context.Add(insuranceContracts);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Pojistná smlouva byla úspěšně vytvořena"; // Uložení zprávy o úspěchu
                 return RedirectToAction(nameof(Index));
             }
             ViewData["InsuranceId"] = new SelectList(_context.Insurances, "Id", "Id", insuranceContracts.InsuranceId);
@@ -281,6 +282,7 @@ namespace ZaverecnyProjektForman2.Controllers
                         throw;
                     }
                 }
+                TempData["SuccessMessage"] = "Pojistná smlouva byla úspěšně upravena"; // Uložení zprávy o úspěchu
                 return RedirectToAction(nameof(Index));
             }
             ViewData["InsuranceId"] = new SelectList(_context.Insurances, "Id", "Id", insuranceContracts.InsuranceId);
@@ -325,6 +327,7 @@ namespace ZaverecnyProjektForman2.Controllers
                 _context.InsuranceContracts.Remove(insuranceContracts);
             }
             await _context.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Pojistná smlouva byla úspěšně odstraněna"; // Uložení zprávy o úspěchu
             return RedirectToAction(nameof(Index));
         }
         /// <summary>

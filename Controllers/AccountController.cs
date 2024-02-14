@@ -75,8 +75,10 @@ namespace ZaverecnyProjektForman2.Controllers
                     await signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
 
                 if (result.Succeeded)
+                {
+                    TempData["SuccessMessage"] = "Úspěšné přihlášení"; // Uložení zprávy o úspěchu
                     return RedirectToLocal(returnUrl);
-
+                }
                 ModelState.AddModelError("Login error", "Neplatné přihlašovací údaje.");
                 return View(model);
             }
@@ -134,6 +136,7 @@ namespace ZaverecnyProjektForman2.Controllers
                     if (roleAssignResult.Succeeded)
                     {
                         await signInManager.SignInAsync(user, isPersistent: false);
+                        TempData["SuccessMessage"] = "Registrace proběhla úspěšně."; // Uložení zprávy o úspěchu
                         return RedirectToLocal(returnUrl);
                     }
                 }
@@ -158,6 +161,7 @@ namespace ZaverecnyProjektForman2.Controllers
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
+            TempData["SuccessMessage"] = "Uživatel odhlášen."; // Uložení zprávy o úspěchu
             return RedirectToLocal(null);
         }
         /// <summary>

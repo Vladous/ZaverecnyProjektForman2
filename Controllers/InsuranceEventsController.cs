@@ -204,6 +204,7 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 _context.Add(insuranceEvents);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Pojistná událost úspěšně vytvořena"; // Uložení zprávy o úspěchu
                 return RedirectToAction(nameof(Index));
             }
             ViewData["InsuranceId"] = new SelectList(_context.Insurances, "Id", "Id", insuranceEvents.InsuranceId);
@@ -222,24 +223,24 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 return NotFound();
             }
-            var insuranceEvents = await _context.InsuranceEvents.FindAsync(id);
-            if (insuranceEvents == null)
+            var insuranceEvent = await _context.InsuranceEvents.FindAsync(id);
+            if (insuranceEvent == null)
             {
                 return NotFound();
             }
-            var insureds = _context.Insureds.Select(i => new
+            var insurancesList = _context.Insurances.Select(ins => new
             {
-                Id = i.Id,
-                NameSurname = $"{i.Name} {i.Surname}"
+                Id = ins.Id,
+                Type = ins.Type
             }).ToList();
-            var insurances = _context.InsuranceContracts.Select(i => new
+            ViewBag.InsuranceId = new SelectList(insurancesList, "Id", "Type", insuranceEvent.InsuranceId);
+            var insuredsList = _context.Insureds.Select(ins => new
             {
-                Id = i.Id,
-                InsuranceType = $"{i.Insurance.Type} - {i.NameSubject}" // Předpokládám, že máte vlastnosti Type a NameSubject ve vaší třídě Insurance
+                Id = ins.Id,
+                NameSurname = $"{ins.Name} {ins.Surname}"
             }).ToList();
-            ViewData["InsuranceId"] = new SelectList(insurances, "Id", "InsuranceType", insuranceEvents.InsuranceId);
-            ViewData["InsuredId"] = new SelectList(insureds, "Id", "NameSurname", insuranceEvents.InsuredId);
-            return View(insuranceEvents);
+            ViewBag.InsuredId = new SelectList(insuredsList, "Id", "NameSurname", insuranceEvent.InsuredId);
+            return View(insuranceEvent);
         }
         /// <summary>
         /// Zpracuje data formuláře pro úpravu pojistné události.
@@ -252,22 +253,25 @@ namespace ZaverecnyProjektForman2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,InsuredId,InsuranceId,EventDetail,FulfillmentAmount,FulfillmentDate,CreationDate,LastChange,EventsCount")] InsuranceEvents insuranceEvents)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,InsuredId,InsuranceId,EventDetail,FulfillmentAmount,FulfillmentDate,CreationDate,LastChange,EventsCount")] InsuranceEvents insuranceEvent)
         {
-            if (id != insuranceEvents.Id)
+            if (id != insuranceEvent.Id)
             {
                 return NotFound();
             }
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(insuranceEvents);
+                    _context.Update(insuranceEvent);
                     await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Pojistná událost úspěšně upravena";
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!InsuranceEventsExists(insuranceEvents.Id))
+                    if (!InsuranceEventExists(insuranceEvent.Id))
                     {
                         return NotFound();
                     }
@@ -276,11 +280,15 @@ namespace ZaverecnyProjektForman2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["InsuranceId"] = new SelectList(_context.Insurances, "Id", "Id", insuranceEvents.InsuranceId);
-            ViewData["InsuredId"] = new SelectList(_context.Insureds, "Id", "Id", insuranceEvents.InsuredId);
-            return View(insuranceEvents);
+            // Příprava SelectListů pro zobrazení ve view, stejně jako v metodě GET
+            ViewData["InsuranceId"] = new SelectList(_context.Insurances, "Id", "Type", insuranceEvent.InsuranceId);
+            ViewData["InsuredId"] = new SelectList(_context.Insureds, "Id", "NameSurname", insuranceEvent.InsuredId);
+            return View(insuranceEvent);
+        }
+        private bool InsuranceEventExists(int id)
+        {
+            return _context.InsuranceEvents.Any(e => e.Id == id);
         }
         /// <summary>
         /// Zobrazuje potvrzení smazání pojistné události.
@@ -320,6 +328,7 @@ namespace ZaverecnyProjektForman2.Controllers
                 _context.InsuranceEvents.Remove(insuranceEvents);
             }
             await _context.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Pojistná událost úspěšně odstraněna"; // Uložení zprávy o úspěchu
             return RedirectToAction(nameof(Index));
         }
         /// <summary>
