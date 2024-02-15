@@ -130,10 +130,10 @@
                                     @if (User.IsInRoleOrHigher(UserRoles.Manager))
                                     {
                                         <!-- Obsah jen pro managery a výš -->
-                                        <a asp-action="Edit" asp-controller="InsuranceContracts" asp-route-id="@contract.Id">
+                                        <a asp-action="Edit" asp-controller="InsuranceEvents" asp-route-id="@contract.Id">
                                             <img src="~/images/edit.png" alt="Edit" class="img-fluid align-middle" style="max-height: 30px;">
                                         </a>
-                                        <a asp-action="Delete" asp-controller="InsuranceContracts" asp-route-id="@contract.Id">
+                                        <a asp-action="Delete" asp-controller="InsuranceEvents" asp-route-id="@contract.Id">
                                             <img src="~/images/delete.png" alt="Delete" class="img-fluid align-middle" style="max-height: 30px;">
                                         </a>
                                     }

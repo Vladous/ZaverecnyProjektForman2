@@ -268,6 +268,9 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 try
                 {
+                    var insuranceContractsInDb = await _context.InsuranceContracts.AsNoTracking().FirstOrDefaultAsync(i => i.Id == id);
+                    insuranceContracts.CreationDate = insuranceContractsInDb.CreationDate; // Přiřazení původní hodnoty CreationDate
+                    insuranceContracts.LastChange = DateTime.Now;
                     _context.Update(insuranceContracts);
                     await _context.SaveChangesAsync();
                 }

@@ -253,7 +253,7 @@ namespace ZaverecnyProjektForman2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,InsuredId,InsuranceId,EventDetail,FulfillmentAmount,FulfillmentDate,CreationDate,LastChange,EventsCount")] InsuranceEvents insuranceEvent)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,InsuredId,InsuranceId,EventDetail,FulfillmentAmount,FulfillmentDate,LastChange,EventsCount")] InsuranceEvents insuranceEvent)
         {
             if (id != insuranceEvent.Id)
             {
@@ -264,6 +264,9 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 try
                 {
+                    var insuranceEventInDb = await _context.InsuranceEvents.AsNoTracking().FirstOrDefaultAsync(i => i.Id == id);
+                    insuranceEvent.CreationDate = insuranceEventInDb.CreationDate; // Přiřazení původní hodnoty CreationDate
+                    insuranceEvent.LastChange = DateTime.Now;
                     _context.Update(insuranceEvent);
                     await _context.SaveChangesAsync();
                     TempData["SuccessMessage"] = "Pojistná událost úspěšně upravena";

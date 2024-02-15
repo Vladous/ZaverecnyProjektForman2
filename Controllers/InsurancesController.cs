@@ -45,7 +45,7 @@ namespace ZaverecnyProjektForman2.Controllers
             ViewData["SurnameSortParm"] = sortOrder == "Surname" ? "surname_desc" : "Surname";
             ViewData["TypFilterApplied"] = !string.IsNullOrEmpty(typFilter);
             var insurances = from s in _context.Insurances
-                         select s;
+                             select s;
             switch (sortOrder)
             {
                 case "SurnameAsc":
@@ -184,7 +184,7 @@ namespace ZaverecnyProjektForman2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,CreationDate,LastChange")] Insurance insurance)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type, LastChange")] Insurance insurance)
         {
             if (id != insurance.Id)
             {
@@ -194,7 +194,11 @@ namespace ZaverecnyProjektForman2.Controllers
             {
                 try
                 {
+                    var insuranceInDb = await _context.Insurances.AsNoTracking().FirstOrDefaultAsync(i => i.Id == id);
+                    insurance.CreationDate = insuranceInDb.CreationDate; // Přiřazení původní hodnoty CreationDate
+                    insurance.LastChange = DateTime.Now;
                     _context.Update(insurance);
+                    TempData["SuccessMessage"] = "Typ pojištění úspěšně upraven"; // Uložení zprávy o úspěchu
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -208,7 +212,6 @@ namespace ZaverecnyProjektForman2.Controllers
                         throw;
                     }
                 }
-                TempData["SuccessMessage"] = "Typ pojištění úspěšně upraven"; // Uložení zprávy o úspěchu
                 return RedirectToAction(nameof(Index));
             }
             return View(insurance);

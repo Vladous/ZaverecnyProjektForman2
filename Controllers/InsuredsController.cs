@@ -225,8 +225,6 @@ namespace ZaverecnyProjektForman2.Controllers
             }
             if (ModelState.IsValid)
             {
-                // Nastavení aktuálního data
-                insured.LastChange = DateTime.Now;
                 // Získání aktuálně přihlášeného uživatele
                 var user = await _userManager.GetUserAsync(User);
                 if (user != null)
@@ -239,6 +237,8 @@ namespace ZaverecnyProjektForman2.Controllers
                         RegistrationDate = user.RegistrationDate
                     };
                     insured.UserLastChanged = currentUser;
+                    // Nastavení aktuálního data
+                    insured.LastChange = DateTime.Now;
                 }
                 try
                 {
