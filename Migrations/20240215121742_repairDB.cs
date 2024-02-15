@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace ZaverecnyProjektForman2.Data.Migrations
+namespace ZaverecnyProjektForman2.Migrations
 {
     /// <inheritdoc />
-    public partial class InsureDecimalMigration : Migration
+    public partial class repairDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

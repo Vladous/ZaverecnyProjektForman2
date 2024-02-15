@@ -9,11 +9,11 @@ using ZaverecnyProjektForman2.Data;
 
 #nullable disable
 
-namespace ZaverecnyProjektForman2.Data.Migrations
+namespace ZaverecnyProjektForman2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240204185332_ChangePhone")]
-    partial class ChangePhone
+    [Migration("20240215115415_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -234,39 +234,18 @@ namespace ZaverecnyProjektForman2.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal?>("Amount")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("InsuredFrom")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("InsuredUntil")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("LastChange")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("NameSubject")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserCreatedId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserLastChangedId")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserCreatedId");
-
-                    b.HasIndex("UserLastChangedId");
 
                     b.ToTable("Insurances");
                 });
@@ -279,33 +258,38 @@ namespace ZaverecnyProjektForman2.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal?>("Amount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime?>("CreationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("InsuranceId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("InsuredFrom")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("InsuredId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("InsuredUntil")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("LastChange")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserCreatedId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserLastChangedId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("NameSubject")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("InsuranceId");
 
                     b.HasIndex("InsuredId");
-
-                    b.HasIndex("UserCreatedId");
-
-                    b.HasIndex("UserLastChangedId");
 
                     b.ToTable("InsuranceContracts");
                 });
@@ -321,37 +305,38 @@ namespace ZaverecnyProjektForman2.Data.Migrations
                     b.Property<DateTime?>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal?>("FulfillmentAmount")
+                    b.Property<string>("EventDetail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EventsCount")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("FulfillmentAmount")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("FulfillmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("InsuranceId")
+                    b.Property<int?>("InsuranceContractsId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("InsuredId")
+                    b.Property<int>("InsuranceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InsuredId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("LastChange")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserCreatedId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserLastChangedId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("InsuranceContractsId");
 
                     b.HasIndex("InsuranceId");
 
                     b.HasIndex("InsuredId");
-
-                    b.HasIndex("UserCreatedId");
-
-                    b.HasIndex("UserLastChangedId");
 
                     b.ToTable("InsuranceEvents");
                 });
@@ -368,7 +353,9 @@ namespace ZaverecnyProjektForman2.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("CreationDate")
                         .HasColumnType("datetime2");
@@ -377,37 +364,35 @@ namespace ZaverecnyProjektForman2.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("HouseNumber")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("LastChange")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PostNumber")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Street")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Surname")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserCreatedId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserLastChangedId")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserCreatedId");
-
-                    b.HasIndex("UserLastChangedId");
 
                     b.ToTable("Insureds");
                 });
@@ -463,21 +448,6 @@ namespace ZaverecnyProjektForman2.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ZaverecnyProjektForman2.Models.Insurance", b =>
-                {
-                    b.HasOne("ZaverecnyProjektForman2.Models.ApplicationUser", "UserCreated")
-                        .WithMany()
-                        .HasForeignKey("UserCreatedId");
-
-                    b.HasOne("ZaverecnyProjektForman2.Models.ApplicationUser", "UserLastChanged")
-                        .WithMany()
-                        .HasForeignKey("UserLastChangedId");
-
-                    b.Navigation("UserCreated");
-
-                    b.Navigation("UserLastChanged");
-                });
-
             modelBuilder.Entity("ZaverecnyProjektForman2.Models.InsuranceContracts", b =>
                 {
                     b.HasOne("ZaverecnyProjektForman2.Models.Insurance", "Insurance")
@@ -492,69 +462,45 @@ namespace ZaverecnyProjektForman2.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ZaverecnyProjektForman2.Models.ApplicationUser", "UserCreated")
-                        .WithMany()
-                        .HasForeignKey("UserCreatedId");
-
-                    b.HasOne("ZaverecnyProjektForman2.Models.ApplicationUser", "UserLastChanged")
-                        .WithMany()
-                        .HasForeignKey("UserLastChangedId");
-
                     b.Navigation("Insurance");
 
                     b.Navigation("Insured");
-
-                    b.Navigation("UserCreated");
-
-                    b.Navigation("UserLastChanged");
                 });
 
             modelBuilder.Entity("ZaverecnyProjektForman2.Models.InsuranceEvents", b =>
                 {
+                    b.HasOne("ZaverecnyProjektForman2.Models.InsuranceContracts", "InsuranceContracts")
+                        .WithMany("InsuranceEvents")
+                        .HasForeignKey("InsuranceContractsId");
+
                     b.HasOne("ZaverecnyProjektForman2.Models.Insurance", "Insurance")
                         .WithMany("InsuranceEvents")
-                        .HasForeignKey("InsuranceId");
+                        .HasForeignKey("InsuranceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("ZaverecnyProjektForman2.Models.Insured", "Insured")
                         .WithMany("InsuranceEvents")
-                        .HasForeignKey("InsuredId");
-
-                    b.HasOne("ZaverecnyProjektForman2.Models.ApplicationUser", "UserCreated")
-                        .WithMany()
-                        .HasForeignKey("UserCreatedId");
-
-                    b.HasOne("ZaverecnyProjektForman2.Models.ApplicationUser", "UserLastChanged")
-                        .WithMany()
-                        .HasForeignKey("UserLastChangedId");
+                        .HasForeignKey("InsuredId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Insurance");
 
+                    b.Navigation("InsuranceContracts");
+
                     b.Navigation("Insured");
-
-                    b.Navigation("UserCreated");
-
-                    b.Navigation("UserLastChanged");
-                });
-
-            modelBuilder.Entity("ZaverecnyProjektForman2.Models.Insured", b =>
-                {
-                    b.HasOne("ZaverecnyProjektForman2.Models.ApplicationUser", "UserCreated")
-                        .WithMany()
-                        .HasForeignKey("UserCreatedId");
-
-                    b.HasOne("ZaverecnyProjektForman2.Models.ApplicationUser", "UserLastChanged")
-                        .WithMany()
-                        .HasForeignKey("UserLastChangedId");
-
-                    b.Navigation("UserCreated");
-
-                    b.Navigation("UserLastChanged");
                 });
 
             modelBuilder.Entity("ZaverecnyProjektForman2.Models.Insurance", b =>
                 {
                     b.Navigation("InsuranceContracts");
 
+                    b.Navigation("InsuranceEvents");
+                });
+
+            modelBuilder.Entity("ZaverecnyProjektForman2.Models.InsuranceContracts", b =>
+                {
                     b.Navigation("InsuranceEvents");
                 });
 

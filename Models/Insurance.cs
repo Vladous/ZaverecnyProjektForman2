@@ -39,10 +39,10 @@ namespace ZaverecnyProjektForman2.Models
         /// <summary>
         /// Navigační vlastnost pro pojistné smlouvy asociované s tímto typem pojištění.
         /// </summary>
-        public List<InsuranceContracts>? InsuranceContracts { get; set; }
+        public virtual List<InsuranceContracts>? InsuranceContracts { get; set; }
         /// <summary>
         /// Navigační vlastnost pro pojistné události asociované s tímto typem pojištění.
         /// </summary>
-        public List<InsuranceEvents>? InsuranceEvents { get; set; }
+        public virtual List<InsuranceEvents>? InsuranceEvents { get; set; }
     }
 }

@@ -24,22 +24,26 @@ namespace ZaverecnyProjektForman2.Data
             modelBuilder.Entity<Insured>()
                 .HasMany(i => i.InsuranceContracts)
                 .WithOne(ic => ic.Insured)
-                .HasForeignKey(ic => ic.InsuredId);
+                .HasForeignKey(ic => ic.InsuredId)
+                .OnDelete(DeleteBehavior.Cascade); // Nastaví, co se stane při smazání pojištěnce
 
             modelBuilder.Entity<Insured>()
                 .HasMany(i => i.InsuranceEvents)
                 .WithOne(ie => ie.Insured)
-                .HasForeignKey(ie => ie.InsuredId);
+                .HasForeignKey(ie => ie.InsuredId)
+                .OnDelete(DeleteBehavior.Restrict); // Nastaví, co se stane při smazání pojištěnce
 
             modelBuilder.Entity<Insurance>()
                 .HasMany(i => i.InsuranceContracts)
                 .WithOne(ic => ic.Insurance)
-                .HasForeignKey(ic => ic.InsuranceId);
+                .HasForeignKey(ic => ic.InsuranceId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Insurance>()
                 .HasMany(i => i.InsuranceEvents)
                 .WithOne(ie => ie.Insurance)
-                .HasForeignKey(ie => ie.InsuranceId);
+                .HasForeignKey(ie => ie.InsuranceId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Nastavte přesnost a měřítko pro decimal vlastnosti
             modelBuilder.Entity<InsuranceContracts>()
@@ -47,12 +51,17 @@ namespace ZaverecnyProjektForman2.Data
                 .HasPrecision(18, 2); // Příklad: 18 celkových číslic, 2 desetinná místa
 
             modelBuilder.Entity<InsuranceEvents>()
-                .Property(ie => ie.FulfillmentAmount)
-                .HasPrecision(18, 2); // Stejně tak pro FulfillmentAmount
+                .HasOne(ie => ie.InsuranceContracts) // Ujistěte se, že InsuranceContract je správně definován ve vaší třídě InsuranceEvents
+                .WithMany(ic => ic.InsuranceEvents) // Předpokládá, že v InsuranceContracts existuje kolekce InsuranceEvents
+                .HasForeignKey(ie => ie.InsuranceContractId) // Název vašeho FK pole v InsuranceEvents
+                .OnDelete(DeleteBehavior.Restrict); // Zabrání kaskádovému mazání
 
+            modelBuilder.Entity<InsuranceEvents>()
+                .Property(ie => ie.FulfillmentAmount)
+                .HasPrecision(18, 2); // Nastaví přesnost a měřítko pro FulfillmentAmount
 
             // Další konfigurace ...
-            
+
         }
     }
 }

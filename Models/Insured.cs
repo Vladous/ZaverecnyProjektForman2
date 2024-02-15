@@ -94,10 +94,10 @@ namespace ZaverecnyProjektForman2.Models
         /// <summary>
         /// Seznam pojistných smluv spojených s pojištěncem.
         /// </summary>
-        public List<InsuranceContracts>? InsuranceContracts { get; set; }
+        public virtual List<InsuranceContracts>? InsuranceContracts { get; set; }
         /// <summary>
         /// Seznam pojistných událostí spojených s pojištěncem.
         /// </summary>
-        public List<InsuranceEvents>? InsuranceEvents { get; set; }
+        public virtual List<InsuranceEvents>? InsuranceEvents { get; set; }
     }
 }

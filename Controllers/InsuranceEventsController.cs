@@ -162,7 +162,13 @@ namespace ZaverecnyProjektForman2.Controllers
                 Id = i.Id,
                 Type = $"{i.Type}"
             }).ToList();
+            var insuranceContracts = _context.InsuranceContracts.Select(ic => new
+            {
+                Id = ic.Id,
+                Name = $"{ic.Insurance.Type} - {ic.NameSubject}" // Případně upravte podle skutečné struktury vaší databáze
+            }).ToList();
             ViewBag.InsuranceId = new SelectList(insurances, "Id", "Type");
+            ViewBag.InsuranceContractId = new SelectList(insuranceContracts, "Id", "Name");
             if (insuredId.HasValue)
             {
                 var insured = await _context.Insureds.FindAsync(insuredId.Value);
@@ -198,7 +204,7 @@ namespace ZaverecnyProjektForman2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,InsuredId,InsuranceId,EventDetail,FulfillmentAmount,FulfillmentDate,CreationDate,LastChange,EventsCount")] InsuranceEvents insuranceEvents)
+        public async Task<IActionResult> Create([Bind("Id,InsuredId,InsuranceId, InsuranceContractId, EventDetail,FulfillmentAmount,FulfillmentDate,CreationDate,LastChange,EventsCount")] InsuranceEvents insuranceEvents)
         {
             if (ModelState.IsValid)
             {
@@ -233,7 +239,13 @@ namespace ZaverecnyProjektForman2.Controllers
                 Id = ins.Id,
                 Type = ins.Type
             }).ToList();
+            var insuranceContracts = _context.InsuranceContracts.Select(ic => new
+            {
+                Id = ic.Id,
+                Name = $"{ic.NameSubject}" // Případně upravte podle skutečné struktury vaší databáze
+            }).ToList();
             ViewBag.InsuranceId = new SelectList(insurancesList, "Id", "Type", insuranceEvent.InsuranceId);
+            ViewBag.InsuranceContractId = new SelectList(insuranceContracts, "Id", "Name");
             var insuredsList = _context.Insureds.Select(ins => new
             {
                 Id = ins.Id,
@@ -253,7 +265,7 @@ namespace ZaverecnyProjektForman2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,InsuredId,InsuranceId,EventDetail,FulfillmentAmount,FulfillmentDate,LastChange,EventsCount")] InsuranceEvents insuranceEvent)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,InsuredId,InsuranceId,InsuranceContractId,EventDetail,FulfillmentAmount,FulfillmentDate,LastChange,EventsCount")] InsuranceEvents insuranceEvent)
         {
             if (id != insuranceEvent.Id)
             {

@@ -13,7 +13,7 @@
                 <div class="col-12 d-flex flex-column flex-sm-row">
                     <!-- Výběr pojistníka -->
                     <div class="col-6 form-group p-2">
-                        <label asp-for="InsuredId" class="control-label"></label>
+                        <label asp-for="InsuredId" class="control-label">Jméno a příjmení pojištěnce</label>
                         <select asp-for="InsuredId" class="form-control" asp-items="ViewBag.InsuredId" title="Vyberte pojistníka"></select>
                         <small class="form-text small-text text-muted small-text">Vyberte jméno pojistníka, na kterého se událost vztahuje.</small>
                     </div>
@@ -27,6 +27,12 @@
             </div>
             <div class="row">
                 <div class="col-12 d-flex flex-column flex-sm-row">
+                    <div class="col-6 form-group p-2">
+                        <!-- Výběr pojistného kontraktu -->
+                        <label asp-for="InsuranceContractId" class="control-label">Pojistná smlouva</label>
+                        <select asp-for="InsuranceContractId" class="form-control" asp-items="ViewBag.InsuranceContractId"></select>
+                        <small class="form-text small-text text-muted small-text">Vyberte pojistnou smlouvu.</small>
+                    </div>
                     <!-- Detail události -->
                     <div class="col-6 form-group p-2">
                         <label asp-for="EventDetail" class="control-label"></label>
@@ -34,6 +40,10 @@
                         <span asp-validation-for="EventDetail" class="text-danger"></span>
                         <small class="form-text small-text text-muted small-text">Podrobný popis události.</small>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 d-flex flex-column flex-sm-row">
                     <!-- Částka plnění -->
                     <div class="col-6 form-group p-2">
                         <label asp-for="FulfillmentAmount" class="control-label"></label>
@@ -41,10 +51,6 @@
                         <span asp-validation-for="FulfillmentAmount" class="text-danger"></span>
                         <small class="form-text small-text text-muted small-text">Částka, která má být vyplacena.</small>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 d-flex flex-column flex-sm-row">
                     <!-- Datum události -->
                     <div class="col-6 form-group p-2">
                         <label asp-for="FulfillmentDate" class="control-label"></label>
@@ -52,6 +58,10 @@
                         <span asp-validation-for="FulfillmentDate" class="text-danger"></span>
                         <small class="form-text small-text text-muted small-text">Datum události.</small>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 d-flex flex-column flex-sm-row">
                     <div class="col-6 form-group mt-5 mb-4 d-flex justify-content-center">
                         <input type="submit" value="Uložit" class="btn btn-primary" title="Uložit novou pojistnou událost" />
                     </div>

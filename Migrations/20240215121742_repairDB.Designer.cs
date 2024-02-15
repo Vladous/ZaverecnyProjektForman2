@@ -9,11 +9,11 @@ using ZaverecnyProjektForman2.Data;
 
 #nullable disable
 
-namespace ZaverecnyProjektForman2.Data.Migrations
+namespace ZaverecnyProjektForman2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240207204752_UserInfo3")]
-    partial class UserInfo3
+    [Migration("20240215121742_repairDB")]
+    partial class repairDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -321,9 +321,6 @@ namespace ZaverecnyProjektForman2.Data.Migrations
                     b.Property<int?>("InsuranceContractsId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("InsuranceContractsId1")
-                        .HasColumnType("int");
-
                     b.Property<int>("InsuranceId")
                         .HasColumnType("int");
 
@@ -336,8 +333,6 @@ namespace ZaverecnyProjektForman2.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("InsuranceContractsId");
-
-                    b.HasIndex("InsuranceContractsId1");
 
                     b.HasIndex("InsuranceId");
 
@@ -474,24 +469,20 @@ namespace ZaverecnyProjektForman2.Data.Migrations
 
             modelBuilder.Entity("ZaverecnyProjektForman2.Models.InsuranceEvents", b =>
                 {
-                    b.HasOne("ZaverecnyProjektForman2.Models.InsuranceContracts", null)
+                    b.HasOne("ZaverecnyProjektForman2.Models.InsuranceContracts", "InsuranceContracts")
                         .WithMany("InsuranceEvents")
                         .HasForeignKey("InsuranceContractsId");
-
-                    b.HasOne("ZaverecnyProjektForman2.Models.InsuranceEvents", "InsuranceContracts")
-                        .WithMany()
-                        .HasForeignKey("InsuranceContractsId1");
 
                     b.HasOne("ZaverecnyProjektForman2.Models.Insurance", "Insurance")
                         .WithMany("InsuranceEvents")
                         .HasForeignKey("InsuranceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ZaverecnyProjektForman2.Models.Insured", "Insured")
                         .WithMany("InsuranceEvents")
                         .HasForeignKey("InsuredId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Insurance");

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZaverecnyProjektForman2.Models
 {
@@ -15,19 +16,22 @@ namespace ZaverecnyProjektForman2.Models
         /// <summary>
         /// Reference na pojistníka spojeného s tímto pojistným případem.
         /// </summary>
+        [ForeignKey("InsuredId")]
         [Display(Name = "Pojistník")]
-        public Insured? Insured { get; set; }
+        public virtual Insured? Insured { get; set; }
         public int InsuranceId { get; set; }
         /// <summary>
         /// Reference na typ pojištění spojeného s tímto pojistným případem.
         /// </summary>
+        [ForeignKey("InsuranceId")]
         [Display(Name = "Typ pojištění")]
-        public Insurance? Insurance { get; set; }
+        public virtual Insurance? Insurance { get; set; }
+        public int InsuranceContractId { get; set; }
         /// <summary>
         /// Reference na pojistnou smlouvu spojennou s tímto pojistným případem.
         /// </summary>
         [Display(Name = "Pojistná smlouva")]
-        public InsuranceEvents? InsuranceContracts { get; set; }
+        public virtual InsuranceContracts? InsuranceContracts { get; set; }
         /// <summary>
         /// Detaily pojistné události.
         /// </summary>
