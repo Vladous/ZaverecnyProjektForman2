@@ -44,6 +44,7 @@ namespace ZaverecnyProjektForman2.Controllers
             ViewData["SurnameSortParm"] = sortOrder == "Surname" ? "surname_desc" : "Surname";
             ViewData["BirthSortParm"] = sortOrder == "Birth" ? "birth_desc" : "Birth";
             ViewData["ContractsSortParm"] = sortOrder == "Contracts" ? "contracts_desc" : "Contracts";
+            ViewData["EventsSortParm"] = sortOrder == "Events" ? "events_desc" : "Events";
             ViewData["NameFilterApplied"] = !string.IsNullOrEmpty(nameFilter);
             ViewData["SurnameFilterApplied"] = !string.IsNullOrEmpty(surnameFilter);
             var insureds = from s in _context.Insureds
@@ -70,13 +71,13 @@ namespace ZaverecnyProjektForman2.Controllers
                 case "ContractsAsc":
                     insureds = insureds.OrderBy(s => s.InsuranceContracts.Count);
                     break;
-                case "ContractsAscDesc":
+                case "ContractsDesc":
                     insureds = insureds.OrderByDescending(s => s.InsuranceContracts.Count);
                     break;
                 case "EventsAsc":
                     insureds = insureds.OrderBy(s => s.InsuranceEvents.Count);
                     break;
-                case "EventsAscDesc":
+                case "EventsDesc":
                     insureds = insureds.OrderByDescending(s => s.InsuranceEvents.Count);
                     break;
                 default:

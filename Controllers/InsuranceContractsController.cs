@@ -207,6 +207,8 @@ namespace ZaverecnyProjektForman2.Controllers
         {
             if (ModelState.IsValid)
             {
+                insuranceContracts.CreationDate = DateTime.Now;
+                insuranceContracts.LastChange = DateTime.Now;
                 _context.Add(insuranceContracts);
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Pojistná smlouva byla úspěšně vytvořena"; // Uložení zprávy o úspěchu
@@ -258,7 +260,7 @@ namespace ZaverecnyProjektForman2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,InsuredId,InsuranceId,NameSubject,Amount,InsuredFrom,InsuredUntil,CreationDate,LastChange")] InsuranceContracts insuranceContracts)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,InsuredId,InsuranceId,NameSubject,Amount,InsuredFrom,InsuredUntil,LastChange")] InsuranceContracts insuranceContracts)
         {
             if (id != insuranceContracts.Id)
             {

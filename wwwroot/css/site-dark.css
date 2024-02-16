@@ -6,6 +6,15 @@
         color: #dfdfdf;
     }
 
+    header, footer {
+        background-color: #100f0f; /* Světlý odstín šedé */
+        color: #bbbaba;
+    }
+
+        header .text-muted, footer .text-muted {
+            color: rgb(122, 142, 162, 0.75) !important; /* Nastaví barvu textu */
+        }
+
     nav {
         color: #dfdfdf;
     }
@@ -85,4 +94,7 @@
             background-color: #e9ecef !important; /* Světlejší pozadí */
             color: #6c757d !important; /* Šedá barva textu */
         }
+}
+.avatar {
+    filter: invert(1);
 }

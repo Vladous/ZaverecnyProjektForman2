@@ -149,3 +149,7 @@ ul li {
     overflow: auto; /* Pøidáno pro pøípad, že obsah pøesáhne nastavenou výšku */
 }
 
+.max-obrazek {
+    max-height: 50vh; /* Omezuje maximální výšku obrázku na 50% výšky viewportu */
+    overflow: hidden; /* Zabrání obsahu v "pøetékání" */
+}

@@ -208,6 +208,8 @@ namespace ZaverecnyProjektForman2.Controllers
         {
             if (ModelState.IsValid)
             {
+                insuranceEvents.CreationDate = DateTime.Now;
+                insuranceEvents.LastChange = DateTime.Now;
                 _context.Add(insuranceEvents);
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Pojistná událost úspěšně vytvořena"; // Uložení zprávy o úspěchu

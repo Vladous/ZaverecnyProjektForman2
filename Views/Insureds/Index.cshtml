@@ -47,7 +47,7 @@
                             bool surnameFilterApplied = ViewData["surnameFilterApplied"] as bool? ?? false;
                         }
                         <span class="filter-icon @(surnameFilterApplied ? "active-filter" : "")" onclick="toggleFilterInput('filterInput2', 'filterValue2')" data-bs-toggle="tooltip" title="Filtr Surname"><i class="fas fa-filter"></i></span>
-                        <input type="text" id="filterInput2" class="bubble-input filter-input" onblur="applyFilter(this, 'filterValue2')" style="display:none;" placeholder="Filtr Surname..." />
+                        <input type="text" id="filterInput2" class="bubble-input filter-input" onblur="applyFilter(this, 'filterValue2')" style="display:none;" placeholder="Filtr příjmení..." />
                         <input type="hidden" name="surnameFilter" id="filterValue2" />
                     </form>
                     <a asp-action="Index" asp-route-sortOrder="SurnameAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od nejmenšího">↑</a>
@@ -71,8 +71,8 @@
             <th class="min-width-td max-width-td">
                 Počet poj.událostí
                 <span class="sort-arrows">
-                    <a asp-action="Index" asp-route-sortOrder="ContractsAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od nejmenšího">↑</a>
-                    <a asp-action="Index" asp-route-sortOrder="ContractsDesc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od největšího">↓</a>
+                    <a asp-action="Index" asp-route-sortOrder="EventsAsc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od nejmenšího">↑</a>
+                    <a asp-action="Index" asp-route-sortOrder="EventsDesc" class="btn btn-link" data-bs-toggle="tooltip" title="Seřadit od největšího">↓</a>
                 </span>
             </th>
             <th class="min-width-td max-width-td">
