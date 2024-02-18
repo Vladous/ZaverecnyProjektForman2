@@ -12,7 +12,7 @@ using ZaverecnyProjektForman2.Data;
 namespace ZaverecnyProjektForman2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240215115415_InitialCreate")]
+    [Migration("20240218102518_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -318,7 +318,7 @@ namespace ZaverecnyProjektForman2.Migrations
                     b.Property<DateTime?>("FulfillmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("InsuranceContractsId")
+                    b.Property<int>("InsuranceContractId")
                         .HasColumnType("int");
 
                     b.Property<int>("InsuranceId")
@@ -332,7 +332,7 @@ namespace ZaverecnyProjektForman2.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InsuranceContractsId");
+                    b.HasIndex("InsuranceContractId");
 
                     b.HasIndex("InsuranceId");
 
@@ -471,7 +471,9 @@ namespace ZaverecnyProjektForman2.Migrations
                 {
                     b.HasOne("ZaverecnyProjektForman2.Models.InsuranceContracts", "InsuranceContracts")
                         .WithMany("InsuranceEvents")
-                        .HasForeignKey("InsuranceContractsId");
+                        .HasForeignKey("InsuranceContractId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("ZaverecnyProjektForman2.Models.Insurance", "Insurance")
                         .WithMany("InsuranceEvents")
