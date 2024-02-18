@@ -233,8 +233,6 @@ namespace ZaverecnyProjektForman2.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    InsuredId = table.Column<int>(type: "int", nullable: false),
-                    InsuranceId = table.Column<int>(type: "int", nullable: false),
                     InsuranceContractId = table.Column<int>(type: "int", nullable: false),
                     EventDetail = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FulfillmentAmount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
@@ -251,19 +249,7 @@ namespace ZaverecnyProjektForman2.Migrations
                         column: x => x.InsuranceContractId,
                         principalTable: "InsuranceContracts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_InsuranceEvents_Insurances_InsuranceId",
-                        column: x => x.InsuranceId,
-                        principalTable: "Insurances",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_InsuranceEvents_Insureds_InsuredId",
-                        column: x => x.InsuredId,
-                        principalTable: "Insureds",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -319,16 +305,6 @@ namespace ZaverecnyProjektForman2.Migrations
                 name: "IX_InsuranceEvents_InsuranceContractId",
                 table: "InsuranceEvents",
                 column: "InsuranceContractId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_InsuranceEvents_InsuranceId",
-                table: "InsuranceEvents",
-                column: "InsuranceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_InsuranceEvents_InsuredId",
-                table: "InsuranceEvents",
-                column: "InsuredId");
         }
 
         /// <inheritdoc />

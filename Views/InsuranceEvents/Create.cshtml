@@ -13,14 +13,14 @@
                 <div class="col-12 d-flex flex-column flex-sm-row">
                     <!-- Výběr pojistníka -->
                     <div class="col-6 form-group p-2">
-                        <label asp-for="InsuredId" class="control-label">Jméno a příjmení pojištěnce</label>
-                        <select asp-for="InsuredId" class="form-control" asp-items="ViewBag.InsuredId" title="Vyberte pojistníka"></select>
+                        <label for="InsuredId" class="control-label">Jméno a příjmení pojištěnce</label>
+                        <select for="InsuredId" class="form-control" asp-items="ViewBag.InsuredId" title="Vyberte pojistníka"></select>
                         <small class="form-text small-text text-muted small-text">Vyberte jméno pojistníka, na kterého se událost vztahuje.</small>
                     </div>
                     <!-- Výběr typu pojištění -->
                     <div class="col-6 form-group p-2">
-                        <label asp-for="InsuranceId" class="control-label">Typ pojištění</label>
-                        <select asp-for="InsuranceId" class="form-control" asp-items="ViewBag.InsuranceId"></select>
+                        <label for="InsuranceId" class="control-label">Typ pojištění</label>
+                        <select for="InsuranceId" class="form-control" asp-items="ViewBag.InsuranceId"></select>
                         <small class="form-text small-text text-muted small-text">Typ pojištění.</small>
                     </div>
                 </div>

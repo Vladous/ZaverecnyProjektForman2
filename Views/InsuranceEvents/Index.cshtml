@@ -22,7 +22,7 @@
         <tr class="align-middle">
             <!-- Sloupce tabulky s možností filtrování a řazení -->
             <th>
-                @Html.DisplayNameFor(model => model.Events.First().Insured)
+                @Html.DisplayNameFor(model => model.Events.First().InsuranceContracts.Insured)
                 <span class="sort-arrows d-inline-flex align-items-center">
                     <!-- Formulář pro filtraci podle příjmení pojištěné osoby -->
                     <form asp-action="Index" method="get" id="filterForm">
@@ -39,7 +39,7 @@
                 </span>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Events.First().Insurance)
+                @Html.DisplayNameFor(model => model.Events.First().InsuranceContracts.Insurance)
                 <span class="sort-arrows d-inline-flex align-items-center">
                     <form asp-action="Index" method="get" id="filterForm">
                         @{
@@ -92,10 +92,10 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Insured.Name) @Html.DisplayFor(modelItem => item.Insured.Surname)
+                    @Html.DisplayFor(modelItem => item.InsuranceContracts.Insured.Name) @Html.DisplayFor(modelItem => item.InsuranceContracts.Insured.Surname)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Insurance.Type)
+                    @Html.DisplayFor(modelItem => item.InsuranceContracts.Insurance.Type)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.EventDetail)

@@ -8,28 +8,12 @@ namespace ZaverecnyProjektForman2.Models
     /// </summary>
     public class InsuranceEvents
     {
-        public int Id { get; set; }
-        /// <summary>
-        /// Reference na pojistnou smlouvu spojenou s tímto pojistným případem.
-        /// </summary>
-        public int InsuredId { get; set; }
-        /// <summary>
-        /// Reference na pojistníka spojeného s tímto pojistným případem.
-        /// </summary>
-        [ForeignKey("InsuredId")]
-        [Display(Name = "Pojistník")]
-        public virtual Insured? Insured { get; set; }
-        public int InsuranceId { get; set; }
-        /// <summary>
-        /// Reference na typ pojištění spojeného s tímto pojistným případem.
-        /// </summary>
-        [ForeignKey("InsuranceId")]
-        [Display(Name = "Typ pojištění")]
-        public virtual Insurance? Insurance { get; set; }
+        public int Id { get; set; }   
         public int InsuranceContractId { get; set; }
         /// <summary>
         /// Reference na pojistnou smlouvu spojennou s tímto pojistným případem.
         /// </summary>
+        [ForeignKey("InsuranceContractId")]
         [Display(Name = "Pojistná smlouva")]
         public virtual InsuranceContracts? InsuranceContracts { get; set; }
         /// <summary>

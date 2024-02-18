@@ -4,7 +4,7 @@
     ViewData["Title"] = "Detail události";
 }
 
-<h1>@Html.DisplayFor(model => model.Insurance.Type) - @Html.DisplayFor(model => model.EventDetail)</h1>
+<h1>@Html.DisplayFor(model => model.InsuranceContracts.Insurance.Type) - @Html.DisplayFor(model => model.EventDetail)</h1>
 
 <div class="container">
     <hr />
@@ -12,19 +12,19 @@
         <!-- Jméno a příjmení pojistníka -->
         <div class="col-md-3">
             <dt class="col-sm-10">
-                @Html.DisplayNameFor(model => model.Insured)
+                @Html.DisplayNameFor(model => model.InsuranceContracts.Insured)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Insured.Name) @Html.DisplayFor(model => model.Insured.Surname)
+                @Html.DisplayFor(model => model.InsuranceContracts.Insured.Name) @Html.DisplayFor(model => model.InsuranceContracts.Insured.Surname)
             </dd>
         </div>
         <!-- Typ pojištění -->
         <div class="col-md-3">
             <dt class="col-sm-10">
-                @Html.DisplayNameFor(model => model.Insurance.Type)
+                @Html.DisplayNameFor(model => model.InsuranceContracts.Insurance.Type)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Insurance.Type)
+                @Html.DisplayFor(model => model.InsuranceContracts.Insurance.Type)
             </dd>
         </div>
         <!-- Detail události -->

@@ -11,23 +11,23 @@
         <form class="row" asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="InsuredId" />
-            <input type="hidden" asp-for="InsuranceId" />
-            <input type="hidden" asp-for="InsuranceContractId" />
+            <input type="hidden" for="InsuredId" />
+            <input type="hidden" for="InsuranceId" />
+            <input type="hidden" for="InsuranceContractId" />
             <div class="row">
                 <div class="col-12 d-flex flex-column flex-sm-row">
                     <!-- Select pro výběr pojistníka -->
                     <div class="col-6 form-group p-2">
-                        <label asp-for="InsuredId" class="control-label">Jméno a příjmení pojistníka</label>
-                        <select asp-for="InsuredId" class="form-control" asp-items="ViewBag.InsuredId" disabled></select>
-                        <span asp-validation-for="InsuredId" class="text-danger"></span>
+                        <label for="InsuredId" class="control-label">Jméno a příjmení pojistníka</label>
+                        <select for="InsuredId" class="form-control" asp-items="ViewBag.InsuredId" disabled></select>
+                        <span validation-for="InsuredId" class="text-danger"></span>
                         <small class="form-text text-muted small-text">Vybraný pojistník</small>
                     </div>
                     <!-- Select pro výběr typu pojištění -->
                     <div class="col-6 form-group p-2">
-                        <label asp-for="InsuranceId" class="control-label">Typ pojištění</label>
-                        <select asp-for="InsuranceId" class="form-control" asp-items="ViewBag.InsuranceId" disabled></select>
-                        <span asp-validation-for="InsuranceId" class="text-danger"></span>
+                        <label for="InsuranceId" class="control-label">Typ pojištění</label>
+                        <select for="InsuranceId" class="form-control" asp-items="ViewBag.InsuranceId" disabled></select>
+                        <span validation-for="InsuranceId" class="text-danger"></span>
                         <small class="form-text text-muted small-text">Vybraný typ pojištění</small>
                     </div>
                 </div>

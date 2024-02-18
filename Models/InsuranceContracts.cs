@@ -78,6 +78,7 @@ namespace ZaverecnyProjektForman2.Models
         /// <summary>
         /// Seznam pojistných událostí, které se týkají této smlouvy.
         /// </summary>
-        public virtual List<InsuranceEvents>? InsuranceEvents { get; set; }
+        public virtual ICollection<InsuranceEvents>? InsuranceEvents { get; set; }
+        
     }
 }

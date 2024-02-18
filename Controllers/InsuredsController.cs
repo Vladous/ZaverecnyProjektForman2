@@ -49,7 +49,7 @@ namespace ZaverecnyProjektForman2.Controllers
             ViewData["SurnameFilterApplied"] = !string.IsNullOrEmpty(surnameFilter);
             var insureds = from s in _context.Insureds
                            .Include(i => i.InsuranceContracts)
-                           .Include(i => i.InsuranceEvents)
+                           .ThenInclude(ic => ic.InsuranceEvents)
                            select s;
             switch (sortOrder)
             {
@@ -75,10 +75,10 @@ namespace ZaverecnyProjektForman2.Controllers
                     insureds = insureds.OrderByDescending(s => s.InsuranceContracts.Count);
                     break;
                 case "EventsAsc":
-                    insureds = insureds.OrderBy(s => s.InsuranceEvents.Count);
+                    insureds = insureds.OrderBy(s => s.InsuranceContracts.First().InsuranceEvents.Count);
                     break;
                 case "EventsDesc":
-                    insureds = insureds.OrderByDescending(s => s.InsuranceEvents.Count);
+                    insureds = insureds.OrderByDescending(s => s.InsuranceContracts.First().InsuranceEvents.Count);
                     break;
                 default:
                     insureds = insureds.OrderBy(s => s.Name);
@@ -130,8 +130,6 @@ namespace ZaverecnyProjektForman2.Controllers
             var insured = await _context.Insureds
             .Include(i => i.InsuranceContracts)
             .ThenInclude(ic => ic.Insurance) // Přidáno pro zahrnutí detailů o pojištění
-            .Include(i => i.InsuranceEvents)
-            .ThenInclude(ic => ic.Insurance) // Přidáno pro zahrnutí detailů o pojistných událostech
             .FirstOrDefaultAsync(m => m.Id == id);
             if (insured == null)
             {

@@ -20,41 +20,29 @@ namespace ZaverecnyProjektForman2.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Zde vložíme Fluent API konfigurace
-            modelBuilder.Entity<Insured>()
-                .HasMany(i => i.InsuranceContracts)
-                .WithOne(ic => ic.Insured)
+            modelBuilder.Entity<InsuranceContracts>()
+               .HasOne(ic => ic.Insurance)
+               .WithMany(i => i.InsuranceContracts)
+               .HasForeignKey(ic => ic.InsuranceId)
+               .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<InsuranceContracts>()
+                .HasOne(ic => ic.Insured)
+                .WithMany(ins => ins.InsuranceContracts)
                 .HasForeignKey(ic => ic.InsuredId)
-                .OnDelete(DeleteBehavior.Cascade); // Nastaví, co se stane při smazání pojištěnce
-
-            modelBuilder.Entity<Insured>()
-                .HasMany(i => i.InsuranceEvents)
-                .WithOne(ie => ie.Insured)
-                .HasForeignKey(ie => ie.InsuredId)
-                .OnDelete(DeleteBehavior.Restrict); // Nastaví, co se stane při smazání pojištěnce
-
-            modelBuilder.Entity<Insurance>()
-                .HasMany(i => i.InsuranceContracts)
-                .WithOne(ic => ic.Insurance)
-                .HasForeignKey(ic => ic.InsuranceId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Insurance>()
-                .HasMany(i => i.InsuranceEvents)
-                .WithOne(ie => ie.Insurance)
-                .HasForeignKey(ie => ie.InsuranceId)
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<InsuranceEvents>()
+                .HasOne(ie => ie.InsuranceContracts)
+                .WithMany(ic => ic.InsuranceEvents)
+                .HasForeignKey(ie => ie.InsuranceContractId)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             // Nastavte přesnost a měřítko pro decimal vlastnosti
             modelBuilder.Entity<InsuranceContracts>()
                 .Property(i => i.Amount)
                 .HasPrecision(18, 2); // Příklad: 18 celkových číslic, 2 desetinná místa
-
-            modelBuilder.Entity<InsuranceEvents>()
-                .HasOne(ie => ie.InsuranceContracts) // Ujistěte se, že InsuranceContract je správně definován ve vaší třídě InsuranceEvents
-                .WithMany(ic => ic.InsuranceEvents) // Předpokládá, že v InsuranceContracts existuje kolekce InsuranceEvents
-                .HasForeignKey(ie => ie.InsuranceContractId) // Název vašeho FK pole v InsuranceEvents
-                .OnDelete(DeleteBehavior.Restrict); // Zabrání kaskádovému mazání
 
             modelBuilder.Entity<InsuranceEvents>()
                 .Property(ie => ie.FulfillmentAmount)

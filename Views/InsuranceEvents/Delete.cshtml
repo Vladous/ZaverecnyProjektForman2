@@ -12,19 +12,19 @@
         <!-- Jméno a příjmení pojistníka -->
         <div class="col-12 d-flex flex-column flex-sm-row">
             <dt class="col-4 form-group p-2">
-                @Html.DisplayNameFor(model => model.Insured.Name) @Html.DisplayNameFor(model => model.Insured.Surname)
+                @Html.DisplayNameFor(model => model.InsuranceContracts.Insured.Name) @Html.DisplayNameFor(model => model.InsuranceContracts.Insured.Surname)
             </dt>
             <dd class="col-4 form-group p-2">
-                @Html.DisplayFor(model => model.Insured.Name) @Html.DisplayFor(model => model.Insured.Surname)
+                @Html.DisplayFor(model => model.InsuranceContracts.Insured.Name) @Html.DisplayFor(model => model.InsuranceContracts.Insured.Surname)
             </dd>
         </div>
         <!-- Typ pojištění -->
         <div class="col-12 d-flex flex-column flex-sm-row">
             <dt class="col-4 form-group p-2">
-                @Html.DisplayNameFor(model => model.Insurance.Type)
+                @Html.DisplayNameFor(model => model.InsuranceContracts.Insurance.Type)
             </dt>
             <dd class="col-4 form-group p-2">
-                @Html.DisplayFor(model => model.Insurance.Type)
+                @Html.DisplayFor(model => model.InsuranceContracts.Insurance.Type)
             </dd>
         </div>
         <!-- Detail události -->

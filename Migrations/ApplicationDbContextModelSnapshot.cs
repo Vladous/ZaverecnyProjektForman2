@@ -318,22 +318,12 @@ namespace ZaverecnyProjektForman2.Migrations
                     b.Property<int>("InsuranceContractId")
                         .HasColumnType("int");
 
-                    b.Property<int>("InsuranceId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("InsuredId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("LastChange")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.HasIndex("InsuranceContractId");
-
-                    b.HasIndex("InsuranceId");
-
-                    b.HasIndex("InsuredId");
 
                     b.ToTable("InsuranceEvents");
                 });
@@ -469,33 +459,15 @@ namespace ZaverecnyProjektForman2.Migrations
                     b.HasOne("ZaverecnyProjektForman2.Models.InsuranceContracts", "InsuranceContracts")
                         .WithMany("InsuranceEvents")
                         .HasForeignKey("InsuranceContractId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("ZaverecnyProjektForman2.Models.Insurance", "Insurance")
-                        .WithMany("InsuranceEvents")
-                        .HasForeignKey("InsuranceId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ZaverecnyProjektForman2.Models.Insured", "Insured")
-                        .WithMany("InsuranceEvents")
-                        .HasForeignKey("InsuredId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Insurance");
 
                     b.Navigation("InsuranceContracts");
-
-                    b.Navigation("Insured");
                 });
 
             modelBuilder.Entity("ZaverecnyProjektForman2.Models.Insurance", b =>
                 {
                     b.Navigation("InsuranceContracts");
-
-                    b.Navigation("InsuranceEvents");
                 });
 
             modelBuilder.Entity("ZaverecnyProjektForman2.Models.InsuranceContracts", b =>
@@ -506,8 +478,6 @@ namespace ZaverecnyProjektForman2.Migrations
             modelBuilder.Entity("ZaverecnyProjektForman2.Models.Insured", b =>
                 {
                     b.Navigation("InsuranceContracts");
-
-                    b.Navigation("InsuranceEvents");
                 });
 #pragma warning restore 612, 618
         }

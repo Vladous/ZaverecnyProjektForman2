@@ -54,22 +54,23 @@ namespace ZaverecnyProjektForman2.Controllers
             ViewData["DetailFilterApplied"] = !string.IsNullOrEmpty(detailFilter);
             var events = from s in _context.InsuranceEvents
                            .Include(i => i.InsuranceContracts)
-                           .Include(i => i.Insurance)
-                           .Include(i => i.Insured)
-            select s;
+                           .ThenInclude(ic => ic.Insured)
+                           .Include(ie => ie.InsuranceContracts)
+                           .ThenInclude(ic => ic.Insurance)
+                         select s;
             switch (sortOrder)
             {
                 case "SurnameAsc":
-                    events = events.OrderBy(s => s.Insured.Surname);
+                    events = events.OrderBy(s => s.InsuranceContracts.Insured.Surname);
                     break;
                 case "SurnameDesc":
-                    events = events.OrderByDescending(s => s.Insured.Surname);
+                    events = events.OrderByDescending(s => s.InsuranceContracts.Insured.Surname);
                     break;
                 case "InsuranceAsc":
-                    events = events.OrderBy(s => s.Insurance.Type);
+                    events = events.OrderBy(s => s.InsuranceContracts.Insurance.Type);
                     break;
                 case "InsuranceDesc":
-                    events = events.OrderByDescending(s => s.Insurance.Type);
+                    events = events.OrderByDescending(s => s.InsuranceContracts.Insurance.Type);
                     break;
                 case "DetailAsc":
                     events = events.OrderBy(s => s.EventDetail);
@@ -95,11 +96,11 @@ namespace ZaverecnyProjektForman2.Controllers
             }
             if (!String.IsNullOrEmpty(surnameFilter))
             {
-                events = events.Where(s => s.Insured.Surname.Contains(surnameFilter));
+                events = events.Where(s => s.InsuranceContracts.Insured.Surname.Contains(surnameFilter));
             }
             if (!String.IsNullOrEmpty(typFilter))
             {
-                events = events.Where(s => s.Insurance.Type.Contains(typFilter));
+                events = events.Where(s => s.InsuranceContracts.Insurance.Type.Contains(typFilter));
             }
             if (!String.IsNullOrEmpty(detailFilter))
             {
@@ -107,8 +108,6 @@ namespace ZaverecnyProjektForman2.Controllers
             }
             var eventsQuery = _context.InsuranceEvents
                                           .Include(i => i.InsuranceContracts)
-                                          .Include(i => i.Insurance)
-                                          .Include(i => i.Insured)
                                           .AsQueryable();
             // Počet záznamů pro stránkování
             var totalRecords = await eventsQuery.CountAsync();
@@ -140,8 +139,6 @@ namespace ZaverecnyProjektForman2.Controllers
                 return NotFound();
             }
             var insuranceEvents = await _context.InsuranceEvents
-                .Include(i => i.Insurance)
-                .Include(i => i.Insured)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (insuranceEvents == null)
             {
@@ -215,8 +212,8 @@ namespace ZaverecnyProjektForman2.Controllers
                 TempData["SuccessMessage"] = "Pojistná událost úspěšně vytvořena"; // Uložení zprávy o úspěchu
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["InsuranceId"] = new SelectList(_context.Insurances, "Id", "Id", insuranceEvents.InsuranceId);
-            ViewData["InsuredId"] = new SelectList(_context.Insureds, "Id", "Id", insuranceEvents.InsuredId);
+            ViewData["InsuranceId"] = new SelectList(_context.Insurances, "Id", "Id", insuranceEvents.InsuranceContracts.InsuranceId);
+            ViewData["InsuredId"] = new SelectList(_context.Insureds, "Id", "Id", insuranceEvents.InsuranceContracts.InsuredId);
             return View(insuranceEvents);
         }
         /// <summary>
@@ -246,14 +243,14 @@ namespace ZaverecnyProjektForman2.Controllers
                 Id = ic.Id,
                 Name = $"{ic.NameSubject}" // Případně upravte podle skutečné struktury vaší databáze
             }).ToList();
-            ViewBag.InsuranceId = new SelectList(insurancesList, "Id", "Type", insuranceEvent.InsuranceId);
+            ViewBag.InsuranceId = new SelectList(insurancesList, "Id", "Type", insuranceEvent.InsuranceContracts.InsuranceId);
             ViewBag.InsuranceContractId = new SelectList(insuranceContracts, "Id", "Name");
             var insuredsList = _context.Insureds.Select(ins => new
             {
                 Id = ins.Id,
                 NameSurname = $"{ins.Name} {ins.Surname}"
             }).ToList();
-            ViewBag.InsuredId = new SelectList(insuredsList, "Id", "NameSurname", insuranceEvent.InsuredId);
+            ViewBag.InsuredId = new SelectList(insuredsList, "Id", "NameSurname", insuranceEvent.InsuranceContracts.InsuredId);
             return View(insuranceEvent);
         }
         /// <summary>
@@ -299,8 +296,8 @@ namespace ZaverecnyProjektForman2.Controllers
                 }
             }
             // Příprava SelectListů pro zobrazení ve view, stejně jako v metodě GET
-            ViewData["InsuranceId"] = new SelectList(_context.Insurances, "Id", "Type", insuranceEvent.InsuranceId);
-            ViewData["InsuredId"] = new SelectList(_context.Insureds, "Id", "NameSurname", insuranceEvent.InsuredId);
+            ViewData["InsuranceId"] = new SelectList(_context.Insurances, "Id", "Type", insuranceEvent.InsuranceContracts.InsuranceId);
+            ViewData["InsuredId"] = new SelectList(_context.Insureds, "Id", "NameSurname", insuranceEvent.InsuranceContracts.InsuredId);
             return View(insuranceEvent);
         }
         private bool InsuranceEventExists(int id)
@@ -320,8 +317,6 @@ namespace ZaverecnyProjektForman2.Controllers
                 return NotFound();
             }
             var insuranceEvents = await _context.InsuranceEvents
-                .Include(i => i.Insurance)
-                .Include(i => i.Insured)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (insuranceEvents == null)
             {
