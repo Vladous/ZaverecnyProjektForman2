@@ -2,6 +2,8 @@
 
 Pro rychlý a efektivní způsob správy vašeho pojištění.
 
+📌 Další projekty a info: [vladous.funsite.cz](https://vladous.funsite.cz)
+
 <h2>Co nabízíme</h2>
 <h3>Snadná správa</h3>
 Pohodlně spravujte všechny vaše pojistné smlouvy na jednom místě.
